@@ -1,0 +1,4 @@
+Ted now likes green.
+Mary likes red.
+Mary now loves red.
+Fred sees Mary sometimes.

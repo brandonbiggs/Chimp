@@ -1,0 +1,48 @@
+Process Data is slow. Will need to see if we can increase the speed of this.
+book_medium
+process:                    0.95
+tokenize:                   0.15
+initial_probabilities       0.16
+emission_probabilities      0.16
+transition_probabilities    0.91
+After fixing a bug that was absurd
+transition_probabilities    0.166
+hmm_finished                0.166 (very much expected)
+# Constraint notes - have a conditioned constraint and what that does is says
+# "here's the constraint". I want it to be true or false. So like noun or
+# everything but noun. Constraint will be unary. Different class for each possible
+# constraint.
+
+# input will be a set of constraints
+
+# for keeping track of constraints keep a list of lists for each observed and
+# hidden that contain the constraints
+# may need to keep a node ID for everything
+
+Transitions
+'NNP': 1.0
+
+NNP -> 'VBZ': {'NNP': 0.25, 'VBZ': 0.0, 'RB': 0.0, 'NN': 0.75},
+NNP ->'RB': {'NNP': 0.0, 'VBZ': 1.0, 'RB': 0.0, 'NN': 0.0},
+
+NNP -> VBZ -> 'NNP': {'NNP': 0.0, 'VBZ': 0.4, 'RB': 0.6, 'NN': 0.0},
+NNP -> RB -> 'VBZ': {'NNP': 0.25, 'VBZ': 0.0, 'RB': 0.0, 'NN': 0.75}, NNP -> RB -> 'NN': {'NNP': 0, 'VBZ': 0, 'RB': 0, 'NN': 0}},
+
+'NNP': {'NNP': 0.0, 'VBZ': 0.0, 'RB': 0.0, 'NN': 0.0},
+'VBZ': {'NNP': 0.0, 'VBZ': 0.0, 'RB': 0.0, 'NN': 0.6666644444296296}, 'RB': {'NNP': 0.0, 'VBZ': 0.0, 'RB': 0.0, 'NN': 0.0},
+'NN': {'NNP': 0, 'VBZ': 0, 'RB': 0, 'NN': 0}
+
+NNP -> VBZ -> NNP -> None	(Can't happen because needs to be length 4?)
+NNP -> VBZ -> NN  -> None	(Can't happen because needs to be length 4?)
+NNP -> RB  -> VBZ -> NNP 	(Can't happen because of constraint on last position)
+NNP -> RB  -> VBZ -> NN		(This is what we want)
+
+Emissions
+
+EMISSION: [
+{'NNP': {'Ted': 0.5, 'Fred': 0.5}, 'VBZ': {}, 'RB': {}, 'NN': {'red': 1.0}},
+{'NNP': {'Ted': 0.2, 'Mary': 0.6, 'Fred': 0.2}, 'VBZ': {'likes': 0.5, 'loves': 0.25, 'sees': 0.25}, 'RB': {'now': 0.66666, 'sometimes': 0.33333}, 'NN': {'green': 0.33333, 'red': 0.66666}},
+{'NNP': {'Ted': 0.2, 'Mary': 0.6, 'Fred': 0.2}, 'VBZ': {'likes': 0.5, 'loves': 0.25, 'sees': 0.25}, 'RB': {'now': 0.66666, 'sometimes': 0.33333}, 'NN': {'green': 0.33333, 'red': 0.66666}},
+{'NNP': {}, 'VBZ': {}, 'RB': {}, 'NN': {'red': 1.0}}]
+
+

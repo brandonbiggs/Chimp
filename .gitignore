@@ -1,0 +1,11 @@
+# Ignore python cache files
+__pycache__/
+*.pyc
+
+
+# Ignore MacOS folder file
+.DS_STORE
+
+# Ignore pycharm idea folder
+.idea
+
