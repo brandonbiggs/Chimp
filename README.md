@@ -4,14 +4,12 @@ Let Brandon know if things aren't commented very well.
 
 ### Dependencies
 
-There are a few more that I missed, but I'll work on turning this into an extensive list. 
+I created a requirements.txt that have the packages that are used. Not all of them
+are used though. I'll try cleaning up the ones that aren't used. 
 
-Pip files to install:
-- `pip3 install progress`
-- `pip3 install pronouncing`
-- `pip3 install nltk`
-    - `nltk.download('tagsets')`
-    - `nltk.download('averaged_perceptron_tagger')`
+You may need to use the following two lines for the NLTK package.
+`nltk.download('tagsets')`
+`nltk.download('averaged_perceptron_tagger')`
     
 ### Folder Structure
 - constraints
