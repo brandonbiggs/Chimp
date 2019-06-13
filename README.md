@@ -36,6 +36,9 @@ exactly as intended.
     happen. All of the example files use this in some capacity.
     - `NonHomogeneousHMMSentences.py` is where the sentences are generated based on the 
     Nhhmm that is passed to it. 
+- markovs_matrix
+    - This is the matrix implementations of everything. Still have a lot to do with this.
+    Hopefully using this will increase the speed of the model.
 - markovs_parallel
     - This is some testing I've been doing. Trying to parallelize the nhhmm process. Not yet working.
 - nltk_data
