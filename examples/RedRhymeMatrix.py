@@ -1,6 +1,6 @@
 import numpy
 from markovs_matrix.HiddenMarkovModelMatrices import *
-from markovs.NonHomogeneousHMM import *
+from markovs_matrix.NHHMMMatrices import *
 from markovs.NonHomogeneousHMMSentences import *
 from constraints.ConstraintContainsString import *
 from constraints.ConstraintIsPartOfSpeech import *
@@ -14,8 +14,17 @@ def red_rhyme_matrix() -> None:
     :return: None
     """
 
-    # Number of nodes in the graph. In our example, we're doing the same number of hidden and observed
-    node_layers = 4
+    # M = number of parts of speech
+    # N = number of unique words
+    # O = number of layers
+    #
+    #
+    # transition probabilities matrix = M*M*O
+    # emission probabilities matrix = M*N*O
+    # initial probabilities matrix = M
+    num_pos = 4                 # M
+    num_unique_words = 10       # N
+    node_layers = 4             # O
 
     # Define the part of speech dictionaries
     NNP = {"Ted": 0.2, "Mary": 0.6, "Fred": 0.2}            # Proper Noun
@@ -43,8 +52,6 @@ def red_rhyme_matrix() -> None:
     for i in range(node_layers):
         list_of_matricies.append(transition_probs)
     transition_probs_matrix = numpy.array(list_of_matricies)
-    # print(transition_probs_matrix.shape)
-    # print(transition_probs_matrix)
 
     emission_probs = [
         [0.2, 0, 0, 0],             # Ted
@@ -63,8 +70,6 @@ def red_rhyme_matrix() -> None:
     for i in range(node_layers):
         list_of_matricies.append(emission_probs)
     emission_probs_matrix = numpy.array(list_of_matricies)
-    # print(emission_probs_matrix.shape)
-    # print(emission_probs_matrix)
 
     # Constraints for hidden and observed nodes
     #   The position of these is important as they represent the specific positions in the graphs
@@ -80,8 +85,10 @@ def red_rhyme_matrix() -> None:
     hidden_markov_model.print()
 
     # Create our NHHMM and calculate new probabilities from the constraints
-    # NHHMM = NonHomogeneousHMM(length, hidden_markov_model, hidden_constraints, observed_constraints)
-    # NHHMM.process()
+    NHHMM = NonHomogeneousHMMMatrix(node_layers, hidden_markov_model,
+                                    hidden_constraints, observed_constraints,
+                                    num_pos, num_unique_words)
+    NHHMM.process()
     # NHHMM.print_new_markov_probabilities()
 
     # Print the sentences

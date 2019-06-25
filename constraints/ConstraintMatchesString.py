@@ -1,5 +1,4 @@
 from constraints.Constraint import Constraint
-import re
 
 
 class ConstraintMatchesString(Constraint):

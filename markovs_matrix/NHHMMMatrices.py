@@ -4,9 +4,10 @@ from constraints.ConstraintIsPartOfSpeech import *
 from constraints.ConstraintMatchesString import *
 from constraints.ConstraintRhymesWith import *
 from constraints.NoConstraint import *
+import numpy
 
 
-class NonHomogeneousHMM:
+class NonHomogeneousHMMMatrix:
     """
     This is a hidden markov model that we are applying constraints to. You're
         currently able to apply ONE constraint per node to any node in the graph.
@@ -15,13 +16,17 @@ class NonHomogeneousHMM:
     layers = 0
     hidden_constraints = []
     observed_constraints = []
-    beginning_alpha = {}
+    beginning_alpha = numpy.array([])
+    # observed_node_betas = numpy.array([])
+    # constrained_observed_emission_probabilities = numpy.array([])
+    # constrained_transition_probabilities = numpy.array([])
     observed_node_betas = []
     constrained_observed_emission_probabilities = []
     constrained_transition_probabilities = []
 
     def __init__(self, layers: int, hidden_markov_model,
-                 hidden_constraints: list, observed_constraints: list):
+                 hidden_constraints: list, observed_constraints: list,
+                 num_pos: int, num_words: int):
         """
         :param layers: Defines number of hidden/observed nodes in graph
         :param hidden_markov_model: the hmm we're applying constraints to
@@ -33,10 +38,17 @@ class NonHomogeneousHMM:
         self.hidden_constraints = hidden_constraints
         self.observed_constraints = observed_constraints
 
-        # Create the default values for alpha to start
-        for key in hidden_markov_model.transition_probs.keys():
-            self.beginning_alpha[key] = 1
+        # Create the default value of 1 for alpha
+        self.beginning_alpha = numpy.arange(num_pos * num_pos).reshape(num_pos, num_pos)
+        self.beginning_alpha = numpy.ones_like(self.beginning_alpha)
 
+        #
+        # for key in hidden_markov_model.transition_probs.keys():
+        #     self.beginning_alpha[key] = 1
+
+        # TODO - Figure out if these are actually doing anything. They seem a little
+        #       weird. I thought there should be more of them than there are... We'll
+        #       see what happens as I progress.
         # Setting default values for beta, emission probabilities, transitions
         for layer in range(layers):
             self.observed_node_betas.append(0)
@@ -46,13 +58,13 @@ class NonHomogeneousHMM:
     def print_new_markov_probabilities(self) -> None:
         """
         Debugging function to print out info about the NHHMM
-        :return: None
         """
         for node_layer in range(self.layers):
             print("\nObserved layer", node_layer, "of the NHHMM")
             print("Beta list:", self.observed_node_betas[node_layer])
             print("Emission Probabilities:",
                   self.constrained_observed_emission_probabilities[node_layer])
+
             print("Hidden Layer:", node_layer)
             if node_layer != 0:
                 print("Transition Probabilities:",
@@ -78,39 +90,40 @@ class NonHomogeneousHMM:
         # 2. Prune the empty values in the observed node
         # 3. Store new emission probabilities and calculated beta values
         for node_layer in range(self.layers - 1, -1, -1):
+            print("LAYER:", node_layer)
             observed_output = self.process_observed_node(node_layer)
-            output = self.prune_empty_dictionary_keys(observed_output[0])
-            self.constrained_observed_emission_probabilities[node_layer] = output
-            self.observed_node_betas[node_layer] = observed_output[1]
-
-        # After we've calculated all of the betas for the observed nodes, we can
-        #       now calculate the hidden nodes. This cannot be done in parallel
-        #       as the node at i-1 depends on node at i up to the last node that
-        #       has a constraint. Because of this, we must start at the last node.
-        for node_layer in range(self.layers - 1, -1, -1):
-
-            # If it's the initial node, we use the initial probabilities instead
-            #       of the transition probabilities
-            if node_layer == 0:
-                hidden_output = \
-                    self.process_hidden_node(node_layer,
-                                             self.observed_node_betas[node_layer],
-                                             self.beginning_alpha,
-                                             self.hidden_markov_model.initial_probs)
-            # If not initial node, use transition probabilities
-            else:
-                hidden_output = \
-                    self.process_hidden_node(node_layer,
-                                             self.observed_node_betas[node_layer],
-                                             self.beginning_alpha,
-                                             transition_probs)
-            # Update the alpha values
-            self.beginning_alpha = hidden_output[0]
-
-            # Update the transition probabilities
-            transition_probs = \
-                self.prune_transition_probabilities(hidden_output[1], node_layer)
-            self.constrained_transition_probabilities[node_layer] = transition_probs
+        #     output = self.prune_empty_dictionary_keys(observed_output[0])
+        #     self.constrained_observed_emission_probabilities[node_layer] = output
+        #     self.observed_node_betas[node_layer] = observed_output[1]
+        #
+        # # After we've calculated all of the betas for the observed nodes, we can
+        # #       now calculate the hidden nodes. This cannot be done in parallel
+        # #       as the node at i-1 depends on node at i up to the last node that
+        # #       has a constraint. Because of this, we must start at the last node.
+        # for node_layer in range(self.layers - 1, -1, -1):
+        #
+        #     # If it's the initial node, we use the initial probabilities instead
+        #     #       of the transition probabilities
+        #     if node_layer == 0:
+        #         hidden_output = \
+        #             self.process_hidden_node(node_layer,
+        #                                      self.observed_node_betas[node_layer],
+        #                                      self.beginning_alpha,
+        #                                      self.hidden_markov_model.initial_probs)
+        #     # If not initial node, use transition probabilities
+        #     else:
+        #         hidden_output = \
+        #             self.process_hidden_node(node_layer,
+        #                                      self.observed_node_betas[node_layer],
+        #                                      self.beginning_alpha,
+        #                                      transition_probs)
+        #     # Update the alpha values
+        #     self.beginning_alpha = hidden_output[0]
+        #
+        #     # Update the transition probabilities
+        #     transition_probs = \
+        #         self.prune_transition_probabilities(hidden_output[1], node_layer)
+        #     self.constrained_transition_probabilities[node_layer] = transition_probs
 
     def process_hidden_node(self, node_position: int, beta_dict: dict,
                             previous_alpha: dict, transition_probs: dict) \
@@ -164,27 +177,33 @@ class NonHomogeneousHMM:
         """
 
         # Keeps track of the calculated beta values
-        beta_dict = {}
+        beta_dict = numpy.array([])
 
         # Gets the constraint if one exists
         constraint = self.observed_constraints[node_position]
 
         # If constraint does exist, we need to calculate the new probabilities
         if constraint:
-            new_emission_probs = dict()
+            new_emission_probs = numpy.array([])
+            # Iterate through each value in the emissions probability at node position
+            for value in range(numpy.size(self.hidden_markov_model.emission_probs[node_position], 1)):
+                print(value, end=' ')
+                print(self.hidden_markov_model.emission_probs[node_position][:, value])
+                # e_tilde = self.calculate_e_tilde(value, constraint)
+                # print(e_tilde)
             # Iterate over each key to calculate new emission probabilities
-            for key in self.hidden_markov_model.emission_probs.keys():
-                e_tilde = self.calculate_e_tilde(
-                    self.hidden_markov_model.emission_probs.get(key), constraint)
-                new_emission_probs[key] = e_tilde[0]
-                beta_dict[key] = e_tilde[1]
-            return new_emission_probs, beta_dict
-
-        # If no constraint exists, we return unaltered beta values
-        else:
-            for key in self.hidden_markov_model.emission_probs.keys():
-                beta_dict[key] = 1
-            return self.hidden_markov_model.emission_probs, beta_dict
+        #     for key in self.hidden_markov_model.emission_probs.keys():
+        #         e_tilde = self.calculate_e_tilde(
+        #             self.hidden_markov_model.emission_probs.get(key), constraint)
+        #         new_emission_probs[key] = e_tilde[0]
+        #         beta_dict[key] = e_tilde[1]
+        #     return new_emission_probs, beta_dict
+        #
+        # # If no constraint exists, we return unaltered beta values
+        # else:
+        #     for key in self.hidden_markov_model.emission_probs.keys():
+        #         beta_dict[key] = 1
+        #     return self.hidden_markov_model.emission_probs, beta_dict
 
     @staticmethod
     def calculate_beta(dictionary: dict) -> int:
@@ -198,18 +217,19 @@ class NonHomogeneousHMM:
             summation += dictionary.get(key)
         return summation
 
-    def calculate_e_tilde(self, dictionary: dict, constraint) -> (dict, int):
+    def calculate_e_tilde(self, values: numpy.array([]), constraint: Constraint) \
+            -> (numpy.array([]), int):
         """
         Calculates the new emission probabilities based on constraints
             Potential ways to make faster - write check for constraint if it's
             no constraint, don't even iterate over the dictionary.
-        :param dictionary:
-        :param constraint:
-        :return: new dictionary of emission probabilities
+        :param values: numpy array. This is the part of speech column in the emission
+            probability multidimensional array
+        :param constraint: constraint that placed on the node layer
+        :return: new list of emission probabilitiy
         """
-        print("DICTIONARY", dictionary)
         # Make a copy so we can delete values that aren't satisfied by constraint
-        new_normalized_probabilities = copy.deepcopy(dictionary)
+        new_normalized_probabilities = copy.deepcopy(values)
         for key in dictionary:
             status = constraint.is_satisfied_by_state(key)
             if not status:

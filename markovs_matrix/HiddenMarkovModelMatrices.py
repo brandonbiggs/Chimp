@@ -1,4 +1,6 @@
 import numpy
+
+
 class HiddenMarkovModelMatrix:
     """
     TODO - some kind of ID functionality in keeping track of things. Smaller

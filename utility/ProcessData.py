@@ -6,8 +6,8 @@ import re
 from progress.bar import Bar
 
 
-nltk.download('tagsets')
-nltk.download('averaged_perceptron_tagger')
+nltk.download('tagsets', quiet=True)
+nltk.download('averaged_perceptron_tagger', quiet=True)
 
 
 class ProcessTextFile:

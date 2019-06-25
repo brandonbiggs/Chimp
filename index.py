@@ -9,6 +9,7 @@ from examples.ThousandNodesParallel import one_thousand_nodes_parallel
 
 if __name__ == '__main__':
     red_rhyme_matrix()
+    # red_rhyme()
     # length = 1000
     # print("Not parallel.")
     # one_thousand_nodes(length)

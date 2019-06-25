@@ -76,3 +76,18 @@ exactly as intended.
  - `testing.py`
     - Exactly what it sounds like. Test code I wanted to run without deleting things in index.
     I was mostly using this for multiproccessing and multithreading.
+
+### Matrix Implementation
+1. This is nowhere near ready. Please do not even try to use it yet.
+2. There are many bugs that I'm working through. These are listed below.
+    
+    - When calculating the e_tilde probabilities of the observed nodes, I 
+    do a constraint check. This constraint check either leaves the value alone,
+    or it removes it if it doesn't meet the constraint. The problem I'm having
+    however is that with the matrix implementation we just have a bunch of numbers
+    in the array. This is an issue because the constraint check may check something
+    like "Does this word have the letter 'T' in it?". We can't do that with just numbers.
+    Dictionaries worked just fine, but numbers don't. I created a class for lookups 
+    based on the matrix but when doing it dynamically, this could get kind of messy. 
+    So we'll need to figure out some kind of approach to make sure everything lines 
+    up as it should.
