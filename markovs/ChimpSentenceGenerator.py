@@ -54,6 +54,7 @@ class NonHomogeneousHMMSentences:
         rand = get_rand_num()
         sum = 0
         initial_probs = self.NHHMM.constrained_transition_probabilities[0]
+        # print("FIRST POS:", initial_probs)
         for key in initial_probs.keys():
             if len(initial_probs.keys()) == 1:
                 self.initial_pos = key
@@ -86,6 +87,7 @@ class NonHomogeneousHMMSentences:
         sentences = []
         for x in range(num_sentences):
             sentence = self.create_sentence()
+            # print("SENTENCE:", sentence)
             if sentence not in sentences:
                 sentences.append(sentence)
         return sentences

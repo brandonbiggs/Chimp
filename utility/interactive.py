@@ -6,8 +6,8 @@ from examples.RedRhyme import *
 
 from utility.ProcessData import *
 from markovs.HiddenMarkovModel import HiddenMarkovModel
-from markovs.NonHomogeneousHMM import NonHomogeneousHMM
-from markovs.NonHomogeneousHMMSentences import NonHomogeneousHMMSentences
+from markovs.ConstrainedHiddenMarkovProcess import NonHomogeneousHMM
+from markovs.ChimpSentenceGenerator import NonHomogeneousHMMSentences
 import argparse
 import time
 import pickle

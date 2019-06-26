@@ -207,7 +207,7 @@ class NonHomogeneousHMM:
         :param constraint:
         :return: new dictionary of emission probabilities
         """
-        print("DICTIONARY", dictionary)
+        # print("DICTIONARY", dictionary)
         # Make a copy so we can delete values that aren't satisfied by constraint
         new_normalized_probabilities = copy.deepcopy(dictionary)
         for key in dictionary:

@@ -1,6 +1,6 @@
 from markovs.HiddenMarkovModel import *
-from markovs.NonHomogeneousHMM import *
-from markovs.NonHomogeneousHMMSentences import *
+from markovs.ConstrainedHiddenMarkovProcess import *
+from markovs.ChimpSentenceGenerator import *
 from utility.ProcessData import *
 
 

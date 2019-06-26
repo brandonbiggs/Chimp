@@ -1,5 +1,5 @@
 from markovs.HiddenMarkovModel import *
-from markovs_parallel.parallel_nhmm import *
+from markovs_parallel.ChimpParallel import *
 from utility.ProcessData import *
 import time
 import pickle

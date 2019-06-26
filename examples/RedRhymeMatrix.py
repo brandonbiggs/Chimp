@@ -1,7 +1,7 @@
 import numpy
 from markovs_matrix.HiddenMarkovModelMatrices import *
-from markovs_matrix.NHHMMMatrices import *
-from markovs.NonHomogeneousHMMSentences import *
+from markovs_matrix.ChimpMatrices import *
+from markovs.ChimpSentenceGenerator import *
 from constraints.ConstraintContainsString import *
 from constraints.ConstraintIsPartOfSpeech import *
 from constraints.ConstraintMatchesString import *

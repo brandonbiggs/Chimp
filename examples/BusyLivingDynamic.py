@@ -5,8 +5,8 @@ from constraints.ConstraintRhymesWith import *
 from constraints.ConstraintMatchesString import *
 from constraints.NoConstraint import *
 from markovs.HiddenMarkovModel import *
-from markovs.NonHomogeneousHMM import *
-from markovs.NonHomogeneousHMMSentences import *
+from markovs.ConstrainedHiddenMarkovProcess import *
+from markovs.ChimpSentenceGenerator import *
 import pickle
 
 

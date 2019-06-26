@@ -77,6 +77,11 @@ exactly as intended.
     - Exactly what it sounds like. Test code I wanted to run without deleting things in index.
     I was mostly using this for multiproccessing and multithreading.
 
+# TODO
+- Update the CLI with the new chimp name
+- Update this documentation that reflects the new features, programs, and name changes
+- At some point implement the matrix model
+
 ### Matrix Implementation
 1. This is nowhere near ready. Please do not even try to use it yet.
 2. There are many bugs that I'm working through. These are listed below.

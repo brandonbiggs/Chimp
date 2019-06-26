@@ -1,5 +1,5 @@
 from markovs.HiddenMarkovModel import *
-from markovs.NonHomogeneousHMM import *
+from markovs.ConstrainedHiddenMarkovProcess import *
 from utility.ProcessData import *
 import time
 import pickle
