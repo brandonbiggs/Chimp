@@ -95,4 +95,4 @@ exactly as intended.
     Dictionaries worked just fine, but numbers don't. I created a class for lookups 
     based on the matrix but when doing it dynamically, this could get kind of messy. 
     So we'll need to figure out some kind of approach to make sure everything lines 
-    up as it should.
+    up as it should..
