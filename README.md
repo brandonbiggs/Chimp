@@ -1,4 +1,4 @@
-# Nhhmonic - Non Homogeneous Hidden Markov Model
+# Chimp - Constrained Hidden Markov Process
 CCIL Lab Research Project. Hopefully everything is commented well enough that it makes sense.
 Let Brandon know if things aren't commented very well.
 
