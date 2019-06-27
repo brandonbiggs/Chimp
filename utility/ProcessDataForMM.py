@@ -1,4 +1,4 @@
-from utility.Utility import *
+import utility.Utility as util
 from progress.bar import Bar
 import re
 
@@ -29,13 +29,13 @@ class ProcessDataForMM:
     def __init_with_progress(self, file_name):
         self.file_name = file_name
         bar = Bar('Processing', max=6)
-        self.file_contents = read_text_file(self.file_name)
+        self.file_contents = util.read_text_file(self.file_name)
         bar.next()
         bar.finish()
 
     def __init_without_progress_bar(self, file_name):
         self.file_name = file_name
-        self.file_contents = read_text_file(self.file_name)
+        self.file_contents = util.read_text_file(self.file_name)
         self.__step_through_sentences()
         self.__setup_initial_probability()
         self.__setup_emission_probabilities()

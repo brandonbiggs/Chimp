@@ -62,4 +62,11 @@ def read_text_file(file_name) -> str:
     file = open(file_name, "r")
     words_from_file = file.read()
     file.close()
-    return words_from_file
+    newstring = ""
+    for character in words_from_file:
+        if character not in ";\n,'\"":
+            newstring += character
+        else:
+            newstring += " "
+    # return words_from_file
+    return newstring

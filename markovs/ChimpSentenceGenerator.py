@@ -87,8 +87,7 @@ class ChimpSentenceGenerator:
         sentences = []
         for x in range(num_sentences):
             sentence = self.create_sentence()
-            # print("SENTENCE:", sentence)
-            if sentence not in sentences:
+            if sentence not in sentences and sentence != "":
                 sentences.append(sentence)
         return sentences
 

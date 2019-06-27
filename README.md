@@ -1,13 +1,15 @@
 # Chimp - Constrained Hidden Markov Process
 CCIL Lab Research Project. Hopefully everything is commented well enough that it makes sense.
-Let Brandon know if things aren't commented very well.
+
+Let [Brandon](mailto:biggbran@isu.edu) know if things aren't commented enough.
 
 ### Dependencies
 
 I created a requirements.txt that have the packages that are used. Not all of them
 are used though. I'll try cleaning up the ones that aren't used. 
 
-You may need to use the following two lines for the NLTK package.
+You may need to use the following two lines for the NLTK package. These are sporadically
+used in the constraint files and the ChimpProcessData class.
 `nltk.download('tagsets')`
 `nltk.download('averaged_perceptron_tagger')`
     
@@ -16,8 +18,8 @@ You may need to use the following two lines for the NLTK package.
     - each file is a class that represents a different type of constraint.
 They are supposed to all inherit from `Constraint.py` however I don't believe that's working
 exactly as intended.
-    - Currently only 5 kinds of constraints. Constraint contains a string, is a specific part of speech
-    matches a string, or rhymes with.
+    - Currently there are 7 kinds of constraints, but "ConstraintIsSemantic.py" is not yet implemented
+    - The unit tests are also not yet implemented. I'm working on those.
 - data
     - These are just a handful of test documents that I've used for a few different things.
     None of these are particularly important. ccil.txt just represents the data we came up
@@ -25,20 +27,21 @@ exactly as intended.
 - examples
     - Instead of having one large file of examples, I tried parsing them out to just one file per example.
     I tried naming them in a way that is helpful. Most of these aren't important at all. The 
-    ones that might be important are "RedRhyme.py" and "FirstDog.py". The others were things
+    ones that might be important are "RedRhyme.py", "TongueTwisters*.py" and "FirstDog.py". The others were things
     I was testing. Any of the ones named "dynamic" will provide examples of how I was pulling
     from the text documents in the data folder.
+- graphs
+    - Where the graphs of different things will be stored.
 - markovs
     - this is where models and any model helping tools are. 
-    - `HiddenMarkovModel.py` is purely
-    a hmm. Just an object for holding information. 
-    - `NonHomogeneousHMM.py` is where the meat and potatoes are. This is where all of the calculations 
+    - `HiddenMarkovModel.py` is purely an hmm. Just an object for holding information. 
+    - `ConstrainedHiddenMarkovProcess.py` is where the meat and potatoes are. This is where all of the calculations 
     happen. All of the example files use this in some capacity.
-    - `NonHomogeneousHMMSentences.py` is where the sentences are generated based on the 
-    Nhhmm that is passed to it. 
+    - `ChimpSentenceGenerator.py` is where the sentences are generated based on the 
+    Chimp that is passed to it. 
 - markovs_matrix
     - This is the matrix implementations of everything. Still have a lot to do with this.
-    Hopefully using this will increase the speed of the model.
+    Hopefully using this will increase the speed of the model. Nothing in here is ready to be used.
 - markovs_parallel
     - This is some testing I've been doing. Trying to parallelize the nhhmm process. Not yet working.
 - nltk_data
@@ -47,23 +50,23 @@ exactly as intended.
     need to edit.
 - notes
     - basically just some notes/scratch work. A picture of the first time we hand wrote the 
-    nhhmm.
+    chimp model before it became Chimp.
 - pickle_files
     - to save time, we can pickle the hidden markov model. It really worked well and saved a ton
     of time since the longest part I've ran into so far was the data processing part. If you
-    process the data, pickle it, you can then use it whenever you want with the nhhmm. Examples
+    process the data, pickle it, you can then use it whenever you want with Chimp. Examples
     of this can be found in one or two of the dynamic examples. The current pickle files
     are not important and the names aren't helpful. Sorry.
 - utility
     - Some useful utility functions
     - `interactive.py` - this is where I've been working on making an interactive CLI. It works
     a little bit, but still needs some work.
-    - `ProcessData.py` - This is where the document gets read in and the probabilities are created.
+    - `ProcessDataForChimp.py` - This is where the document gets read in and the probabilities are created.
     This is where I have some concern and would like to work on verifying at some point. Seems to work
     with the redrhyme example however.
-    - `Utility.py` - right now it only contains a random number generator. I wanted that to
-    be it's own function in case we wanted to chance how we wanted to create random numbers
-    in the future.
+    - `ProcessDataForMM.py` - This is the file read in utility for the regular markov model that we
+    are testing Chimp against.
+    - `Utility.py` - right now it contains a random number generator, file read in tool, and a train function. 
 - venv
     - Just the virtual environment that I use. Should have all of the packages that we could need.
 - `__init__.py`
@@ -77,11 +80,15 @@ exactly as intended.
     - Exactly what it sounds like. Test code I wanted to run without deleting things in index.
     I was mostly using this for multiproccessing and multithreading.
 
-# TODO
+### TODO
 - Update the CLI with the new chimp name
-- Update this documentation that reflects the new features, programs, and name changes
+- Keep documentation up to date
 - At some point implement the matrix model
 - Write unit tests for the constraints
+- Finish the CLI model
+- Get the constraint creation web based
+- Do a lot of analysis on the creation of sentences between the regular markov model and Chimp
+- Create tongue twister graphs once the analysis is done
 
 ### Matrix Implementation
 1. This is nowhere near ready. Please do not even try to use it yet.

@@ -6,7 +6,8 @@ from constraints.ConstraintStartsWithLetter import *
 import pickle
 
 
-def tongue_twister_chimp(letter: str, file_name: str, size_of_model: int) -> int:
+def tongue_twister_chimp(letter: str, file_name: str, size_of_model: int,
+                         sentence_iterations: int) -> int:
     """
 
     :param letter: the letter of the alphabet that we'll use to generate sentences
@@ -33,8 +34,8 @@ def tongue_twister_chimp(letter: str, file_name: str, size_of_model: int) -> int
     # chimp.print_new_markov_probabilities()
 
     sentence_generator = ChimpSentenceGenerator(chimp, length)
-    sentences = sentence_generator.create_all_sentences(100)
-    for sentence in sentences:
-        print(sentence)
+    sentences = sentence_generator.create_all_sentences(sentence_iterations)
+    # for sentence in sentences:
+    #     print(sentence)
     # print("Number of sentences:", len(sentences))
     return len(sentences)

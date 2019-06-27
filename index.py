@@ -17,14 +17,19 @@ from examples.TongueTwisterMarkovModel import *
 def tongue_twisters():
     data_file = "data/book.txt"
     pickle_file = "pickle_files/test_book.pickle"
+    pickle_mm_file = "pickle_files/test_book_mm.pickle"
     model = "chimp"
-    letter = "q"
+    letter = "b"
     sentence_length = 12
+    iterations = 1000
 
     # train(data_file, pickle_file, model)
-    num_sentences = tongue_twister_chimp(letter, pickle_file, sentence_length)
-    print(num_sentences)
+    # num_sentences = tongue_twister_chimp(letter, pickle_file, sentence_length, iterations)
+    # print(num_sentences)
 
+    # train(data_file, pickle_mm_file, "markovmodel")
+    num_sentences = tongue_twister_markov_model(letter, pickle_mm_file, sentence_length, iterations)
+    print(num_sentences)
 
 if __name__ == '__main__':
     # test = ProcessDataForMM("data/ccil.txt", False)
