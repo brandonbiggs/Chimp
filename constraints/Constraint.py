@@ -9,3 +9,6 @@ class Constraint:
 
     def print(self):
         pass
+
+    def is_satisfied_by_state(self, state):
+        pass

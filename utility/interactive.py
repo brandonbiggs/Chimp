@@ -3,11 +3,11 @@ from examples.FirstDog import *
 from examples.BusyLiving import *
 from examples.BusyLivingDynamic import *
 from examples.RedRhyme import *
-
-from utility.ProcessData import *
+from utility.Utility import *
+from utility.ProcessDataForChimp import *
 from markovs.HiddenMarkovModel import HiddenMarkovModel
-from markovs.ConstrainedHiddenMarkovProcess import NonHomogeneousHMM
-from markovs.ChimpSentenceGenerator import NonHomogeneousHMMSentences
+from markovs.ConstrainedHiddenMarkovProcess import ConstrainedHiddenMarkovProcess
+from markovs.ChimpSentenceGenerator import ChimpSentenceGenerator
 import argparse
 import time
 import pickle
@@ -77,13 +77,13 @@ class InteractiveNHHMarkov:
                 observed_constraints.append(None)
         print("observed constraints:", observed_constraints)
 
-        NHHMM = NonHomogeneousHMM(layers, hidden_markov_model,
-                                  hidden_constraints, observed_constraints)
+        NHHMM = ConstrainedHiddenMarkovProcess(layers, hidden_markov_model,
+                                               hidden_constraints, observed_constraints)
         NHHMM.process()
         print("NHHMM Finished.")
 
         print("Generated Sentences:")
-        sentence_generator = NonHomogeneousHMMSentences(NHHMM, layers)
+        sentence_generator = ChimpSentenceGenerator(NHHMM, layers)
         for x in range(output_sentences):
             print(sentence_generator.create_sentence())
 
@@ -108,12 +108,12 @@ class InteractiveNHHMarkov:
                     if config.is_file():
                         print("Training on new file that was provided.")
                         enter_file = False
-                        self.train(path)
+                        train(path)
                     else:
                         print("Error with the file.")
             else:
                 # Keep presets
-                self.train()
+                train()
 
         # Node Size question
         size = True
@@ -263,9 +263,9 @@ class InteractiveNHHMarkov:
         elif args.train:
             file_name = args.train
             if file_name:
-                self.train(file_name)
+                train(file_name)
             else:
-                self.train()
+                train()
 
         # none
         else:
@@ -277,34 +277,6 @@ class InteractiveNHHMarkov:
         if args.clock:
             end = time.time()
             print("Execution time:", end - start)
-
-    @staticmethod
-    def train(text_file="data/book_tiny.txt",
-              pickle_file="pickle_files/new_file.pickle") -> None:
-        """
-        Create the hidden markov model and store it for use later
-        """
-        print("Starting training on:", text_file)
-        pickle_file_name = input("Enter a name for your trained model: ")
-        if pickle_file_name == "":
-            print("No name provided. Going with the default: ", pickle_file)
-        else:
-            pickle_file_name = pickle_file_name.strip()
-            pickle_file = "pickle_files/" + pickle_file_name + ".pickle"
-            print("Your file will be saved to: ", pickle_file)
-        # Process the text file
-        data = ProcessTextFile(text_file)
-
-        # Define our hidden markov model
-        hidden_markov_model = HiddenMarkovModel(data.hidden_nodes, data.observed_nodes)
-        hidden_markov_model.initial_probs = data.initial_probs
-        hidden_markov_model.transition_probs = data.transition_probs
-        hidden_markov_model.emission_probs = data.emission_probs
-
-        # Store the hidden Markov Model that we just created
-        with open(pickle_file, 'wb') as handle:
-            pickle.dump(hidden_markov_model, handle, protocol=pickle.HIGHEST_PROTOCOL)
-        print("Finished training.")
 
     # TODO
     @staticmethod

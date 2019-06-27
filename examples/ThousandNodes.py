@@ -1,6 +1,6 @@
 from markovs.HiddenMarkovModel import *
 from markovs.ConstrainedHiddenMarkovProcess import *
-from utility.ProcessData import *
+from utility.ProcessDataForChimp import *
 import time
 import pickle
 
@@ -33,7 +33,7 @@ def one_thousand_nodes(length) -> None:
     # print("HMM Finished")
 
     start = time.time()
-    NHHMM = NonHomogeneousHMM(length, hidden_markov_model, hidden_constraints, observed_constraints)
+    NHHMM = ConstrainedHiddenMarkovProcess(length, hidden_markov_model, hidden_constraints, observed_constraints)
     NHHMM.process()
     # print("NHHMM Finished")
     end = time.time()

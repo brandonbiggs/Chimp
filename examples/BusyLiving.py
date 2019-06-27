@@ -7,7 +7,7 @@ from constraints.NoConstraint import *
 from markovs.HiddenMarkovModel import *
 from markovs.ConstrainedHiddenMarkovProcess import *
 from markovs.ChimpSentenceGenerator import *
-from utility.ProcessData import *
+from utility.ProcessDataForChimp import *
 
 
 def busy_living() -> None:
@@ -15,7 +15,7 @@ def busy_living() -> None:
 
     :return: None
     """
-    data = ProcessTextFile("data/book.txt")
+    data = ProcessDataForChimp("data/book.txt")
     # data = ProcessTextFile("data/book_medium.txt")
 
     length = 7
@@ -44,10 +44,10 @@ def busy_living() -> None:
     hidden_markov_model.emission_probs = data.emission_probs
     print("HMM Finished")
 
-    NHHMM = NonHomogeneousHMM(length, hidden_markov_model, hidden_constraints, observed_constraints)
+    NHHMM = ConstrainedHiddenMarkovProcess(length, hidden_markov_model, hidden_constraints, observed_constraints)
     NHHMM.process()
     print("NHHMM Finished")
 
-    sentence_generator = NonHomogeneousHMMSentences(NHHMM, length)
+    sentence_generator = ChimpSentenceGenerator(NHHMM, length)
     for x in range(10):
         print(sentence_generator.create_sentence())

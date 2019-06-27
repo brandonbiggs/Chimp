@@ -60,7 +60,7 @@ def red_rhyme_parallel() -> None:
     # NHHMM.print_new_markov_probabilities()
 
     # Print the sentences
-    sentence_generator = NonHomogeneousHMMSentences(NHHMM, 4)
+    sentence_generator = ChimpSentenceGenerator(NHHMM, 4)
     sentences = sentence_generator.create_all_sentences()
     # for sentence in sentences:
         # sentence = sentence.strip().split(" ")

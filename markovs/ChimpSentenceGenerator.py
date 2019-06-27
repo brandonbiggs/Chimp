@@ -2,7 +2,7 @@ import copy
 from utility.Utility import get_rand_num
 
 
-class NonHomogeneousHMMSentences:
+class ChimpSentenceGenerator:
     """
     Generate sentences with the given NHHMM
     """

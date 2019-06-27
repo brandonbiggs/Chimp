@@ -29,12 +29,12 @@ def busy_living_dynamic(size=7) -> None:
 
     length = size
 
-    NHHMM = NonHomogeneousHMM(length, hidden_markov_model,
-                              hidden_constraints,
-                              observed_constraints)
+    NHHMM = ConstrainedHiddenMarkovProcess(length, hidden_markov_model,
+                                           hidden_constraints,
+                                           observed_constraints)
     NHHMM.process()
     print("NHHMM Finished")
 
-    sentence_generator = NonHomogeneousHMMSentences(NHHMM, length)
+    sentence_generator = ChimpSentenceGenerator(NHHMM, length)
     for x in range(10):
         print(sentence_generator.create_sentence())

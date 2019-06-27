@@ -56,12 +56,12 @@ def red_rhyme() -> None:
     # hidden_markov_model.print()
 
     # Create our NHHMM and calculate new probabilities from the constraints
-    NHHMM = NonHomogeneousHMM(length, hidden_markov_model, hidden_constraints, observed_constraints)
+    NHHMM = ConstrainedHiddenMarkovProcess(length, hidden_markov_model, hidden_constraints, observed_constraints)
     NHHMM.process()
     # NHHMM.print_new_markov_probabilities()
 
     # Print the sentences
-    sentence_generator = NonHomogeneousHMMSentences(NHHMM, 4)
+    sentence_generator = ChimpSentenceGenerator(NHHMM, 4)
     sentences = sentence_generator.create_all_sentences()
     for sentence in sentences:
         # sentence = sentence.strip().split(" ")

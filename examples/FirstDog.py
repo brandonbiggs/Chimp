@@ -66,7 +66,7 @@ def first_dog() -> None:
     # return
 
     # Create our NHHMM and calculate new probabilities from the constraints
-    NHHMM = NonHomogeneousHMM(length, hidden_markov_model, hidden_constraints, observed_constraints)
+    NHHMM = ConstrainedHiddenMarkovProcess(length, hidden_markov_model, hidden_constraints, observed_constraints)
     NHHMM.process()
     NHHMM.print_new_markov_probabilities()
 

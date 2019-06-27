@@ -6,7 +6,7 @@ from constraints.ConstraintRhymesWith import *
 from constraints.NoConstraint import *
 
 
-class NonHomogeneousHMM:
+class ConstrainedHiddenMarkovProcess:
     """
     This is a hidden markov model that we are applying constraints to. You're
         currently able to apply ONE constraint per node to any node in the graph.

@@ -1,6 +1,6 @@
 from markovs.HiddenMarkovModel import *
 from markovs_parallel.ChimpParallel import *
-from utility.ProcessData import *
+from utility.ProcessDataForChimp import *
 import time
 import pickle
 

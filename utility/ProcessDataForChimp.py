@@ -1,16 +1,14 @@
-import string
 import nltk
-from nltk.tokenize import word_tokenize
 from nltk.tokenize import RegexpTokenizer
-import re
 from progress.bar import Bar
+from utility.Utility import *
 
 
 nltk.download('tagsets', quiet=True)
 nltk.download('averaged_perceptron_tagger', quiet=True)
 
 
-class ProcessTextFile:
+class ProcessDataForChimp:
     file_name = ""
     file_contents = ""
     processed_output = []
@@ -40,7 +38,7 @@ class ProcessTextFile:
     def __init_with_progress(self, file_name: str) -> None:
         self.file_name = file_name
         bar = Bar('Processing', max=6)
-        self.read_text_file()
+        self.file_contents = read_text_file(self.file_name)
         bar.next()
         self.tokenize_and_tag_text()
         bar.next()
@@ -58,7 +56,7 @@ class ProcessTextFile:
     def __init_without_progress_bar(self, file_name: str) -> None:
         self.file_name = file_name
 
-        self.read_text_file()
+        self.file_contents = read_text_file(self.file_name)
         self.tokenize_and_tag_text()
         self.create_pos_dictionaries()
 
@@ -66,16 +64,6 @@ class ProcessTextFile:
         self.__create_initial_probabilities()
         self.__create_emission_probabilities()
         self.__create_transition_probabilities()
-
-    def read_text_file(self) -> None:
-        """
-        Reads the text file provided on class init
-        :return: None
-        """
-        file = open(self.file_name, "r")
-        words_from_file = file.read()
-        file.close()
-        self.file_contents = words_from_file
 
     def tokenize_and_tag_text(self) -> None:
         """
