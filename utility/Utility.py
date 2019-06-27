@@ -1,6 +1,7 @@
 import random
 import pickle
 from utility.ProcessDataForChimp import ProcessDataForChimp
+from utility.ProcessDataForMM import ProcessDataForMM
 from markovs.HiddenMarkovModel import HiddenMarkovModel
 
 
@@ -17,20 +18,29 @@ def get_rand_num(first=0, second=1):
 
 
 def train(text_file="data/book_tiny.txt",
-          pickle_file="pickle_files/new_file.pickle") -> None:
+          pickle_file="pickle_files/new_file.pickle", model="chimp") -> None:
     """
     Create the hidden markov model and store it for use later
+    :param text_file:
+    :param pickle_file:
+    :param model:
+    :return: None
     """
     print("Starting training on:", text_file)
-    pickle_file_name = input("Enter a name for your trained model: ")
+    pickle_file_name = pickle_file
     if pickle_file_name == "":
         print("No name provided. Going with the default: ", pickle_file)
     else:
-        pickle_file_name = pickle_file_name.strip()
-        pickle_file = "pickle_files/" + pickle_file_name + ".pickle"
+        # pickle_file_name = pickle_file_name.strip()
+        # pickle_file = "pickle_files/" + pickle_file_name + ".pickle"
         print("Your file will be saved to: ", pickle_file)
     # Process the text file
-    data = ProcessDataForChimp(text_file)
+    if model == "chimp":
+        data = ProcessDataForChimp(text_file)
+    elif model == "markovmodel":
+        data = ProcessDataForMM(text_file)
+    else:
+        raise Exception("Unknown model. Please use either 'chimp' or 'markovmodel'")
 
     # Define our hidden markov model
     hidden_markov_model = HiddenMarkovModel(data.hidden_nodes, data.observed_nodes)

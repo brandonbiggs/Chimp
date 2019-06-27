@@ -1,7 +1,8 @@
 import nltk
 from nltk.tokenize import RegexpTokenizer
 from progress.bar import Bar
-from utility.Utility import *
+# from utility.Utility import read_text_file
+import utility.Utility
 
 
 nltk.download('tagsets', quiet=True)
@@ -38,7 +39,7 @@ class ProcessDataForChimp:
     def __init_with_progress(self, file_name: str) -> None:
         self.file_name = file_name
         bar = Bar('Processing', max=6)
-        self.file_contents = read_text_file(self.file_name)
+        self.file_contents = utility.Utility.read_text_file(self.file_name)
         bar.next()
         self.tokenize_and_tag_text()
         bar.next()
@@ -56,7 +57,7 @@ class ProcessDataForChimp:
     def __init_without_progress_bar(self, file_name: str) -> None:
         self.file_name = file_name
 
-        self.file_contents = read_text_file(self.file_name)
+        self.file_contents = utility.Utility.read_text_file(self.file_name)
         self.tokenize_and_tag_text()
         self.create_pos_dictionaries()
 

@@ -81,6 +81,7 @@ exactly as intended.
 - Update the CLI with the new chimp name
 - Update this documentation that reflects the new features, programs, and name changes
 - At some point implement the matrix model
+- Write unit tests for the constraints
 
 ### Matrix Implementation
 1. This is nowhere near ready. Please do not even try to use it yet.
@@ -96,3 +97,9 @@ exactly as intended.
     based on the matrix but when doing it dynamically, this could get kind of messy. 
     So we'll need to figure out some kind of approach to make sure everything lines 
     up as it should..
+    
+### Observations
+- I'm wondering if the chimp model will eventually produce every combination of words
+that start with the specific letter. I think this can be tested using a file
+that's full of only words that start with a specific letter. Then find out the 
+combinations of them
