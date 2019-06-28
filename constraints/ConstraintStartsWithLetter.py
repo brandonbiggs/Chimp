@@ -35,12 +35,12 @@ class ConstraintStartsWithLetter(Constraint):
         :return: bool
         """
         if self.__must_start_with:
-            if self.constraint == word[0:self.__num_of_letters]:
+            if self.constraint.lower() == word[0:self.__num_of_letters].lower():
                 return True
             else:
                 return False
         else:
-            if self.constraint != word[0:self.__num_of_letters]:
+            if self.constraint.lower() != word[0:self.__num_of_letters].lower():
                 return True
             else:
                 return False

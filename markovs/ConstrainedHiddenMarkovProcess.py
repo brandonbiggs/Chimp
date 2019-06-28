@@ -88,7 +88,6 @@ class ConstrainedHiddenMarkovProcess:
         #       as the node at i-1 depends on node at i up to the last node that
         #       has a constraint. Because of this, we must start at the last node.
         for node_layer in range(self.layers - 1, -1, -1):
-
             # If it's the initial node, we use the initial probabilities instead
             #       of the transition probabilities
             if node_layer == 0:
@@ -126,7 +125,6 @@ class ConstrainedHiddenMarkovProcess:
                     node calculated. Second is the new normalized transition
                     probabilities
         """
-
         # Check constraints
         constraint = self.hidden_constraints[node_position]
         if constraint is None:
@@ -207,7 +205,6 @@ class ConstrainedHiddenMarkovProcess:
         :param constraint:
         :return: new dictionary of emission probabilities
         """
-        # print("DICTIONARY", dictionary)
         # Make a copy so we can delete values that aren't satisfied by constraint
         new_normalized_probabilities = copy.deepcopy(dictionary)
         for key in dictionary:

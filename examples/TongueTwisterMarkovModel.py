@@ -25,15 +25,16 @@ def tongue_twister_markov_model(letter: str, file_name: str, size_of_model: int,
     hidden_constraints = []
     observed_constraints = []
     for x in range(length):
-        # hidden_constraints.append(None)
-        hidden_constraints.append(ConstraintStartsWithLetter(letter, True, 1))
-        # observed_constraints.append(ConstraintStartsWithLetter(letter, True, 1))
-        observed_constraints.append(None)
+        hidden_constraints.append(None)
+        # hidden_constraints.append(ConstraintStartsWithLetter(letter, True, 1))
+        observed_constraints.append(ConstraintStartsWithLetter(letter, True, 1))
+        # observed_constraints.append(None)
 
+    # hidden_markov_model.print()
     # Process the constrained hidden markov model
     markov_model = ConstrainedHiddenMarkovProcess(length, hidden_markov_model, hidden_constraints, observed_constraints)
     markov_model.process()
-    # chimp.print_new_markov_probabilities()
+    # markov_model.print_new_markov_probabilities()
 
     sentence_generator = ChimpSentenceGenerator(markov_model, length)
     sentences = sentence_generator.create_all_sentences(sentence_iterations)

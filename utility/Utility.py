@@ -18,7 +18,7 @@ def get_rand_num(first=0, second=1):
 
 
 def train(text_file="data/book_tiny.txt",
-          pickle_file="pickle_files/new_file.pickle", model="chimp") -> None:
+          pickle_file="pickle_files/new_file.pickle", model="chimp", verbose=True) -> None:
     """
     Create the hidden markov model and store it for use later
     :param text_file:
@@ -26,14 +26,16 @@ def train(text_file="data/book_tiny.txt",
     :param model:
     :return: None
     """
-    print("Starting training on:", text_file)
+    if verbose:
+        print("Starting training on:", text_file)
     pickle_file_name = pickle_file
-    if pickle_file_name == "":
+    if pickle_file_name == "" and verbose:
         print("No name provided. Going with the default: ", pickle_file)
     else:
         # pickle_file_name = pickle_file_name.strip()
         # pickle_file = "pickle_files/" + pickle_file_name + ".pickle"
-        print("Your file will be saved to: ", pickle_file)
+        if verbose:
+            print("Your file will be saved to: ", pickle_file)
     # Process the text file
     if model == "chimp":
         data = ProcessDataForChimp(text_file)
@@ -51,7 +53,8 @@ def train(text_file="data/book_tiny.txt",
     # Store the hidden Markov Model that we just created
     with open(pickle_file, 'wb') as handle:
         pickle.dump(hidden_markov_model, handle, protocol=pickle.HIGHEST_PROTOCOL)
-    print("Finished training. Saved Hidden Markov Model to pickle file.")
+    if verbose:
+        print("Finished training. Saved Hidden Markov Model to pickle file.")
 
 
 def read_text_file(file_name) -> str:

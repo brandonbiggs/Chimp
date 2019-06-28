@@ -45,4 +45,14 @@ EMISSION: [
 {'NNP': {'Ted': 0.2, 'Mary': 0.6, 'Fred': 0.2}, 'VBZ': {'likes': 0.5, 'loves': 0.25, 'sees': 0.25}, 'RB': {'now': 0.66666, 'sometimes': 0.33333}, 'NN': {'green': 0.33333, 'red': 0.66666}},
 {'NNP': {}, 'VBZ': {}, 'RB': {}, 'NN': {'red': 1.0}}]
 
+Matrix stuff:
+M = number of parts of speech
+N = number of unique words
+O = number of layers?
+
+
+transition probabilities matrix = M*M*O
+emission probabilities matrix = M*N*O
+initial probabilities matrix = M
+
 

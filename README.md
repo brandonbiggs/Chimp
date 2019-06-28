@@ -81,14 +81,28 @@ exactly as intended.
     I was mostly using this for multiproccessing and multithreading.
 
 ### TODO
-- Update the CLI with the new chimp name
 - Keep documentation up to date
-- At some point implement the matrix model
-- Write unit tests for the constraints
-- Finish the CLI model
-- Get the constraint creation web based
 - Do a lot of analysis on the creation of sentences between the regular markov model and Chimp
 - Create tongue twister graphs once the analysis is done
+
+### TODO - Not as important
+- Implement a feature for Chimp that allows a word to count as all categories when it's
+scanned. Right now it only counts as whatever the first category is. Maybe
+we add it to all categories.
+- At some point implement the matrix model
+- Write unit tests for the constraints
+- Finish the CLI application
+- Update the CLI with the new chimp name
+- Get the constraint creation web based
+- make sure that all the words are the same case when comparing them
+
+- kept a dictionary of states, when parsing the training data,
+each new state has a new unique ID, so you only have to do string comparison once,
+string comparison expensive
+- from the models perspective, it does use the first word, but in training there was a flag
+that the initial probabailities were either from the first words or from all words in the
+training sentences.
+
 
 ### Matrix Implementation
 1. This is nowhere near ready. Please do not even try to use it yet.

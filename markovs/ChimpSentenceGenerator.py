@@ -25,7 +25,7 @@ class ChimpSentenceGenerator:
             next_word = self.get_emission_word(node_layer, pos)
             if next_word is not None:
                 sentence += next_word + " "
-        return sentence
+        return sentence.rstrip()
 
     def get_pos(self, node_layer, pos):
         """
@@ -54,7 +54,6 @@ class ChimpSentenceGenerator:
         rand = get_rand_num()
         sum = 0
         initial_probs = self.NHHMM.constrained_transition_probabilities[0]
-        # print("FIRST POS:", initial_probs)
         for key in initial_probs.keys():
             if len(initial_probs.keys()) == 1:
                 self.initial_pos = key
@@ -76,6 +75,7 @@ class ChimpSentenceGenerator:
         sum = 0
         emission_probs = \
             self.NHHMM.constrained_observed_emission_probabilities[node_layer].get(pos)
+
         if emission_probs is None:
             return None
         for key in emission_probs.keys():
@@ -87,7 +87,8 @@ class ChimpSentenceGenerator:
         sentences = []
         for x in range(num_sentences):
             sentence = self.create_sentence()
-            if sentence not in sentences and sentence != "":
+            # print(sentence.split(" "))
+            if sentence not in sentences and len(sentence.split(" ")) == self.length:
                 sentences.append(sentence)
         return sentences
 

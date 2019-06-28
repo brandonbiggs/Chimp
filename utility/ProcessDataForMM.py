@@ -14,12 +14,16 @@ class ProcessDataForMM:
 
     transition_probs = {}
 
-    def __init__(self, file_name: str, progress_bar=True) -> None:
+    def __init__(self, file_name: str, progress_bar=True, initial_prob_extensive = False) -> None:
         """
 
         :param file_name:
         :param progress_bar:
+        :param initial_prob_extensive: True means use only the first word of the sentence to
+            set the initial probabilities. False means use all words except last word of
+            sentence for initial probabilities
         """
+        self.initial_prob_extensive = initial_prob_extensive
         # if progress_bar:
         #     self.__init_with_progress(file_name)
         # else:
@@ -42,6 +46,10 @@ class ProcessDataForMM:
         self.__setup_transition_probabilities()
 
     def __step_through_sentences(self):
+        """
+
+        :return:
+        """
         sentences = self.file_contents.split(".")
         for sentence in sentences:
             sentence = sentence.lstrip().rstrip()
@@ -49,8 +57,11 @@ class ProcessDataForMM:
             if sentence == "":
                 continue
             words = sentence.split(" ")
-            # Setup for the initial probabilities
-            self.first_word_of_sentence.append(words[0])
+
+            # Setup for the initial probabilities as the first word of the sentence
+            if self.initial_prob_extensive:
+                self.first_word_of_sentence.append(words[0])
+
             # Iterate over each word in the sentence
             for word in words:
                 # Start the checking for setting up the transition probabilities
@@ -63,6 +74,9 @@ class ProcessDataForMM:
                     # If the word isn't the last word, get the next word and add it to
                     #   the value of the previous dictionary
                     else:
+                        # Adds all words except last word of sentence to initial probs
+                        if not self.initial_prob_extensive:
+                            self.first_word_of_sentence.append(word)
                         next_word_index = words.index(word) + 1
                         next_word = words[next_word_index]
                         self.transition_probs.update({word: {next_word: 1.0}})
