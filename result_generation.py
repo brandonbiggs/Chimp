@@ -9,16 +9,16 @@ import time
 
 
 def graph_one():
-    iterations = 100
+    iterations = 100000
     sentence_length = [4, 6, 8, 10]
     data_files = ["one_sentence.txt",
-                  # "four_sentences.txt",
-                  # "ten_sentences.txt",
-                  # "twenty_five_sentences.txt",
-                  # "fifty_sentences.txt",
-                  # "one_hundred_sentences.txt",
-                  # "five_hundred_sentences.txt",
-                  # "one_thousand_sentences.txt"
+                  "four_sentences.txt",
+                  "ten_sentences.txt",
+                  "twenty_five_sentences.txt",
+                  "fifty_sentences.txt",
+                  "one_hundred_sentences.txt",
+                  "five_hundred_sentences.txt",
+                  "one_thousand_sentences.txt"
                   ]
     result_file = "results/graph1.txt"
     # data_file = "data/expressive_graph.txt"
