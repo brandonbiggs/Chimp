@@ -1,0 +1,147 @@
+
+Data File: one_sentence.txt Length: 4
+Total Chimp Counts: [0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+Total Markov Counts: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Chimp Average: 0.11538461538461539
+Markov Average: 0.0
+Data File: one_sentence.txt Length: 6
+Total Chimp Counts: [0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+Total Markov Counts: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Chimp Average: 0.11538461538461539
+Markov Average: 0.0
+Data File: one_sentence.txt Length: 8
+Total Chimp Counts: [0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+Total Markov Counts: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Chimp Average: 0.11538461538461539
+Markov Average: 0.0
+Data File: one_sentence.txt Length: 10
+Total Chimp Counts: [0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+Total Markov Counts: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Chimp Average: 0.11538461538461539
+Markov Average: 0.0
+
+Data File: four_sentences.txt Length: 4
+Total Chimp Counts: [40, 3, 1, 5, 0, 2, 0, 8, 240, 0, 0, 2, 24, 0, 16, 0, 0, 1, 0, 19, 0, 0, 0, 0, 0, 0]
+Total Markov Counts: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Chimp Average: 13.884615384615385
+Markov Average: 0.0
+Data File: four_sentences.txt Length: 6
+Total Chimp Counts: [160, 3, 1, 7, 0, 2, 0, 12, 2134, 0, 0, 2, 74, 0, 64, 0, 0, 1, 0, 47, 0, 0, 0, 0, 0, 0]
+Total Markov Counts: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Chimp Average: 96.42307692307692
+Markov Average: 0.0
+Data File: four_sentences.txt Length: 8
+Total Chimp Counts: [545, 3, 1, 9, 0, 2, 0, 13, 6638, 0, 0, 2, 232, 0, 256, 0, 0, 1, 0, 106, 0, 0, 0, 0, 0, 0]
+Total Markov Counts: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Chimp Average: 300.3076923076923
+Markov Average: 0.0
+Data File: four_sentences.txt Length: 10
+Total Chimp Counts: [1503, 3, 1, 11, 0, 2, 0, 14, 9367, 0, 0, 2, 702, 0, 1024, 0, 0, 1, 0, 221, 0, 0, 0, 0, 0, 0]
+Total Markov Counts: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Chimp Average: 494.2692307692308
+Markov Average: 0.0
+
+Data File: ten_sentences.txt Length: 4
+Total Chimp Counts: [1262, 138, 34, 32, 2, 19, 0, 1250, 230, 1, 9, 6, 300, 2, 75, 20, 0, 46, 56, 315, 0, 1, 360, 0, 0, 0]
+Total Markov Counts: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Chimp Average: 159.92307692307693
+Markov Average: 0.0
+Data File: ten_sentences.txt Length: 6
+Total Chimp Counts: [4413, 970, 106, 128, 2, 50, 0, 6555, 1931, 1, 19, 6, 3623, 0, 339, 66, 0, 224, 176, 1339, 0, 1, 1358, 0, 0, 0]
+Total Markov Counts: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Chimp Average: 819.5
+Markov Average: 0.0
+Data File: ten_sentences.txt Length: 8
+Total Chimp Counts: [7526, 3825, 325, 512, 2, 131, 0, 9411, 6272, 1, 41, 6, 8627, 0, 1029, 223, 0, 814, 531, 3136, 0, 1, 3248, 0, 0, 0]
+Total Markov Counts: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Chimp Average: 1756.1923076923076
+Markov Average: 0.0
+Data File: ten_sentences.txt Length: 10
+Total Chimp Counts: [9208, 7312, 871, 1969, 2, 343, 0, 9948, 9152, 1, 88, 6, 9840, 0, 2305, 734, 0, 1971, 1499, 5424, 0, 1, 5736, 0, 0, 0]
+Total Markov Counts: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Chimp Average: 2554.230769230769
+Markov Average: 0.0
+
+Data File: twenty_five_sentences.txt Length: 4
+Total Chimp Counts: [4081, 2985, 4932, 4104, 1881, 1187, 74, 3639, 1449, 1, 140, 381, 2276, 1689, 842, 2199, 1, 550, 7132, 2451, 58, 2, 3584, 0, 16, 0]
+Total Markov Counts: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Chimp Average: 1755.923076923077
+Markov Average: 0.0
+Data File: twenty_five_sentences.txt Length: 6
+Total Chimp Counts: [8442, 8502, 9436, 8735, 3411, 3587, 83, 8843, 4887, 1, 886, 2561, 5674, 7515, 2626, 6083, 1, 3802, 9740, 5424, 314, 2, 8444, 0, 64, 0]
+Total Markov Counts: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Chimp Average: 4194.7307692307695
+Markov Average: 0.0
+Data File: twenty_five_sentences.txt Length: 8
+Total Chimp Counts: [9790, 9890, 9969, 9907, 4414, 6275, 82, 9923, 8361, 1, 3368, 6528, 8732, 9778, 4980, 8797, 1, 8246, 9991, 7698, 1124, 2, 9862, 0, 256, 0]
+Total Markov Counts: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Chimp Average: 5691.346153846154
+Markov Average: 0.0
+Data File: twenty_five_sentences.txt Length: 10
+Total Chimp Counts: [9988, 9993, 9999, 9996, 5519, 8329, 82, 9995, 9730, 1, 6886, 9148, 9745, 9980, 7149, 9806, 1, 9771, 9999, 9003, 2759, 2, 9988, 0, 935, 0]
+Total Markov Counts: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Chimp Average: 6492.461538461538
+Markov Average: 0.0
+
+Data File: fifty_sentences.txt Length: 4
+Total Chimp Counts: [4493, 5759, 6971, 5027, 8796, 6328, 5090, 5732, 1445, 1, 274, 6474, 3653, 1564, 3108, 4871, 1, 3658, 8904, 6680, 871, 51, 3323, 0, 16, 0]
+Total Markov Counts: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0]
+Chimp Average: 3580.3846153846152
+Markov Average: 0.11538461538461539
+Data File: fifty_sentences.txt Length: 6
+Total Chimp Counts: [8529, 9525, 9628, 9135, 9987, 9457, 9379, 9455, 4927, 1, 1827, 9825, 8551, 6836, 7598, 7984, 1, 8757, 9959, 9748, 3256, 250, 7166, 0, 64, 0]
+Total Markov Counts: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Chimp Average: 6224.807692307692
+Markov Average: 0.0
+Data File: fifty_sentences.txt Length: 8
+Total Chimp Counts: [9844, 9967, 9988, 9942, 10000, 9953, 9985, 9977, 8206, 1, 4981, 9999, 9891, 9628, 9646, 9283, 1, 9918, 10000, 9995, 6733, 731, 9238, 0, 256, 0]
+Total Markov Counts: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Chimp Average: 7237.038461538462
+Markov Average: 0.0
+Data File: fifty_sentences.txt Length: 10
+Total Chimp Counts: [9995, 9998, 10000, 9993, 10000, 9998, 9999, 9998, 9641, 1, 7864, 10000, 9995, 9972, 9976, 9756, 1, 9998, 10000, 10000, 8940, 1555, 9838, 0, 1013, 0]
+Total Markov Counts: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Chimp Average: 7635.807692307692
+Markov Average: 0.0
+
+Data File: one_hundred_sentences.txt Length: 4
+Total Chimp Counts: [6545, 7934, 8222, 8199, 9464, 8062, 7521, 7012, 1707, 760, 531, 7705, 5768, 4553, 3605, 5739, 560, 9423, 9757, 7402, 933, 917, 4572, 0, 81, 0]
+Total Markov Counts: [17, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0]
+Chimp Average: 4883.538461538462
+Markov Average: 1.2307692307692308
+Data File: one_hundred_sentences.txt Length: 6
+Total Chimp Counts: [9491, 9914, 9891, 9969, 9997, 9870, 9919, 9770, 4720, 3351, 2280, 9909, 9342, 9239, 7846, 7658, 6806, 9998, 9999, 9865, 2673, 4317, 8356, 0, 729, 0]
+Total Markov Counts: [17, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Chimp Average: 7150.346153846154
+Markov Average: 0.7692307692307693
+Data File: one_hundred_sentences.txt Length: 8
+Total Chimp Counts: [9963, 9999, 9995, 9999, 10000, 9998, 9999, 9998, 7685, 6158, 4934, 9999, 9980, 9973, 9669, 8749, 9825, 10000, 10000, 9999, 4978, 7874, 9733, 0, 4726, 0]
+Total Markov Counts: [17, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Chimp Average: 8239.73076923077
+Markov Average: 0.7692307692307693
+Data File: one_hundred_sentences.txt Length: 10
+Total Chimp Counts: [10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 9372, 8123, 7435, 10000, 9999, 10000, 9962, 9360, 9989, 10000, 10000, 10000, 6916, 9532, 9982, 0, 8929, 0]
+Total Markov Counts: [17, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Chimp Average: 8830.73076923077
+Markov Average: 0.7692307692307693
+
+Data File: five_hundred_sentences.txt Length: 4
+Total Chimp Counts: [5864, 8907, 9878, 9824, 9959, 9658, 9792, 8964, 4219, 3888, 5113, 9827, 7227, 6797, 5721, 9996, 3280, 9971, 9917, 7581, 4883, 7866, 8846, 1, 2288, 0]
+Total Markov Counts: [211, 1, 0, 0, 0, 0, 0, 36, 67, 0, 0, 0, 4, 0, 44, 0, 0, 0, 11, 678, 0, 0, 15, 0, 0, 0]
+Chimp Average: 6933.346153846154
+Markov Average: 41.03846153846154
+Data File: five_hundred_sentences.txt Length: 6
+Total Chimp Counts: [9005, 9967, 10000, 10000, 10000, 9995, 10000, 9990, 8153, 9482, 8752, 9998, 9628, 9549, 9464, 10000, 8425, 10000, 10000, 9805, 8528, 9926, 9981, 1, 6496, 0]
+Total Markov Counts: [392, 0, 0, 0, 0, 0, 0, 33, 157, 0, 0, 0, 0, 0, 47, 0, 0, 0, 0, 2492, 0, 0, 0, 0, 0, 0]
+Chimp Average: 8736.346153846154
+Markov Average: 120.03846153846153
+Data File: five_hundred_sentences.txt Length: 8
+Total Chimp Counts: [9878, 9999, 10000, 10000, 10000, 10000, 10000, 9999, 9767, 9988, 9828, 10000, 9973, 9977, 9982, 10000, 9819, 10000, 10000, 9993, 9764, 9998, 10000, 1, 9120, 0]
+Total Markov Counts: [645, 0, 0, 0, 0, 0, 0, 33, 347, 0, 0, 0, 0, 0, 47, 0, 0, 0, 0, 5193, 0, 0, 0, 0, 0, 0]
+Chimp Average: 9157.153846153846
+Markov Average: 240.96153846153845
+Data File: five_hundred_sentences.txt Length: 10
+Total Chimp Counts: [9992, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 9987, 10000, 9982, 10000, 9999, 9998, 10000, 10000, 9990, 10000, 10000, 10000, 9970, 10000, 10000, 1, 9891, 0]
+Total Markov Counts: [899, 0, 0, 0, 0, 0, 0, 33, 694, 0, 0, 0, 0, 0, 47, 0, 0, 0, 0, 7643, 0, 0, 0, 0, 0, 0]
+Chimp Average: 9223.461538461539
+Markov Average: 358.3076923076923

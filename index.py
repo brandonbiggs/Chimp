@@ -39,10 +39,10 @@ if __name__ == '__main__':
     # print("Markov Model Dynamic:")
     # red_rhyme_mm_dynamic()
     # print("CHIMP")
-    # red_rhyme_dynamic()
+    red_rhyme_dynamic()
     # print("Markov Model")
-    # red_rhyme_markov_model()
-    tongue_twisters()
+    red_rhyme_markov_model()
+    # tongue_twisters()
 
 
 

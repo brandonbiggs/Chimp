@@ -111,17 +111,13 @@ class ProcessDataForMM:
         self.observed_nodes = self.hidden_nodes
 
     def __setup_transition_probabilities(self):
-        # print("Transition Probs:", self.transition_probs)
         for key, value in self.transition_probs.items():
             if len(value) > 1:
                 total = 0
                 for sub_key, sub_value in value.items():
                     total += sub_value
                 for sub_key, sub_value in value.items():
-                    # print("Sub Value:", sub_value, "Sub key:", sub_key)
-                    # print(self.transition_probs.get(key))
                     self.transition_probs.get(key)[sub_key] = sub_value/total
-            # print("Key:", key, "Value:", value)
 
     def __setup_emission_probabilities(self):
         """
