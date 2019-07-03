@@ -35,7 +35,7 @@ def tongue_twister_chimp(letter: str, file_name: str, size_of_model: int,
 
     sentence_generator = ChimpSentenceGenerator(chimp, length)
     sentences = sentence_generator.create_all_sentences(sentence_iterations)
-    for sentence in sentences:
-        print(sentence)
+    # for sentence in sentences:
+        # print(sentence)
     # print("Number of sentences:", len(sentences))
     return len(sentences)

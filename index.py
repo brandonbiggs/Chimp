@@ -20,7 +20,7 @@ def tongue_twisters():
     pickle_mm_file = "pickle_files/test_graph_mm.pickle"
     model = "chimp"
     letter = "a"
-    sentence_length = 9
+    sentence_length = []
     iterations = 1000
 
     # train(data_file, pickle_file, model, False)

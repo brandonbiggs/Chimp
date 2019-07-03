@@ -38,9 +38,9 @@ def train(text_file="data/book_tiny.txt",
             print("Your file will be saved to: ", pickle_file)
     # Process the text file
     if model == "chimp":
-        data = ProcessDataForChimp(text_file)
+        data = ProcessDataForChimp(text_file, False)
     elif model == "markovmodel":
-        data = ProcessDataForMM(text_file)
+        data = ProcessDataForMM(text_file, False)
     else:
         raise Exception("Unknown model. Please use either 'chimp' or 'markovmodel'")
 
@@ -55,6 +55,13 @@ def train(text_file="data/book_tiny.txt",
         pickle.dump(hidden_markov_model, handle, protocol=pickle.HIGHEST_PROTOCOL)
     if verbose:
         print("Finished training. Saved Hidden Markov Model to pickle file.")
+
+
+def array_average(array: []) -> float:
+    total = 0
+    for value in array:
+        total += value
+    return total/len(array)
 
 
 def read_text_file(file_name) -> str:

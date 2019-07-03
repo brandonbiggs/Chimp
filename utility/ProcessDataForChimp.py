@@ -153,7 +153,8 @@ class ProcessDataForChimp:
 
         for pos in self.parts_of_speech:
             for inner_pos in self.parts_of_speech:
-                if inner_pos not in self.transition_probs.get(pos).keys():
-                    self.transition_probs.get(pos).update({inner_pos: 0.0})
+                if self.transition_probs.get(pos) is not None:
+                    if inner_pos not in self.transition_probs.get(pos).keys():
+                        self.transition_probs.get(pos).update({inner_pos: 0.0})
 
 
