@@ -41,7 +41,7 @@ if __name__ == '__main__':
     # print("CHIMP")
     red_rhyme_dynamic()
     # print("Markov Model")
-    red_rhyme_markov_model()
+    # red_rhyme_markov_model()
     # tongue_twisters()
 
 

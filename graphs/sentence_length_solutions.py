@@ -51,4 +51,4 @@ layout = go.Layout(
 )
 
 fig = go.Figure(data=data, layout=layout)
-py.offline.plot(fig, filename='data/sentence_length_solutions.html')
+py.offline.plot(fig, filename='graphs/sentence_length_solutions.html')

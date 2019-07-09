@@ -94,7 +94,7 @@ class ChimpSentenceGenerator:
 
     def create_possible_sentence_structure(self) -> []:
         """
-        This currently isn't used for anything
+        # TODO - This still has bugs, but it's not used
         :return:
         """
         sentence_structure = []

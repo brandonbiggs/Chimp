@@ -2,6 +2,7 @@ from markovs.HiddenMarkovModel import *
 from markovs.ConstrainedHiddenMarkovProcess import *
 from markovs.ChimpSentenceGenerator import *
 from utility.ProcessDataForChimp import *
+from markovs.MarkovTree import *
 
 
 def red_rhyme_dynamic() -> None:
@@ -30,9 +31,12 @@ def red_rhyme_dynamic() -> None:
     NHHMM.process()
     NHHMM.print_new_markov_probabilities()
 
+    tree = MarkovTree(NHHMM, length)
+
     # Print the sentences
-    sentence_generator = ChimpSentenceGenerator(NHHMM, 4)
-    sentences = sentence_generator.create_all_sentences()
-    for sentence in sentences:
-        print(sentence)
-    print("Number of sentences:", len(sentences))
+    # sentence_generator = ChimpSentenceGenerator(NHHMM, 4)
+    # sentence_generator.create_possible_sentence_structure()
+    # sentences = sentence_generator.create_all_sentences()
+    # for sentence in sentences:
+    #     print(sentence)
+    # print("Number of sentences:", len(sentences))
