@@ -34,15 +34,13 @@ def tongue_twisters():
     print(num_sentences)
 
 if __name__ == '__main__':
-    # test = ProcessDataForMM("data/ccil.txt", False)
-    # test.debug_print()
     # print("Markov Model Dynamic:")
     # red_rhyme_mm_dynamic()
     # print("CHIMP")
-    red_rhyme_dynamic()
+    # red_rhyme_dynamic()
     # print("Markov Model")
     # red_rhyme_markov_model()
-    # tongue_twisters()
+    tongue_twisters()
 
 
 

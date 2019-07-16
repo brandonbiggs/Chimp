@@ -3,6 +3,7 @@ import pickle
 from utility.ProcessDataForChimp import ProcessDataForChimp
 from utility.ProcessDataForMM import ProcessDataForMM
 from markovs.HiddenMarkovModel import HiddenMarkovModel
+import re
 
 
 def get_rand_num(first=0, second=1):
@@ -17,7 +18,7 @@ def get_rand_num(first=0, second=1):
     return random.uniform(first, second)
 
 
-def train(text_file="data/book_tiny.txt",
+def train(number_of_sentences: int, text_file="data/book_tiny.txt",
           pickle_file="pickle_files/new_file.pickle", model="chimp", verbose=True) -> None:
     """
     Create the hidden markov model and store it for use later
@@ -38,9 +39,9 @@ def train(text_file="data/book_tiny.txt",
             print("Your file will be saved to: ", pickle_file)
     # Process the text file
     if model == "chimp":
-        data = ProcessDataForChimp(text_file, False)
+        data = ProcessDataForChimp(text_file,number_of_sentences, False)
     elif model == "markovmodel":
-        data = ProcessDataForMM(text_file, False)
+        data = ProcessDataForMM(text_file, number_of_sentences, False)
     else:
         raise Exception("Unknown model. Please use either 'chimp' or 'markovmodel'")
 
@@ -67,16 +68,22 @@ def array_average(array: []) -> float:
 def read_text_file(file_name) -> str:
     """
     Reads the text file
-    :return: None
+    :return: file contents
     """
     file = open(file_name, "r")
     words_from_file = file.read()
     file.close()
     newstring = ""
+    words_from_file = re.sub(r" (?='|\.|\,|\?| |\!)", "", words_from_file)
+    words_from_file = re.sub(r"(<p>)", "", words_from_file)
     for character in words_from_file:
-        if character not in ";\n,'\"":
+        # We don't care about questions so we'll just treat them like regular
+        #   sentences
+        if character == "?" or character == "!":
+            newstring += "."
+        elif character not in ";\n\"<>[]@#$%^&*()-_+={}/\\" and not character.isdigit():
             newstring += character
-        else:
-            newstring += " "
+        # else:
+        #     newstring += ""
     # return words_from_file
     return newstring

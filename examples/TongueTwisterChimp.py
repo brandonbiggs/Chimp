@@ -15,6 +15,7 @@ def tongue_twister_chimp(letter: str, file_name: str, size_of_model: int,
         train the dataset every time. We should only need to do that once and then
         load it in.
     :param size_of_model: The number of layers in our model
+    :param sentence_iterations
     :return: int: Returns the number of unique generated sentences
     """
     # Load our Hidden Markov Model

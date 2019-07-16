@@ -1,6 +1,6 @@
 import utility.Utility as util
 from progress.bar import Bar
-import re
+import utility.CountSentences as countSentences
 
 
 class ProcessDataForMM:
@@ -14,7 +14,8 @@ class ProcessDataForMM:
 
     transition_probs = {}
 
-    def __init__(self, file_name: str, progress_bar=True, initial_prob_extensive = False) -> None:
+    def __init__(self, file_name: str, number_of_sentences, progress_bar = True, initial_prob_extensive = False) -> \
+            None:
         """
 
         :param file_name:
@@ -24,6 +25,7 @@ class ProcessDataForMM:
             sentence for initial probabilities
         """
         self.initial_prob_extensive = initial_prob_extensive
+        self.number_of_sentences = number_of_sentences
         # if progress_bar:
         #     self.__init_with_progress(file_name)
         # else:
@@ -33,13 +35,23 @@ class ProcessDataForMM:
     def __init_with_progress(self, file_name):
         self.file_name = file_name
         bar = Bar('Processing', max=6)
-        self.file_contents = util.read_text_file(self.file_name)
+        # self.file_contents = util.read_text_file(self.file_name)
+        contents = countSentences.CountSentences(self.file_name)
+        contents.shuffle_sentences(10)
+        self.file_contents = \
+            contents.sentence_list_as_string(contents.get_sentences(self.number_of_sentences))
+
         bar.next()
         bar.finish()
 
     def __init_without_progress_bar(self, file_name):
         self.file_name = file_name
-        self.file_contents = util.read_text_file(self.file_name)
+        # self.file_contents = util.read_text_file(self.file_name)
+        contents = countSentences.CountSentences(self.file_name)
+        contents.shuffle_sentences(10)
+        self.file_contents = \
+            contents.sentence_list_as_string(contents.get_sentences(self.number_of_sentences))
+
         self.__step_through_sentences()
         self.__setup_initial_probability()
         self.__setup_emission_probabilities()

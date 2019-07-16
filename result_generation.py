@@ -1,7 +1,7 @@
 from utility.interactive import *
 from utility.Utility import *
 from utility.ProcessDataForMM import *
-from utility.SendEmail import SendEmail
+# from utility.SendEmail import SendEmail
 from examples.TongueTwisterChimp import *
 from examples.TongueTwisterMarkovModel import *
 from string import ascii_lowercase
@@ -9,9 +9,10 @@ import time
 
 
 def graph_two():
-    iterations = 10000
+    iterations = 100000
+    number_of_sentences = [25, 250, 2500, 25000, 250000, 2500000]
     sentence_length = [
-        # 2,
+        2,
         4,
         6,
         8,
@@ -20,40 +21,42 @@ def graph_two():
         14,
         16
     ]
-    data_file = "data/one_hundred_sentences.txt"
-    results_file = "results/graph2.txt"
+    data_file = "data/book.txt"
+    results_file = "results/test_graph3.txt"
 
-    pickle_file = "pickle_files/graph2.pickle"
-    pickle_mm_file = "pickle_files/graph2_mm.pickle"
+    pickle_file = "pickle_files/test_graph2.pickle"
+    pickle_mm_file = "pickle_files/test_graph2_mm.pickle"
 
-    # train(data_file, pickle_file, "chimp", False)
-    # train(data_file, pickle_mm_file, "markovmodel", False)
-    # print("Training finished")
-    for length in sentence_length:
-        results = ""
-        chimp_sentences_total = []
-        markov_sentences_total = []
-        meta_info = "\nData File: " + str(data_file) + " Length: " + str(length) + "\n"
+    for number in number_of_sentences:
+        train(number, data_file, pickle_file, "chimp", False)
+        train(number, data_file, pickle_mm_file, "markovmodel", False)
+        # print("Training finished")
+        for length in sentence_length:
+            results = ""
+            chimp_sentences_total = []
+            markov_sentences_total = []
+            meta_info = "\nData File: " + str(data_file) + " Length: " + str(length) + " Number of sentences: " + \
+                        str(number) + "\n"
 
-        for letter in ascii_lowercase:
-            chimp_sentences = tongue_twister_chimp(letter, pickle_file, length, iterations)
-            markov_sentences = tongue_twister_markov_model(letter, pickle_mm_file, length, iterations)
-            chimp_sentences_total.append(chimp_sentences)
-            markov_sentences_total.append(markov_sentences)
+            for letter in ascii_lowercase:
+                chimp_sentences = tongue_twister_chimp(letter, pickle_file, length, iterations)
+                markov_sentences = tongue_twister_markov_model(letter, pickle_mm_file, length, iterations)
+                chimp_sentences_total.append(chimp_sentences)
+                markov_sentences_total.append(markov_sentences)
 
-            results += "\nLetter:" + str(letter) + "\nChimp: " + str(chimp_sentences) + \
-                       "\nMarkov Sentences: " + str(markov_sentences) + "\n"
+                results += "\nLetter:" + str(letter) + "\nChimp: " + str(chimp_sentences) + \
+                           "\nMarkov Sentences: " + str(markov_sentences) + "\n"
 
-        counts = "Total Chimp Counts: " + str(chimp_sentences_total) + \
-                 "\nTotal Markov Counts: " + str(markov_sentences_total) + \
-                 "\nChimp Average: " + str(array_average(chimp_sentences_total)) + \
-                 "\nMarkov Average: " + str(array_average(markov_sentences_total))
-        f = open(results_file, "a")
-        f.write(meta_info)
-        f.write(counts)
-        # f.write(str(results))
-        # f.write(counts)
-        f.close()
+            counts = "Total Chimp Counts: " + str(chimp_sentences_total) + \
+                     "\nTotal Markov Counts: " + str(markov_sentences_total) + \
+                     "\nChimp Average: " + str(array_average(chimp_sentences_total)) + \
+                     "\nMarkov Average: " + str(array_average(markov_sentences_total))
+            f = open(results_file, "a")
+            f.write(meta_info)
+            f.write(counts)
+            # f.write(str(results))
+            # f.write(counts)
+            f.close()
 
 
 def graph_one():

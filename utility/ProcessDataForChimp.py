@@ -3,6 +3,7 @@ from nltk.tokenize import RegexpTokenizer
 from progress.bar import Bar
 # from utility.Utility import read_text_file
 import utility.Utility
+import utility.CountSentences
 
 
 nltk.download('tagsets', quiet=True)
@@ -17,6 +18,8 @@ class ProcessDataForChimp:
     tokens = []
     parts_of_speech = []
 
+    number_of_sentences = 0
+
     # DONE - Wouldn't be a bad idea to verify that these are working correctly however
     observed_nodes = []  # List of every word that's possible
     initial_probs = {}  # Dictionary (key: pos, value: probability of pos/count of pos)
@@ -24,13 +27,14 @@ class ProcessDataForChimp:
     hidden_nodes = []  # This is a list of dictionaries for each POS
     transition_probs = {}
 
-    def __init__(self, file_name: str, progress_bar=True) -> None:
+    def __init__(self, file_name: str, number_of_sentences, progress_bar=True) -> None:
         """
 
         :param file_name: Name of the file to read and create probabilities from
         :param progress_bar: boolean, True creates a progress bar to follow. False
             doesn't.
         """
+        self.number_of_sentences = number_of_sentences
         if progress_bar:
             self.__init_with_progress(file_name)
         else:
@@ -39,7 +43,11 @@ class ProcessDataForChimp:
     def __init_with_progress(self, file_name: str) -> None:
         self.file_name = file_name
         bar = Bar('Processing', max=6)
-        self.file_contents = utility.Utility.read_text_file(self.file_name)
+        contents = utility.CountSentences.CountSentences(self.file_name)
+        contents.shuffle_sentences(10)
+        self.file_contents = \
+            contents.sentence_list_as_string(contents.get_sentences(self.number_of_sentences))
+        # self.file_contents = utility.Utility.read_text_file(self.file_name)
         bar.next()
         self.tokenize_and_tag_text()
         bar.next()
@@ -57,7 +65,12 @@ class ProcessDataForChimp:
     def __init_without_progress_bar(self, file_name: str) -> None:
         self.file_name = file_name
 
-        self.file_contents = utility.Utility.read_text_file(self.file_name)
+        # self.file_contents = utility.Utility.read_text_file(self.file_name)
+        contents = utility.CountSentences.CountSentences(self.file_name)
+        contents.shuffle_sentences(10)
+        self.file_contents = \
+            contents.sentence_list_as_string(contents.get_sentences(self.number_of_sentences))
+
         self.tokenize_and_tag_text()
         self.create_pos_dictionaries()
 
