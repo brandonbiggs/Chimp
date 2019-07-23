@@ -1,0 +1,109 @@
+
+Data File: data/w_fic_2012.txt Length: 2 Number of sentences: 1000
+Total Chimp Counts: [7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Total Markov Counts: [4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Chimp Average: 0.2692307692307692
+Markov Average: 0.15384615384615385
+Letter:a
+Chimp: 7
+Markov Sentences: 4
+
+Letter:b
+Chimp: 0
+Markov Sentences: 0
+
+Letter:c
+Chimp: 0
+Markov Sentences: 0
+
+Letter:d
+Chimp: 0
+Markov Sentences: 0
+
+Letter:e
+Chimp: 0
+Markov Sentences: 0
+
+Letter:f
+Chimp: 0
+Markov Sentences: 0
+
+Letter:g
+Chimp: 0
+Markov Sentences: 0
+
+Letter:h
+Chimp: 0
+Markov Sentences: 0
+
+Letter:i
+Chimp: 0
+Markov Sentences: 0
+
+Letter:j
+Chimp: 0
+Markov Sentences: 0
+
+Letter:k
+Chimp: 0
+Markov Sentences: 0
+
+Letter:l
+Chimp: 0
+Markov Sentences: 0
+
+Letter:m
+Chimp: 0
+Markov Sentences: 0
+
+Letter:n
+Chimp: 0
+Markov Sentences: 0
+
+Letter:o
+Chimp: 0
+Markov Sentences: 0
+
+Letter:p
+Chimp: 0
+Markov Sentences: 0
+
+Letter:q
+Chimp: 0
+Markov Sentences: 0
+
+Letter:r
+Chimp: 0
+Markov Sentences: 0
+
+Letter:s
+Chimp: 0
+Markov Sentences: 0
+
+Letter:t
+Chimp: 0
+Markov Sentences: 0
+
+Letter:u
+Chimp: 0
+Markov Sentences: 0
+
+Letter:v
+Chimp: 0
+Markov Sentences: 0
+
+Letter:w
+Chimp: 0
+Markov Sentences: 0
+
+Letter:x
+Chimp: 0
+Markov Sentences: 0
+
+Letter:y
+Chimp: 0
+Markov Sentences: 0
+
+Letter:z
+Chimp: 0
+Markov Sentences: 0

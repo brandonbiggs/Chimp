@@ -20,12 +20,12 @@ class ProcessDataForChimp:
 
     number_of_sentences = 0
 
-    # DONE - Wouldn't be a bad idea to verify that these are working correctly however
-    observed_nodes = []  # List of every word that's possible
-    initial_probs = {}  # Dictionary (key: pos, value: probability of pos/count of pos)
-    emission_probs = {}
-    hidden_nodes = []  # This is a list of dictionaries for each POS
-    transition_probs = {}
+    # # DONE - Wouldn't be a bad idea to verify that these are working correctly however
+    # observed_nodes = []  # List of every word that's possible
+    # initial_probs = {}  # Dictionary (key: pos, value: probability of pos/count of pos)
+    # emission_probs = {}
+    # hidden_nodes = []  # This is a list of dictionaries for each POS
+    # transition_probs = {}
 
     def __init__(self, file_name: str, number_of_sentences, progress_bar=True) -> None:
         """
@@ -34,6 +34,12 @@ class ProcessDataForChimp:
         :param progress_bar: boolean, True creates a progress bar to follow. False
             doesn't.
         """
+        # DONE - Wouldn't be a bad idea to verify that these are working correctly however
+        self.observed_nodes = []  # List of every word that's possible
+        self.initial_probs = {}  # Dictionary (key: pos, value: probability of pos/count of pos)
+        self.emission_probs = {}
+        self.hidden_nodes = []  # This is a list of dictionaries for each POS
+        self.transition_probs = {}
         self.number_of_sentences = number_of_sentences
         if progress_bar:
             self.__init_with_progress(file_name)
@@ -99,6 +105,7 @@ class ProcessDataForChimp:
             if token[0] not in self.observed_nodes:
                 self.observed_nodes.append(token[0])
             # Creating count of each token
+            # print(token)
             self.initial_probs.setdefault(token[1], []).append(1)
             self.emission_probs.setdefault(token[1], []).append([token[0], 1.0])
 

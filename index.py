@@ -1,4 +1,4 @@
-from utility.interactive import *
+from utility.interactive import InteractiveChimp
 from examples.RedRhyme import red_rhyme
 from examples.RedRhymeMM import red_rhyme_markov_model
 from examples.FirstDog import first_dog
@@ -12,6 +12,7 @@ from utility.Utility import *
 from utility.ProcessDataForMM import *
 from examples.TongueTwisterChimp import *
 from examples.TongueTwisterMarkovModel import *
+from result_generation import graph
 
 
 def tongue_twisters():
@@ -33,14 +34,32 @@ def tongue_twisters():
     print("Markov Model")
     print(num_sentences)
 
+
+def graph_results(paramaters):
+    try:
+        graph(parameters.get("iterations"), parameters.get("sentences"), parameters.get("length"),
+              parameters.get("data_file"), parameters.get("results_file"), parameters.get("pickle_file"),
+              parameters.get("pickle_mm_file"))
+    except:
+        print("Error while running the python script! Potentially missing parameters.")
+
+
 if __name__ == '__main__':
+    # interactive = InteractiveChimp()
+    # parameters = interactive.argument_parser()
+    # graph_results(parameters)
+
+    # print(parameters)
+
+    print("Hello!")
+    # red_rhyme()
     # print("Markov Model Dynamic:")
     # red_rhyme_mm_dynamic()
     # print("CHIMP")
     # red_rhyme_dynamic()
     # print("Markov Model")
     # red_rhyme_markov_model()
-    tongue_twisters()
+    # tongue_twisters()
 
 
 

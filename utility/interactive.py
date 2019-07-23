@@ -14,15 +14,30 @@ import pickle
 from pathlib import Path
 
 
-class InteractiveNHHMarkov:
+class InteractiveChimp:
 
     def __init__(self):
         pass
 
     @staticmethod
+    def interactive_graph(args):
+        parameters = {}
+        print(parameters)
+        for arg in args:
+            item = arg.split(":")
+            if item[1].isdigit():
+                parameters.update({item[0]: int(item[1])})
+            else:
+                parameters.update({item[0]: item[1]})
+        return parameters
+
+    @staticmethod
     def run_examples(example=1, size=7) -> None:
         """
-
+        # TODO - Add more to these
+        :param example:
+        :param size:
+        :return:
         """
         if example == 1:
             first_dog()
@@ -180,6 +195,7 @@ class InteractiveNHHMarkov:
         parser.add_argument('-e', "--example", nargs='?', const=1,
                             help='Run a specific example.',
                             type=int, metavar="1, 2, 3")
+        parser.add_argument('-g', '--graph', nargs='+', help='Run a graph generating result')
         parser.add_argument('--hidden', action="store_true",
                             help=hidden_flag)
         parser.add_argument('-i', "--interactive",
@@ -202,7 +218,10 @@ class InteractiveNHHMarkov:
                             version='%(prog)s {}'.format(version))
 
         args = parser.parse_args()
-        # print(args)
+
+        # -g --graph
+        if args.graph:
+            return self.interactive_graph(args.graph)
 
         # --tags Print the NLTK Tags
         if args.tags:
@@ -216,6 +235,7 @@ class InteractiveNHHMarkov:
                 parameter = True
 
         # --observed
+        # TODO - Test more
         if args.observed:
             parameter = True
             # Print the observed node input info
@@ -263,6 +283,7 @@ class InteractiveNHHMarkov:
         elif args.train:
             file_name = args.train
             if file_name:
+                # todo - update these functions
                 train(file_name)
             else:
                 train()
@@ -278,13 +299,16 @@ class InteractiveNHHMarkov:
             end = time.time()
             print("Execution time:", end - start)
 
-    # TODO
+        return None
+
     @staticmethod
     def sanitize_inputs(self, question) -> str:
         """
+        TODO
         Gets the input from the user and ensures that it doesn't have anything
             we don't want in it, such as symbols, etc.
-        :param string:
+        :param self:
+        :param question:
         :return:
         """
         user_input = ""
