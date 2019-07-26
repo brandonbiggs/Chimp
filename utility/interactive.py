@@ -22,13 +22,14 @@ class InteractiveChimp:
     @staticmethod
     def interactive_graph(args):
         parameters = {}
-        print(parameters)
+        # print(args)
         for arg in args:
             item = arg.split(":")
             if item[1].isdigit():
                 parameters.update({item[0]: int(item[1])})
             else:
                 parameters.update({item[0]: item[1]})
+        # print(parameters)
         return parameters
 
     @staticmethod

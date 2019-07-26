@@ -3,16 +3,16 @@ import random
 
 
 class CountSentences:
-    num_sentences = 0
-    sentences = []
 
     def __init__(self, text_file):
         file = utility.Utility.read_text_file(text_file)
         filtered = filter(None, file.split("."))
+        self.num_sentences = 0
+        self.sentences = []
         self.sentences = list(filtered)
         self.num_sentences = len(self.sentences)
 
-    def shuffle_sentences(self, amount_of_shuffles = 1) -> None:
+    def shuffle_sentences(self, amount_of_shuffles=1) -> None:
         for i in range(amount_of_shuffles):
             random.shuffle(self.sentences)
 

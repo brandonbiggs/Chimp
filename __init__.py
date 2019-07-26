@@ -1,4 +1,4 @@
-version_info = (0, 4, 0)
+version_info = (0, 0, 6)
 version = '.'.join(str(c) for c in version_info) + "pre-alpha"
 
 nltk_tags = {

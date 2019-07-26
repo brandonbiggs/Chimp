@@ -43,7 +43,7 @@ def graph(iterations: int, number_of_sentences: int, sentence_length: int,
     f = open(results_file, "a")
     f.write(meta_info)
     f.write(counts)
-    f.write(str(results))
+    # f.write(str(results))
     f.close()
 
 

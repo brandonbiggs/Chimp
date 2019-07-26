@@ -11,29 +11,24 @@ nltk.download('averaged_perceptron_tagger', quiet=True)
 
 
 class ProcessDataForChimp:
-    file_name = ""
-    file_contents = ""
-    processed_output = []
-    tokenized_text = ""
-    tokens = []
-    parts_of_speech = []
 
-    number_of_sentences = 0
-
-    # # DONE - Wouldn't be a bad idea to verify that these are working correctly however
-    # observed_nodes = []  # List of every word that's possible
-    # initial_probs = {}  # Dictionary (key: pos, value: probability of pos/count of pos)
-    # emission_probs = {}
-    # hidden_nodes = []  # This is a list of dictionaries for each POS
-    # transition_probs = {}
-
-    def __init__(self, file_name: str, number_of_sentences, progress_bar=True) -> None:
+    def __init__(self, file: str, number_of_sentences, progress_bar=True, file_contents=False) -> None:
         """
-
-        :param file_name: Name of the file to read and create probabilities from
+        :param file: Name of the file to read and create probabilities from
+        :param number_of_sentences:
         :param progress_bar: boolean, True creates a progress bar to follow. False
             doesn't.
+        :param file_contents: If this is set to true, file is not the name of a file,
+        but it's actually the contents of a file. The purpose of this is to make sure
+        chimp and markov model are using the same exact sentences. Verbose and text_contents
+        should not both be set to True
         """
+        self.file_name = ""
+        self.file_contents = ""
+        self.processed_output = []
+        self.tokenized_text = ""
+        self.tokens = []
+        self.parts_of_speech = []
         # DONE - Wouldn't be a bad idea to verify that these are working correctly however
         self.observed_nodes = []  # List of every word that's possible
         self.initial_probs = {}  # Dictionary (key: pos, value: probability of pos/count of pos)
@@ -41,18 +36,22 @@ class ProcessDataForChimp:
         self.hidden_nodes = []  # This is a list of dictionaries for each POS
         self.transition_probs = {}
         self.number_of_sentences = number_of_sentences
+        self.file_contents_bool = file_contents
         if progress_bar:
-            self.__init_with_progress(file_name)
+            self.__init_with_progress(file)
         else:
-            self.__init_without_progress_bar(file_name)
+            self.__init_without_progress_bar(file)
 
     def __init_with_progress(self, file_name: str) -> None:
         self.file_name = file_name
         bar = Bar('Processing', max=6)
-        contents = utility.CountSentences.CountSentences(self.file_name)
-        contents.shuffle_sentences(10)
-        self.file_contents = \
-            contents.sentence_list_as_string(contents.get_sentences(self.number_of_sentences))
+        if self.file_contents_bool:
+            self.file_contents = self.file_name
+        else:
+            contents = utility.CountSentences.CountSentences(self.file_name)
+            contents.shuffle_sentences(10)
+            self.file_contents = \
+                contents.sentence_list_as_string(contents.get_sentences(self.number_of_sentences))
         # self.file_contents = utility.Utility.read_text_file(self.file_name)
         bar.next()
         self.tokenize_and_tag_text()
@@ -72,10 +71,13 @@ class ProcessDataForChimp:
         self.file_name = file_name
 
         # self.file_contents = utility.Utility.read_text_file(self.file_name)
-        contents = utility.CountSentences.CountSentences(self.file_name)
-        contents.shuffle_sentences(10)
-        self.file_contents = \
-            contents.sentence_list_as_string(contents.get_sentences(self.number_of_sentences))
+        if self.file_contents_bool:
+            self.file_contents = self.file_name
+        else:
+            contents = utility.CountSentences.CountSentences(self.file_name)
+            contents.shuffle_sentences(10)
+            self.file_contents = \
+                contents.sentence_list_as_string(contents.get_sentences(self.number_of_sentences))
 
         self.tokenize_and_tag_text()
         self.create_pos_dictionaries()

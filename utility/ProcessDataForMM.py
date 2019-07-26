@@ -4,33 +4,39 @@ import utility.CountSentences as countSentences
 
 
 class ProcessDataForMM:
-    file_name = ""
-    file_contents = ""
-    hidden_nodes = []
-    observed_nodes = []
-    emission_probs = {}
-    first_word_of_sentence = []
-    initial_probs = {}
 
-    transition_probs = {}
-
-    def __init__(self, file_name: str, number_of_sentences, progress_bar = True, initial_prob_extensive = False) -> \
+    def __init__(self, file_name: str, number_of_sentences, progress_bar = True, initial_prob_extensive = True,
+                 file_contents_bool=False) -> \
             None:
         """
 
         :param file_name:
+        :param number_of_sentences:
         :param progress_bar:
         :param initial_prob_extensive: True means use only the first word of the sentence to
             set the initial probabilities. False means use all words except last word of
             sentence for initial probabilities
+        :param file_contents: If this is set to true, file is not the name of a file,
+            but it's actually the contents of a file. The purpose of this is to make sure
+            chimp and markov model are using the same exact sentences. Verbose and text_contents
+            should not both be set to True
         """
+        self.file_name = ""
+        self.file_contents = ""
+        self.hidden_nodes = []
+        self.observed_nodes = []
+        self.emission_probs = {}
+        self.first_word_of_sentence = []
+        self.initial_probs = {}
+
+        self.transition_probs = {}
         self.initial_prob_extensive = initial_prob_extensive
         self.number_of_sentences = number_of_sentences
         # if progress_bar:
         #     self.__init_with_progress(file_name)
         # else:
         #     self.__init_without_progress_bar(file_name)
-        self.__init_without_progress_bar(file_name)
+        self.__init_without_progress_bar(file_name, file_contents_bool)
 
     def __init_with_progress(self, file_name):
         self.file_name = file_name
@@ -44,13 +50,16 @@ class ProcessDataForMM:
         bar.next()
         bar.finish()
 
-    def __init_without_progress_bar(self, file_name):
+    def __init_without_progress_bar(self, file_name, file_contents_bool):
         self.file_name = file_name
         # self.file_contents = util.read_text_file(self.file_name)
-        contents = countSentences.CountSentences(self.file_name)
-        contents.shuffle_sentences(10)
-        self.file_contents = \
-            contents.sentence_list_as_string(contents.get_sentences(self.number_of_sentences))
+        if file_contents_bool:
+            self.file_contents = self.file_name
+        else:
+            contents = countSentences.CountSentences(self.file_name)
+            contents.shuffle_sentences(10)
+            self.file_contents = \
+                contents.sentence_list_as_string(contents.get_sentences(self.number_of_sentences))
 
         self.__step_through_sentences()
         self.__setup_initial_probability()
