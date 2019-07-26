@@ -1,4 +1,4 @@
-import utility.Utility as util
+import utility.Utility
 from progress.bar import Bar
 import utility.CountSentences as countSentences
 

@@ -4,7 +4,9 @@ from utility.Utility import *
 from utility.CountSentences import *
 from utility.SendEmail import SendEmail
 # import gc
+import time
 
+start = time.time()
 python_path = "/usr/bin/python3.7"
 python_file = "index.py"
 iterations = 100000
@@ -37,5 +39,8 @@ for length in lengths:
         # print(command)
         os.system(command)
         # gc.collect()
+
+message = "Test complete. It took " + str(time.time() - start) + " seconds"
+print(message)
 email = SendEmail(message)
 email.send_email()
