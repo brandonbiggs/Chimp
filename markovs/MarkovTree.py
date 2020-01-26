@@ -15,4 +15,3 @@ class MarkovTree:
     def create_tree(self):
         pass
         # for layer in range(self.length):
-

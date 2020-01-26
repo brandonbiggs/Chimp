@@ -3,7 +3,6 @@ import random
 
 
 class CountSentences:
-
     def __init__(self, text_file):
         file = utility.Utility.read_text_file(text_file)
         filtered = filter(None, file.split("."))
@@ -18,8 +17,10 @@ class CountSentences:
 
     def get_sentences(self, number_to_get: int) -> list:
         if number_to_get > self.num_sentences:
-            raise Exception("The number of requested sentences do not exist. Please choose"
-                            "a smaller number of sentences or load in a bigger file.")
+            raise Exception(
+                "The number of requested sentences do not exist. Please choose"
+                "a smaller number of sentences or load in a bigger file."
+            )
         else:
             return self.sentences[:number_to_get]
 
@@ -29,4 +30,3 @@ class CountSentences:
         for sentence in sentences:
             text += sentence + ". "
         return text
-

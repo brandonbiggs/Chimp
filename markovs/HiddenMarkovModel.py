@@ -6,6 +6,7 @@ class HiddenMarkovModel:
         data types. Trade off between memory and speed. May be able to use an
         enum for all the possible items that exist in NLTK
     """
+
     # transition_probs = dict(key=str, value=dict(key=str, value=float))
     transition_probs = dict()
 

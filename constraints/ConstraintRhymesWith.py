@@ -7,6 +7,7 @@ class ConstraintRhymesWith(Constraint):
     TODO - I used a package that I found online for this, but a better solution
         is probably needed as I'm sure this isn't perfect.
     """
+
     rhymes = []
     must_rhyme = True
 

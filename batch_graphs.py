@@ -3,6 +3,7 @@ import subprocess
 from utility.Utility import *
 from utility.CountSentences import *
 from utility.SendEmail import SendEmail
+
 # import gc
 import time
 
@@ -24,14 +25,37 @@ for length in lengths:
 
     for sentence in sentences:
         contents.shuffle_sentences(number_of_shuffles)
-        file_contents = \
-            contents.sentence_list_as_string(contents.get_sentences(sentence))
+        file_contents = contents.sentence_list_as_string(
+            contents.get_sentences(sentence)
+        )
         train(length, file_contents, pickle_file, "chimp", False, text_contents=True)
-        train(length, file_contents, pickle_mm_file, "markovmodel", False, text_contents=True)
-        command = python_path + " " + python_file + " -g iterations:" + str(iterations) + \
-                  " sentences:" + str(sentence) + " length:" + str(length) + " data_file:" + \
-                  data_file + " results_file:" + results_file + " pickle_file:" + pickle_file + \
-                  " pickle_mm_file:" + pickle_mm_file
+        train(
+            length,
+            file_contents,
+            pickle_mm_file,
+            "markovmodel",
+            False,
+            text_contents=True,
+        )
+        command = (
+            python_path
+            + " "
+            + python_file
+            + " -g iterations:"
+            + str(iterations)
+            + " sentences:"
+            + str(sentence)
+            + " length:"
+            + str(length)
+            + " data_file:"
+            + data_file
+            + " results_file:"
+            + results_file
+            + " pickle_file:"
+            + pickle_file
+            + " pickle_mm_file:"
+            + pickle_mm_file
+        )
         # command = "iterations:" + str(iterations) + \
         #           " sentences:" + str(sentence) + " length:" + str(length) + " data_file:" + \
         #           data_file + " results_file:" + results_file + " pickle_file:" + pickle_file + \

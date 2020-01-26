@@ -15,7 +15,6 @@ from pathlib import Path
 
 
 class InteractiveChimp:
-
     def __init__(self):
         pass
 
@@ -50,9 +49,13 @@ class InteractiveChimp:
             first_dog()
 
     @staticmethod
-    def run_interactive(layers, hidden_constraints,
-                        observed_constraints, output_sentences,
-                        file_name="pickle_files/hmm.pickle") -> None:
+    def run_interactive(
+        layers,
+        hidden_constraints,
+        observed_constraints,
+        output_sentences,
+        file_name="pickle_files/hmm.pickle",
+    ) -> None:
         """
         TODO - Parse the constraint arrays
         :param layers:
@@ -64,7 +67,7 @@ class InteractiveChimp:
         """
 
         # Load data (deserialize)
-        with open(file_name, 'rb') as handle:
+        with open(file_name, "rb") as handle:
             hidden_markov_model = pickle.load(handle)
         print("Loaded the hidden markov model.")
 
@@ -72,8 +75,9 @@ class InteractiveChimp:
         for i in range(layers):
             try:
                 if hidden_constraints[i] in nltk_tags.keys():
-                    hidden_constraints[i] = \
-                        ConstraintIsPartOfSpeech(hidden_constraints[i], True)
+                    hidden_constraints[i] = ConstraintIsPartOfSpeech(
+                        hidden_constraints[i], True
+                    )
                 else:
                     hidden_constraints[i] = None
             except:
@@ -85,16 +89,18 @@ class InteractiveChimp:
         for i in range(layers):
             try:
                 if observed_constraints[i].isalpha():
-                    observed_constraints[i] = \
-                        ConstraintContainsString(observed_constraints[i], True)
+                    observed_constraints[i] = ConstraintContainsString(
+                        observed_constraints[i], True
+                    )
                 else:
                     observed_constraints[i] = None
             except:
                 observed_constraints.append(None)
         print("observed constraints:", observed_constraints)
 
-        NHHMM = ConstrainedHiddenMarkovProcess(layers, hidden_markov_model,
-                                               hidden_constraints, observed_constraints)
+        NHHMM = ConstrainedHiddenMarkovProcess(
+            layers, hidden_markov_model, hidden_constraints, observed_constraints
+        )
         NHHMM.process()
         print("NHHMM Finished.")
 
@@ -111,8 +117,10 @@ class InteractiveChimp:
         print("Welcome to the interactive version of the NHHMM program!")
 
         # Training question
-        train_again = input("Would you like to retrain the model? Retraining "
-                            "the model will take some time. (y/n) ")
+        train_again = input(
+            "Would you like to retrain the model? Retraining "
+            "the model will take some time. (y/n) "
+        )
         train_again = train_again.lower()
         if train_again == "y":
             train_again = input("Would you like to train with a new input file? (y/n) ")
@@ -171,8 +179,12 @@ class InteractiveChimp:
             except ValueError:
                 print("Please enter a number greater than 0.")
 
-        self.run_interactive(size_of_model, hidden_constraints.split(" "),
-                        observed_constraints.split(" "), num_output_sentences)
+        self.run_interactive(
+            size_of_model,
+            hidden_constraints.split(" "),
+            observed_constraints.split(" "),
+            num_output_sentences,
+        )
 
     def argument_parser(self) -> None:
         """
@@ -180,43 +192,74 @@ class InteractiveChimp:
         :return: None
         """
         parameter = False
-        hidden_flag = "This --hidden flag provides more information about " \
-                      "the interactive command line utility for setting " \
-                      "hidden nodes."
-        observed_flag = "This --observed flag provides more information about " \
-                        "the interactive command line utility for setting " \
-                        "observed nodes."
-        description = "Run a NHHMM model. The --help, --train, --example, " \
-                      "--interactive parameters cannot be run at the same time."
+        hidden_flag = (
+            "This --hidden flag provides more information about "
+            "the interactive command line utility for setting "
+            "hidden nodes."
+        )
+        observed_flag = (
+            "This --observed flag provides more information about "
+            "the interactive command line utility for setting "
+            "observed nodes."
+        )
+        description = (
+            "Run a NHHMM model. The --help, --train, --example, "
+            "--interactive parameters cannot be run at the same time."
+        )
 
         parser = argparse.ArgumentParser(description=description)
         # Done
-        parser.add_argument("-c", "--clock", help="Time the execution of the program.",
-                            action="store_true")
-        parser.add_argument('-e', "--example", nargs='?', const=1,
-                            help='Run a specific example.',
-                            type=int, metavar="1, 2, 3")
-        parser.add_argument('-g', '--graph', nargs='+', help='Run a graph generating result')
-        parser.add_argument('--hidden', action="store_true",
-                            help=hidden_flag)
-        parser.add_argument('-i', "--interactive",
-                            help='run the model in an interactive mode. (Not yet ready)',
-                            action="store_true")
-        parser.add_argument('--observed', action="store_true",
-                            help=observed_flag)
-        parser.add_argument("-t", "--train", help="Train the Hidden Markov Model. "
-                                                  "A file may be passed. A default source"
-                                                  "will be trained otherwise.",
-                            type=str, metavar="file name", nargs="?", const="data/book_tiny.txt")
+        parser.add_argument(
+            "-c",
+            "--clock",
+            help="Time the execution of the program.",
+            action="store_true",
+        )
+        parser.add_argument(
+            "-e",
+            "--example",
+            nargs="?",
+            const=1,
+            help="Run a specific example.",
+            type=int,
+            metavar="1, 2, 3",
+        )
+        parser.add_argument(
+            "-g", "--graph", nargs="+", help="Run a graph generating result"
+        )
+        parser.add_argument("--hidden", action="store_true", help=hidden_flag)
+        parser.add_argument(
+            "-i",
+            "--interactive",
+            help="run the model in an interactive mode. (Not yet ready)",
+            action="store_true",
+        )
+        parser.add_argument("--observed", action="store_true", help=observed_flag)
+        parser.add_argument(
+            "-t",
+            "--train",
+            help="Train the Hidden Markov Model. "
+            "A file may be passed. A default source"
+            "will be trained otherwise.",
+            type=str,
+            metavar="file name",
+            nargs="?",
+            const="data/book_tiny.txt",
+        )
         # Done
-        parser.add_argument('--tags', action="store_true",
-                            help="Print the NLTK POS tags and exit.")
+        parser.add_argument(
+            "--tags", action="store_true", help="Print the NLTK POS tags and exit."
+        )
         # Done
-        parser.add_argument('--tags-nice', action="store_true",
-                            help="Print nicely the NLTK POS tags and exit.")
+        parser.add_argument(
+            "--tags-nice",
+            action="store_true",
+            help="Print nicely the NLTK POS tags and exit.",
+        )
         # Done
-        parser.add_argument('-V', '--version', action='version',
-                            version='%(prog)s {}'.format(version))
+        parser.add_argument(
+            "-V", "--version", action="version", version="%(prog)s {}".format(version)
+        )
 
         args = parser.parse_args()
 
@@ -240,10 +283,14 @@ class InteractiveChimp:
         if args.observed:
             parameter = True
             # Print the observed node input info
-            print("The constraints you can put on observed nodes: "
-                  "constraint_must_contain_letter")
-            print("Enter a letter(s) or 'None'. Enter the same number of observed"
-                  "constraints or 'None' as you entered for layers.")
+            print(
+                "The constraints you can put on observed nodes: "
+                "constraint_must_contain_letter"
+            )
+            print(
+                "Enter a letter(s) or 'None'. Enter the same number of observed"
+                "constraints or 'None' as you entered for layers."
+            )
             print("The following will put constraints on the 2nd and 4th node layers.")
             print("Example: None t None s None")
 
@@ -251,11 +298,15 @@ class InteractiveChimp:
         if args.hidden:
             parameter = True
             # Print the hidden node input info
-            print("The constraints you can put on hidden nodes: \n"
-                  "constraint_must_be_part_of_speech")
-            print("Enter the NLTK part of speech tag or 'None'. "
-                  "Enter the same number of hidden constraints or 'None' as "
-                  "you entered for layers.")
+            print(
+                "The constraints you can put on hidden nodes: \n"
+                "constraint_must_be_part_of_speech"
+            )
+            print(
+                "Enter the NLTK part of speech tag or 'None'. "
+                "Enter the same number of hidden constraints or 'None' as "
+                "you entered for layers."
+            )
             print("The following will put constraints on the 1st and 4th node layers.")
             print("Example: NN None None VB None")
             print("For a list of NLTK tags, use the parameter --tags")

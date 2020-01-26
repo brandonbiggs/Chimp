@@ -7,6 +7,7 @@ class HiddenMarkovModelMatrix:
         data types. Trade off between memory and speed. May be able to use an
         enum for all the possible items that exist in NLTK
     """
+
     # N = number of parts of speech
     # M = Number of node layers
     # O = # of unique words

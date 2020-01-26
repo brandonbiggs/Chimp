@@ -12,7 +12,7 @@ import pickle
 
 def busy_living_dynamic(size=7) -> None:
     # Load data (deserialize)
-    with open('pickle_files/hmm.pickle', 'rb') as handle:
+    with open("pickle_files/hmm.pickle", "rb") as handle:
         hidden_markov_model = pickle.load(handle)
 
     hidden_constraints = [
@@ -22,16 +22,16 @@ def busy_living_dynamic(size=7) -> None:
         ConstraintIsPartOfSpeech("CC", True),
         ConstraintIsPartOfSpeech("VB", True),
         ConstraintIsPartOfSpeech("JJ", True),
-        ConstraintIsPartOfSpeech("VBG", True)
+        ConstraintIsPartOfSpeech("VBG", True),
     ]
     # observed_constraints = [None, None, ConstraintContainsString("t", True)]
     observed_constraints = [None, None, None, None, None, None, None]
 
     length = size
 
-    NHHMM = ConstrainedHiddenMarkovProcess(length, hidden_markov_model,
-                                           hidden_constraints,
-                                           observed_constraints)
+    NHHMM = ConstrainedHiddenMarkovProcess(
+        length, hidden_markov_model, hidden_constraints, observed_constraints
+    )
     NHHMM.process()
     print("NHHMM Finished")
 

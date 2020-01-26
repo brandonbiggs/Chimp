@@ -10,7 +10,7 @@ def one_thousand_nodes(length) -> None:
 
     :return: None
     """
-    with open('pickle_files/hidden_markov.pickle', 'rb') as handle:
+    with open("pickle_files/hidden_markov.pickle", "rb") as handle:
         data = pickle.load(handle)
 
     # length = 1000
@@ -33,7 +33,9 @@ def one_thousand_nodes(length) -> None:
     # print("HMM Finished")
 
     start = time.time()
-    NHHMM = ConstrainedHiddenMarkovProcess(length, hidden_markov_model, hidden_constraints, observed_constraints)
+    NHHMM = ConstrainedHiddenMarkovProcess(
+        length, hidden_markov_model, hidden_constraints, observed_constraints
+    )
     NHHMM.process()
     # print("NHHMM Finished")
     end = time.time()

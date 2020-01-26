@@ -5,6 +5,7 @@ class ConstraintContainsString(Constraint):
     """
 
     """
+
     constraint = ""
     must_contain = ""
 

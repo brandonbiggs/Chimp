@@ -1,4 +1,5 @@
 from utility.interactive import *
+
 # from examples.RedRhyme import red_rhyme
 # from examples.RedRhymeMM import red_rhyme_markov_model
 # from examples.FirstDog import first_dog
@@ -25,26 +26,36 @@ def tongue_twisters():
     iterations = 1000
 
     # train(data_file, pickle_file, model, False)
-    num_sentences = tongue_twister_chimp(letter, pickle_file, sentence_length, iterations)
+    num_sentences = tongue_twister_chimp(
+        letter, pickle_file, sentence_length, iterations
+    )
     print("Chimp")
     print(num_sentences)
 
     # train(data_file, pickle_mm_file, "markovmodel", False)
-    num_sentences = tongue_twister_markov_model(letter, pickle_mm_file, sentence_length, iterations)
+    num_sentences = tongue_twister_markov_model(
+        letter, pickle_mm_file, sentence_length, iterations
+    )
     print("Markov Model")
     print(num_sentences)
 
 
 def graph_results(parameters):
     try:
-        graph(parameters.get("iterations"), parameters.get("sentences"), parameters.get("length"),
-              parameters.get("data_file"), parameters.get("results_file"), parameters.get("pickle_file"),
-              parameters.get("pickle_mm_file"))
+        graph(
+            parameters.get("iterations"),
+            parameters.get("sentences"),
+            parameters.get("length"),
+            parameters.get("data_file"),
+            parameters.get("results_file"),
+            parameters.get("pickle_file"),
+            parameters.get("pickle_mm_file"),
+        )
     except:
         print("Error while running the python script! Potentially missing parameters.")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     interactive = InteractiveChimp()
     parameters = interactive.argument_parser()
     graph_results(parameters)
@@ -60,8 +71,3 @@ if __name__ == '__main__':
     # print("Markov Model")
     # red_rhyme_markov_model()
     # tongue_twisters()
-
-
-
-
-

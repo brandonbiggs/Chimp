@@ -5,6 +5,7 @@ class ConstraintMatchesString(Constraint):
     """
     TODO
     """
+
     def __init__(self, string: str, must_contain: bool):
         """
         :param string: string we are using to constrain

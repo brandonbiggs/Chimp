@@ -6,6 +6,7 @@ class ChimpSentenceGenerator:
     """
     Generate sentences with the given NHHMM
     """
+
     NHHMM = ""
     sentence = ""
     initial_pos = ""
@@ -35,8 +36,9 @@ class ChimpSentenceGenerator:
         """
         rand = get_rand_num()
         count = 0
-        emission_probs = \
-            self.NHHMM.constrained_transition_probabilities[node_layer].get(pos)
+        emission_probs = self.NHHMM.constrained_transition_probabilities[
+            node_layer
+        ].get(pos)
         if emission_probs is None:
             return None
         for key in emission_probs.keys():
@@ -73,8 +75,9 @@ class ChimpSentenceGenerator:
         """
         rand = get_rand_num()
         sum = 0
-        emission_probs = \
-            self.NHHMM.constrained_observed_emission_probabilities[node_layer].get(pos)
+        emission_probs = self.NHHMM.constrained_observed_emission_probabilities[
+            node_layer
+        ].get(pos)
 
         if emission_probs is None:
             return None
@@ -107,8 +110,15 @@ class ChimpSentenceGenerator:
                     sentence_structure.append([layer, key])
             else:
                 for pos in previous_pos:
-                    for key in self.NHHMM.constrained_transition_probabilities[layer].get(pos):
-                        if self.NHHMM.constrained_transition_probabilities[layer].get(pos).get(key) != 0:
+                    for key in self.NHHMM.constrained_transition_probabilities[
+                        layer
+                    ].get(pos):
+                        if (
+                            self.NHHMM.constrained_transition_probabilities[layer]
+                            .get(pos)
+                            .get(key)
+                            != 0
+                        ):
                             pos_list.append(key)
                             sentence_structure.append([layer, key])
             previous_pos.clear()

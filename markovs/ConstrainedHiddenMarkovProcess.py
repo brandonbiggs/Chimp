@@ -11,6 +11,7 @@ class ConstrainedHiddenMarkovProcess:
     This is a hidden markov model that we are applying constraints to. You're
         currently able to apply ONE constraint per node to any node in the graph.
     """
+
     hidden_markov_model = None
     layers = 0
     hidden_constraints = []
@@ -20,8 +21,13 @@ class ConstrainedHiddenMarkovProcess:
     constrained_observed_emission_probabilities = []
     constrained_transition_probabilities = []
 
-    def __init__(self, layers: int, hidden_markov_model,
-                 hidden_constraints: list, observed_constraints: list):
+    def __init__(
+        self,
+        layers: int,
+        hidden_markov_model,
+        hidden_constraints: list,
+        observed_constraints: list,
+    ):
         """
         :param layers: Defines number of hidden/observed nodes in graph
         :param hidden_markov_model: the hmm we're applying constraints to
@@ -51,15 +57,21 @@ class ConstrainedHiddenMarkovProcess:
         for node_layer in range(self.layers):
             print("\nObserved layer", node_layer, "of the NHHMM")
             print("Beta list:", self.observed_node_betas[node_layer])
-            print("Emission Probabilities:",
-                  self.constrained_observed_emission_probabilities[node_layer])
+            print(
+                "Emission Probabilities:",
+                self.constrained_observed_emission_probabilities[node_layer],
+            )
             print("Hidden Layer:", node_layer)
             if node_layer != 0:
-                print("Transition Probabilities:",
-                      self.constrained_transition_probabilities[node_layer])
+                print(
+                    "Transition Probabilities:",
+                    self.constrained_transition_probabilities[node_layer],
+                )
             else:
-                print("Initial Probabilities:",
-                      self.constrained_transition_probabilities[node_layer])
+                print(
+                    "Initial Probabilities:",
+                    self.constrained_transition_probabilities[node_layer],
+                )
 
     def process(self) -> None:
         """
@@ -91,29 +103,36 @@ class ConstrainedHiddenMarkovProcess:
             # If it's the initial node, we use the initial probabilities instead
             #       of the transition probabilities
             if node_layer == 0:
-                hidden_output = \
-                    self.process_hidden_node(node_layer,
-                                             self.observed_node_betas[node_layer],
-                                             self.beginning_alpha,
-                                             self.hidden_markov_model.initial_probs)
+                hidden_output = self.process_hidden_node(
+                    node_layer,
+                    self.observed_node_betas[node_layer],
+                    self.beginning_alpha,
+                    self.hidden_markov_model.initial_probs,
+                )
             # If not initial node, use transition probabilities
             else:
-                hidden_output = \
-                    self.process_hidden_node(node_layer,
-                                             self.observed_node_betas[node_layer],
-                                             self.beginning_alpha,
-                                             transition_probs)
+                hidden_output = self.process_hidden_node(
+                    node_layer,
+                    self.observed_node_betas[node_layer],
+                    self.beginning_alpha,
+                    transition_probs,
+                )
             # Update the alpha values
             self.beginning_alpha = hidden_output[0]
 
             # Update the transition probabilities
-            transition_probs = \
-                self.prune_transition_probabilities(hidden_output[1], node_layer)
+            transition_probs = self.prune_transition_probabilities(
+                hidden_output[1], node_layer
+            )
             self.constrained_transition_probabilities[node_layer] = transition_probs
 
-    def process_hidden_node(self, node_position: int, beta_dict: dict,
-                            previous_alpha: dict, transition_probs: dict) \
-            -> (dict, dict):
+    def process_hidden_node(
+        self,
+        node_position: int,
+        beta_dict: dict,
+        previous_alpha: dict,
+        transition_probs: dict,
+    ) -> (dict, dict):
         """
         Processes the hidden layer at the given node_position layer
         :param node_position: the node layer we're calculating
@@ -136,8 +155,9 @@ class ConstrainedHiddenMarkovProcess:
 
         # Use Initial probabilities instead of transition probabilities
         if node_position == 0:
-            m_tilde = self.calculate_m_tilde(transition_probs, constraint,
-                                             beta_dict, alpha_copy)
+            m_tilde = self.calculate_m_tilde(
+                transition_probs, constraint, beta_dict, alpha_copy
+            )
             return previous_alpha, m_tilde[0]
         else:
             # Iterate over the remaining keys from transition probabilities
@@ -145,12 +165,16 @@ class ConstrainedHiddenMarkovProcess:
                 # Calculate new M value
                 m_tilde = self.calculate_m_tilde(
                     self.hidden_markov_model.transition_probs.get(key),
-                    constraint, beta_dict, alpha_copy)
+                    constraint,
+                    beta_dict,
+                    alpha_copy,
+                )
                 previous_alpha[key] = m_tilde[1]
 
                 # Formulate the new transition probabilities
-                new_transition_probs = \
-                    self.update_new_transition_probs(key, m_tilde[0], new_transition_probs)
+                new_transition_probs = self.update_new_transition_probs(
+                    key, m_tilde[0], new_transition_probs
+                )
 
         return previous_alpha, new_transition_probs
 
@@ -173,7 +197,8 @@ class ConstrainedHiddenMarkovProcess:
             # Iterate over each key to calculate new emission probabilities
             for key in self.hidden_markov_model.emission_probs.keys():
                 e_tilde = self.calculate_e_tilde(
-                    self.hidden_markov_model.emission_probs.get(key), constraint)
+                    self.hidden_markov_model.emission_probs.get(key), constraint
+                )
                 new_emission_probs[key] = e_tilde[0]
                 beta_dict[key] = e_tilde[1]
             return new_emission_probs, beta_dict
@@ -217,13 +242,16 @@ class ConstrainedHiddenMarkovProcess:
 
         # Normalize values
         for key in new_normalized_probabilities.keys():
-            new_normalized_probabilities[key] = new_normalized_probabilities.get(key) / beta
+            new_normalized_probabilities[key] = (
+                new_normalized_probabilities.get(key) / beta
+            )
 
         # Return the new normalized emission probabilities and the beta value
         return new_normalized_probabilities, beta
 
-    def calculate_m_tilde(self, dictionary: dict, constraint,
-                          beta_dict: dict, previous_alpha_dict: dict) -> (dict, int):
+    def calculate_m_tilde(
+        self, dictionary: dict, constraint, beta_dict: dict, previous_alpha_dict: dict
+    ) -> (dict, int):
         """
         Calculates the new transition probabilities between the hidden nodes
             given any constraints in either/both the hidden and observed nodes
@@ -242,7 +270,9 @@ class ConstrainedHiddenMarkovProcess:
                 del normalized_transition_probabilities[key]
 
         # Calculate the alpha value
-        alpha = self.calculate_alpha(normalized_transition_probabilities, beta_dict, previous_alpha_dict)
+        alpha = self.calculate_alpha(
+            normalized_transition_probabilities, beta_dict, previous_alpha_dict
+        )
 
         # Calculate the m_j_k values
         for key in normalized_transition_probabilities.keys():
@@ -252,7 +282,9 @@ class ConstrainedHiddenMarkovProcess:
                 previous_alpha = previous_alpha_dict.get(key)
                 beta = beta_dict.get(key)
                 z = normalized_transition_probabilities.get(key)
-                normalized_transition_probabilities[key] = (beta * z * previous_alpha) / alpha
+                normalized_transition_probabilities[key] = (
+                    beta * z * previous_alpha
+                ) / alpha
         return normalized_transition_probabilities, alpha
 
     @staticmethod
@@ -266,8 +298,7 @@ class ConstrainedHiddenMarkovProcess:
         """
         summation = 0
         for key in dictionary.keys():
-            if type(previous_alpha.get(key)) is None or \
-                    previous_alpha.get(key) is None:
+            if type(previous_alpha.get(key)) is None or previous_alpha.get(key) is None:
                 previous_alpha[key] = 0
                 alpha = 0
             else:
@@ -282,8 +313,9 @@ class ConstrainedHiddenMarkovProcess:
         return summation
 
     @staticmethod
-    def update_new_transition_probs(key: str, dictionary: dict,
-                                    new_transition_dict: dict) -> dict:
+    def update_new_transition_probs(
+        key: str, dictionary: dict, new_transition_dict: dict
+    ) -> dict:
         """
         Create a new set of transition probabilities from one hidden node layer
         to the previous hidden node layer

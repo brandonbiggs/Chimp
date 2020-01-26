@@ -18,8 +18,14 @@ def get_rand_num(first=0, second=1):
     return random.uniform(first, second)
 
 
-def train(number_of_sentences: int, text_file="data/book_tiny.txt",
-          pickle_file="pickle_files/new_file.pickle", model="chimp", verbose=True, text_contents=False) -> None:
+def train(
+    number_of_sentences: int,
+    text_file="data/book_tiny.txt",
+    pickle_file="pickle_files/new_file.pickle",
+    model="chimp",
+    verbose=True,
+    text_contents=False,
+) -> None:
     """
     Create the hidden markov model and store it for use later
     :param number_of_sentences
@@ -45,9 +51,13 @@ def train(number_of_sentences: int, text_file="data/book_tiny.txt",
             print("Your file will be saved to: ", pickle_file)
     # Process the text file
     if model == "chimp":
-        data = ProcessDataForChimp(text_file,number_of_sentences, False, file_contents=text_contents)
+        data = ProcessDataForChimp(
+            text_file, number_of_sentences, False, file_contents=text_contents
+        )
     elif model == "markovmodel":
-        data = ProcessDataForMM(text_file, number_of_sentences, False, file_contents_bool=text_contents)
+        data = ProcessDataForMM(
+            text_file, number_of_sentences, False, file_contents_bool=text_contents
+        )
     else:
         raise Exception("Unknown model. Please use either 'chimp' or 'markovmodel'")
 
@@ -58,7 +68,7 @@ def train(number_of_sentences: int, text_file="data/book_tiny.txt",
     hidden_markov_model.emission_probs = data.emission_probs
 
     # Store the hidden Markov Model that we just created
-    with open(pickle_file, 'wb') as handle:
+    with open(pickle_file, "wb") as handle:
         pickle.dump(hidden_markov_model, handle, protocol=pickle.HIGHEST_PROTOCOL)
     if verbose:
         print("Finished training. Saved Hidden Markov Model to pickle file.")
@@ -68,7 +78,7 @@ def array_average(array: []) -> float:
     total = 0
     for value in array:
         total += value
-    return total/len(array)
+    return total / len(array)
 
 
 def read_text_file(file_name) -> str:
@@ -87,7 +97,7 @@ def read_text_file(file_name) -> str:
         #   sentences
         if character == "?" or character == "!":
             newstring += "."
-        elif character not in ";\n\"<>[]@#$%^&*()-_+={}/\\" and not character.isdigit():
+        elif character not in ';\n"<>[]@#$%^&*()-_+={}/\\' and not character.isdigit():
             newstring += character
         # else:
         #     newstring += ""

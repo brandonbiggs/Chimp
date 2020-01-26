@@ -10,7 +10,7 @@ def one_thousand_nodes_parallel(length) -> None:
 
     :return: None
     """
-    with open('pickle_files/hidden_markov.pickle', 'rb') as handle:
+    with open("pickle_files/hidden_markov.pickle", "rb") as handle:
         data = pickle.load(handle)
     # data = ProcessTextFile("data/book.txt")
 
@@ -34,7 +34,9 @@ def one_thousand_nodes_parallel(length) -> None:
     # print("HMM Finished")
 
     start = time.time()
-    NHHMM = parallel_nhmm(length, hidden_markov_model, hidden_constraints, observed_constraints)
+    NHHMM = parallel_nhmm(
+        length, hidden_markov_model, hidden_constraints, observed_constraints
+    )
     NHHMM.process()
     # print("NHHMM Finished")
     end = time.time()

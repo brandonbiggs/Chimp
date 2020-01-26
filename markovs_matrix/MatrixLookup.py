@@ -1,5 +1,4 @@
 class MatrixLookup:
-
     def __init__(self):
         pass
 

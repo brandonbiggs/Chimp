@@ -1,5 +1,5 @@
 version_info = (0, 0, 7)
-version = '.'.join(str(c) for c in version_info) + "pre-alpha"
+version = ".".join(str(c) for c in version_info) + "pre-alpha"
 
 nltk_tags = {
     "CC": "coordinating conjunction",

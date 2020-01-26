@@ -3,20 +3,23 @@ from constraints.Constraint import Constraint
 import nltk
 
 try:
-    nltk.data.find('/home/biggbran/research/markovs/nltk_data/tokenizers/punkt')
+    nltk.data.find("/home/biggbran/research/markovs/nltk_data/tokenizers/punkt")
 except LookupError:
-    nltk.download('punkt', quiet=True)
+    nltk.download("punkt", quiet=True)
 
 try:
-    nltk.data.find('/home/biggbran/research/markovs/nltk_data/taggers/averaged_perceptron_tagger')
+    nltk.data.find(
+        "/home/biggbran/research/markovs/nltk_data/taggers/averaged_perceptron_tagger"
+    )
 except LookupError:
-    nltk.download('averaged_perceptron_tagger', quiet=True)
+    nltk.download("averaged_perceptron_tagger", quiet=True)
 
 
 class ConstraintIsPartOfSpeech(Constraint):
     """
     TODO - Need to rethink how this is working. Not working correctly.
     """
+
     part_of_speech = ""
     must_be_pos = ""
 

@@ -37,9 +37,11 @@ def first_dog() -> None:
     # transition_probs = {"DT": {"NN": 1.0, "DT": 0.0, "NNS": 0.0},
     #              "NN": {"NN": 0.1, "DT": 0.2, "NNS": 0.7},
     #              "NNS": {"NN": 0.4, "DT": 0.5, "NNS": 0.1}}
-    transition_probs = {"DT": {"DT": 0.0, "NN": 1.0, "NNS": 0.0},
-                 "NN": {"NN": 0.1, "DT": 0.2, "NNS": 0.7},
-                 "NNS": {"NNS": 0.1, "DT": 0.5, "NN": 0.4}}
+    transition_probs = {
+        "DT": {"DT": 0.0, "NN": 1.0, "NNS": 0.0},
+        "NN": {"NN": 0.1, "DT": 0.2, "NNS": 0.7},
+        "NNS": {"NNS": 0.1, "DT": 0.5, "NN": 0.4},
+    }
 
     # Define the emission probabilities.
     emission_probs = {"DT": DT, "NN": NN, "NNS": NNS}
@@ -52,7 +54,11 @@ def first_dog() -> None:
 
     # Constraints for hidden and observed nodes
     #   The position of these is important as they represent the specific positions in the graphs
-    hidden_constraints = [None, ConstraintIsPartOfSpeech("NNS", True), ConstraintIsPartOfSpeech("NN", True)]
+    hidden_constraints = [
+        None,
+        ConstraintIsPartOfSpeech("NNS", True),
+        ConstraintIsPartOfSpeech("NN", True),
+    ]
     observed_constraints = [None, None, ConstraintContainsString("t", True)]
     # hidden_constraints = [None, None, None]
     # observed_constraints = [None, None, None]
@@ -66,7 +72,9 @@ def first_dog() -> None:
     # return
 
     # Create our NHHMM and calculate new probabilities from the constraints
-    NHHMM = ConstrainedHiddenMarkovProcess(length, hidden_markov_model, hidden_constraints, observed_constraints)
+    NHHMM = ConstrainedHiddenMarkovProcess(
+        length, hidden_markov_model, hidden_constraints, observed_constraints
+    )
     NHHMM.process()
     NHHMM.print_new_markov_probabilities()
 

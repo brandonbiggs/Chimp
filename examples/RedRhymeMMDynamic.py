@@ -13,8 +13,12 @@ def red_rhyme_mm_dynamic() -> None:
 
     length = 4
     hidden_constraints = [None, None, None, None]
-    observed_constraints = [ConstraintRhymesWith("red", True), None, None,
-                            ConstraintMatchesString("red", True)]
+    observed_constraints = [
+        ConstraintRhymesWith("red", True),
+        None,
+        None,
+        ConstraintMatchesString("red", True),
+    ]
 
     # Define our hidden markov model
     hidden_markov_model = HiddenMarkovModel(data.hidden_nodes, data.observed_nodes)
@@ -23,7 +27,9 @@ def red_rhyme_mm_dynamic() -> None:
     hidden_markov_model.emission_probs = data.emission_probs
 
     # Process the constrained hidden markov model
-    NHHMM = ConstrainedHiddenMarkovProcess(length, hidden_markov_model, hidden_constraints, observed_constraints)
+    NHHMM = ConstrainedHiddenMarkovProcess(
+        length, hidden_markov_model, hidden_constraints, observed_constraints
+    )
     NHHMM.process()
     # NHHMM.print_new_markov_probabilities()
 

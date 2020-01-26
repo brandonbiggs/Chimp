@@ -22,30 +22,40 @@ def red_rhyme_matrix() -> None:
     # transition probabilities matrix = M*M*O
     # emission probabilities matrix = M*N*O
     # initial probabilities matrix = M
-    num_pos = 4                 # M
-    num_unique_words = 10       # N
-    node_layers = 4             # O
+    num_pos = 4  # M
+    num_unique_words = 10  # N
+    node_layers = 4  # O
 
     # Define the part of speech dictionaries
-    NNP = {"Ted": 0.2, "Mary": 0.6, "Fred": 0.2}            # Proper Noun
-    RB = {"now": 0.66666, "sometimes": 0.33333}             # Adverb
-    VBZ = {"likes": 0.5, "loves": 0.25, "sees": 0.25}       # Verb
-    NN = {"green": 0.33333, "red": 0.66666}                 # Singular noun
+    NNP = {"Ted": 0.2, "Mary": 0.6, "Fred": 0.2}  # Proper Noun
+    RB = {"now": 0.66666, "sometimes": 0.33333}  # Adverb
+    VBZ = {"likes": 0.5, "loves": 0.25, "sees": 0.25}  # Verb
+    NN = {"green": 0.33333, "red": 0.66666}  # Singular noun
 
     # Define the sets of hidden and observed nodes
     hidden_nodes = [NNP, RB, VBZ, NN]
-    observed_nodes = ['Ted', 'now', 'likes', 'green', 'Mary', 'red', 'loves',
-                      'Fred', 'sees', 'sometimes']
+    observed_nodes = [
+        "Ted",
+        "now",
+        "likes",
+        "green",
+        "Mary",
+        "red",
+        "loves",
+        "Fred",
+        "sees",
+        "sometimes",
+    ]
 
     # Define the initial probabilities
     initial_probs = numpy.array([1.0, 0.0, 0.0, 0.0])
 
     # Setup the initial transition probability matrix
     transition_probs = [
-        [0.0,  0.4, 0.6, 0.0],
+        [0.0, 0.4, 0.6, 0.0],
         [0.25, 0.0, 0.0, 0.75],
-        [0.0,  1.0, 0.0, 0.0],
-        [0.0,  0.0, 0.0, 0.0]
+        [0.0, 1.0, 0.0, 0.0],
+        [0.0, 0.0, 0.0, 0.0],
     ]
 
     list_of_matricies = []
@@ -54,16 +64,16 @@ def red_rhyme_matrix() -> None:
     transition_probs_matrix = numpy.array(list_of_matricies)
 
     emission_probs = [
-        [0.2, 0, 0, 0],             # Ted
-        [0, 0, 0.66666, 0],         # now
-        [0, 0.5, 0, 0],             # likes
-        [0, 0, 0, 0.33333],         # green
-        [0.6, 0, 0, 0],             # Mary
-        [0, 0, 0, .66666],          # red
-        [0, 0.25, 0, 0],            # loves
-        [0.2, 0, 0, 0],             # Fred
-        [0, 0.25, 0, 0],            # sees
-        [0, 0, 0.3333, 0],          # sometimes
+        [0.2, 0, 0, 0],  # Ted
+        [0, 0, 0.66666, 0],  # now
+        [0, 0.5, 0, 0],  # likes
+        [0, 0, 0, 0.33333],  # green
+        [0.6, 0, 0, 0],  # Mary
+        [0, 0, 0, 0.66666],  # red
+        [0, 0.25, 0, 0],  # loves
+        [0.2, 0, 0, 0],  # Fred
+        [0, 0.25, 0, 0],  # sees
+        [0, 0, 0.3333, 0],  # sometimes
     ]
 
     list_of_matricies = []
@@ -74,8 +84,12 @@ def red_rhyme_matrix() -> None:
     # Constraints for hidden and observed nodes
     #   The position of these is important as they represent the specific positions in the graphs
     hidden_constraints = [None, None, None, None]
-    observed_constraints = [ConstraintRhymesWith("red", True), None, None,
-                            ConstraintMatchesString("red", True)]
+    observed_constraints = [
+        ConstraintRhymesWith("red", True),
+        None,
+        None,
+        ConstraintMatchesString("red", True),
+    ]
 
     # Define our hidden markov model
     hidden_markov_model = HiddenMarkovModelMatrix(hidden_nodes, observed_nodes)
@@ -85,9 +99,14 @@ def red_rhyme_matrix() -> None:
     hidden_markov_model.print()
 
     # Create our NHHMM and calculate new probabilities from the constraints
-    NHHMM = NonHomogeneousHMMMatrix(node_layers, hidden_markov_model,
-                                    hidden_constraints, observed_constraints,
-                                    num_pos, num_unique_words)
+    NHHMM = NonHomogeneousHMMMatrix(
+        node_layers,
+        hidden_markov_model,
+        hidden_constraints,
+        observed_constraints,
+        num_pos,
+        num_unique_words,
+    )
     NHHMM.process()
     # NHHMM.print_new_markov_probabilities()
 

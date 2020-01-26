@@ -5,6 +5,7 @@ class ConstraintStartsWithLetter(Constraint):
     """
 
     """
+
     constraint = ""
     __must_start_with = ""
     __num_of_letters = 1
@@ -24,9 +25,11 @@ class ConstraintStartsWithLetter(Constraint):
         self.__must_start_with = must_start_with
         self.__num_of_letters = num_of_letters
         if len(letters) != num_of_letters:
-            raise Exception("The length of your string does not match the amount of letters "
-                            "that you want matched. Please ensure that the length of the string "
-                            "is the same size as the number of letters you want matched.")
+            raise Exception(
+                "The length of your string does not match the amount of letters "
+                "that you want matched. Please ensure that the length of the string "
+                "is the same size as the number of letters you want matched."
+            )
 
     def is_satisfied_by_state(self, word: str) -> bool:
         """
@@ -35,12 +38,12 @@ class ConstraintStartsWithLetter(Constraint):
         :return: bool
         """
         if self.__must_start_with:
-            if self.constraint.lower() == word[0:self.__num_of_letters].lower():
+            if self.constraint.lower() == word[0 : self.__num_of_letters].lower():
                 return True
             else:
                 return False
         else:
-            if self.constraint.lower() != word[0:self.__num_of_letters].lower():
+            if self.constraint.lower() != word[0 : self.__num_of_letters].lower():
                 return True
             else:
                 return False
