@@ -9,3 +9,17 @@ __pycache__/
 # Ignore pycharm idea folder
 .idea
 
+# Ignore notes
+nltk_data/
+data.
+notes/
+
+# Ignore chimp-env
+chimp-env/
+
+# Ignore pickled files
+pickle_files/
+
+# Ignore results
+results/
+
