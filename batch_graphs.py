@@ -13,54 +13,37 @@ start = time.time()
 python_path = "/Users/biggbs/school/Chimp/chimp-env/bin/python3"
 python_file = "index.py"
 iterations = 100000
-sentences = [250]
+sentences_count = 100000
 # lengths = [4, 6, 8, 10, 12, 14]
-lengths = [4]
+# lengths = [4]
 data_file = "data/w_fic_2012.txt"
-number_of_shuffles = 10
+number_of_shuffles = 0
 
 # This is the part that should be replaced with a pandas dataframe
 contents = utility.CountSentences.CountSentences(data_file)
 
+results_file = "results/iccc_2020_mnemonics.txt"
+pickle_file = "pickle_files/iccc_2020.pickle"
 
-for length in lengths:
-    results_file = "results/batch_results_" + str(length) + ".txt"
-    pickle_file = "pickle_files/batch_results_" + str(length) + ".pickle"
-    pickle_mm_file = "pickle_files/batch_results_mm_" + str(length) + ".pickle"
 
-    for sentence in sentences:
-        contents.shuffle_sentences(number_of_shuffles)
-        file_contents = contents.sentence_list_as_string(
-            contents.get_sentences(sentence)
-        )
-        train(length, file_contents, pickle_file, "chimp", False, text_contents=True)
-        train(length, file_contents, pickle_mm_file, "markovmodel", False, text_contents=True)
-        # Maybe submit this to a dask job
-        command = (
-            python_path
-            + " "
-            + python_file
-            + " -g iterations:"
-            + str(iterations)
-            + " sentences:"
-            + str(sentence)
-            + " length:"
-            + str(length)
-            + " data_file:"
-            + data_file
-            + " results_file:"
-            + results_file
-            + " pickle_file:"
-            + pickle_file
-            + " pickle_mm_file:"
-            + pickle_mm_file
+file_contents = contents.sentence_list_as_string(
+    contents.get_sentences(sentences_count)
+)
+train(number_of_sentences=sentences_count,
+      text_file=file_contents,
+      pickle_file=pickle_file,
+      model="chimp",
+      text_contents=True)
+command = (python_path + " " + python_file + " -g iterations:" + str(iterations) + " sentences:" + str(sentences_count)
+            + " length:" + str(sentences_count) + " data_file:" + data_file + " results_file:" + results_file + " pickle_file:"
+            + pickle_file #+ " pickle_mm_file:"+ pickle_mm_file
         )
         # command = "iterations:" + str(iterations) + \
         #           " sentences:" + str(sentence) + " length:" + str(length) + " data_file:" + \
         #           data_file + " results_file:" + results_file + " pickle_file:" + pickle_file + \
         #           " pickle_mm_file:" + pickle_mm_file
-        print(command)
-        os.system(command)
+print(command)
+        # os.system(command)
 
 message = "Test complete. It took " + str(time.time() - start) + " seconds"
 print(message)
