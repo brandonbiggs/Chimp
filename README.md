@@ -12,6 +12,8 @@ You may need to use the following two lines for the NLTK package. These are spor
 used in the constraint files and the ChimpProcessData class.
 `nltk.download('tagsets')`
 `nltk.download('averaged_perceptron_tagger')`
+- Note on Macs - If you run into an error about "SSL: CERTIFICATE VERIFY FAILED" follow the instructions
+in the following link - https://stackoverflow.com/questions/41348621/ssl-error-downloading-nltk-data
     
 ### Folder Structure
 - constraints

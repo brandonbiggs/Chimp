@@ -18,8 +18,8 @@ notes/
 chimp-env/
 
 # Ignore pickled files
-pickle_files/
+#pickle_files/
 
 # Ignore results
-results/
+#results/
 

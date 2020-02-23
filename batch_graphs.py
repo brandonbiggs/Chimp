@@ -2,21 +2,26 @@ import os
 import subprocess
 from utility.Utility import *
 from utility.CountSentences import *
-from utility.SendEmail import SendEmail
+#from utility.SendEmail import SendEmail
 
-# import gc
+import nltk
+
 import time
 
 start = time.time()
-python_path = "/usr/bin/python3.7"
+# python_path = "/usr/bin/python3.7"
+python_path = "/Users/biggbs/school/Chimp/chimp-env/bin/python3"
 python_file = "index.py"
 iterations = 100000
-sentences = [25, 250, 2500, 25000, 250000, 2500000]
-lengths = [4, 6, 8, 10, 12, 14]
+sentences = [250]
+# lengths = [4, 6, 8, 10, 12, 14]
+lengths = [4]
 data_file = "data/w_fic_2012.txt"
 number_of_shuffles = 10
 
+# This is the part that should be replaced with a pandas dataframe
 contents = utility.CountSentences.CountSentences(data_file)
+
 
 for length in lengths:
     results_file = "results/batch_results_" + str(length) + ".txt"
@@ -29,14 +34,8 @@ for length in lengths:
             contents.get_sentences(sentence)
         )
         train(length, file_contents, pickle_file, "chimp", False, text_contents=True)
-        train(
-            length,
-            file_contents,
-            pickle_mm_file,
-            "markovmodel",
-            False,
-            text_contents=True,
-        )
+        train(length, file_contents, pickle_mm_file, "markovmodel", False, text_contents=True)
+        # Maybe submit this to a dask job
         command = (
             python_path
             + " "
@@ -60,11 +59,10 @@ for length in lengths:
         #           " sentences:" + str(sentence) + " length:" + str(length) + " data_file:" + \
         #           data_file + " results_file:" + results_file + " pickle_file:" + pickle_file + \
         #           " pickle_mm_file:" + pickle_mm_file
-        # print(command)
+        print(command)
         os.system(command)
-        # gc.collect()
 
 message = "Test complete. It took " + str(time.time() - start) + " seconds"
 print(message)
-email = SendEmail(message)
-email.send_email()
+# email = SendEmail(message)
+# email.send_email()

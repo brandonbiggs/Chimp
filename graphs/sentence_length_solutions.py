@@ -24,28 +24,33 @@ markov_generated_sentences_y = [
 sentence_length_x = [2, 4, 6, 8, 10, 12, 14, 16]
 
 # Create a trace
-chimp = go.Scatter(x=sentence_length_x, y=chimp_generated_sentences_y, name="Chimp")
+chimp = go.Scatter(
+    x=sentence_length_x, y=chimp_generated_sentences_y, name="CHiMP", line=dict(color="#3086FF"),
+    )
 
 markov = go.Scatter(
-    x=sentence_length_x, y=markov_generated_sentences_y, name="Markov Model"
+    x=sentence_length_x, y=markov_generated_sentences_y, name="CoMP", line=dict(color='#FF4544'),
 )
 
 data = [chimp, markov]
 layout = go.Layout(
-    title="Sentence Length vs # of Sentences",
+    # title="Sentence Length vs # of Sentences",
     xaxis=dict(
         title="Sentence Length",
-        titlefont=dict(family="Courier New, monospace", size=18, color="#7f7f7f"),
+        titlefont=dict(size=21),
+        showgrid=True, gridwidth=0.5, gridcolor='grey',
+        showline=True, linewidth=1, linecolor='black', #mirror=True
     ),
-    font=dict(size=20, family="Times"),
-    yaxis=dict(title="Number of Generated Sentenced", type="log",),
-    # legend=dict(
-    #     orientation="h",
-    #     xanchor='center',
-    #     x=0.5,
-    #     y=-0.35
-    #     # xanchor="center",
-    # ),
+    plot_bgcolor="white",
+    # font=dict(size=17.5),
+    yaxis=dict(
+        title="Avg # of Unique Sequences",
+        type="log",
+        dtick=1,
+        titlefont=dict(size=21),
+        showgrid=True, gridwidth=0.5, gridcolor='grey',
+        showline=True, linewidth=1, linecolor='black', #mirror=True
+    ),
 )
 
 fig = go.Figure(data=data, layout=layout)

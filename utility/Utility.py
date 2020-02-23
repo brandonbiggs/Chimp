@@ -7,6 +7,7 @@ import re
 
 
 def get_rand_num(first=0, second=1):
+    # TODO - Replace with numpy random
     """
     By default returns a number between 0 and 1
     Wanted to put this in it's own function in case we decide to change
@@ -75,6 +76,7 @@ def train(
 
 
 def array_average(array: []) -> float:
+    #  TODO - Replace with numpy.mean()
     total = 0
     for value in array:
         total += value

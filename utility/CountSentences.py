@@ -7,7 +7,6 @@ class CountSentences:
         file = utility.Utility.read_text_file(text_file)
         filtered = filter(None, file.split("."))
         self.num_sentences = 0
-        self.sentences = []
         self.sentences = list(filtered)
         self.num_sentences = len(self.sentences)
 

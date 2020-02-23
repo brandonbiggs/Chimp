@@ -7,8 +7,8 @@ import utility.Utility
 import utility.CountSentences
 
 
-nltk.download("tagsets", quiet=True)
-nltk.download("averaged_perceptron_tagger", quiet=True)
+# nltk.download("tagsets", quiet=True)
+# nltk.download("averaged_perceptron_tagger", quiet=True)
 
 
 class ProcessDataForChimp:
