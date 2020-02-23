@@ -38,10 +38,7 @@ command = (python_path + " " + python_file + " -g iterations:" + str(iterations)
             + " length:" + str(sentences_count) + " data_file:" + data_file + " results_file:" + results_file + " pickle_file:"
             + pickle_file #+ " pickle_mm_file:"+ pickle_mm_file
         )
-        # command = "iterations:" + str(iterations) + \
-        #           " sentences:" + str(sentence) + " length:" + str(length) + " data_file:" + \
-        #           data_file + " results_file:" + results_file + " pickle_file:" + pickle_file + \
-        #           " pickle_mm_file:" + pickle_mm_file
+
 print(command)
         # os.system(command)
 
