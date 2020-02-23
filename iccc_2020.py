@@ -40,8 +40,9 @@ def mnemonics_chimp(
     message = "Test complete. It took " + str(time.time() - start) + " seconds"
     with open(f"results/iccc2020_{result_file_name}.txt", "a") as f:
         print(f"{message}. \nNumber of sentences: {len(sentences)}", file=f)
-        for sentence in sentences:
-            print(sentence, file=f)
+        # Comment in the below two lines if you want all of the generated sentences to be printed
+        # for sentence in sentences:
+        #     print(sentence, file=f)
 
 
 def create_new_pickle():
