@@ -10,11 +10,6 @@ from utility.Utility import *
 from utility.CountSentences import *
 
 
-# Defaults
-# DATA_FILE = "data/2012_fic.txt"
-# PICKLE_FILE = "pickle_files/iccc_2020"
-
-
 def main():
     """
     Main function
@@ -168,7 +163,6 @@ def mnemonics_chimp(
         with open(f"{result_file_name}", "a") as f:
             for sentence in sentences:
                 print("  %s" % (sentence), file=f)
-
 
 
 def create_new_pickle(sentence_count: int, data_file: str, pickle_file: str, model: str):
