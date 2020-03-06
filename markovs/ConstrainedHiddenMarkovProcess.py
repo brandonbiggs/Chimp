@@ -148,8 +148,8 @@ class ConstrainedHiddenMarkovProcess:
         """
         # Check constraints
         constraint = self.hidden_constraints[node_position]
-        if constraint is None:
-            constraint = NoConstraint
+        if constraint is None or constraint == [None]:
+            constraint = [NoConstraint]
 
         # Make a deep copy of the previous alpha dictionary
         alpha_copy = copy.deepcopy(previous_alpha)
@@ -194,7 +194,7 @@ class ConstrainedHiddenMarkovProcess:
         constraint = self.observed_constraints[node_position]
 
         # If constraint does exist, we need to calculate the new probabilities
-        if constraint:
+        if constraint and constraint != [None]:
             new_emission_probs = dict()
             # Iterate over each key to calculate new emission probabilities
             for key in self.hidden_markov_model.emission_probs.keys():
@@ -223,7 +223,7 @@ class ConstrainedHiddenMarkovProcess:
             summation += dictionary.get(key)
         return summation
 
-    def calculate_e_tilde(self, dictionary: dict, constraint) -> (dict, int):
+    def calculate_e_tilde(self, dictionary: dict, constraints) -> (dict, int):
         """
         Calculates the new emission probabilities based on constraints
             Potential ways to make faster - write check for constraint if it's
@@ -235,9 +235,11 @@ class ConstrainedHiddenMarkovProcess:
         # Make a copy so we can delete values that aren't satisfied by constraint
         new_normalized_probabilities = copy.deepcopy(dictionary)
         for key in dictionary:
-            status = constraint.is_satisfied_by_state(key)
-            if not status:
-                del new_normalized_probabilities[key]
+            for constraint in constraints:
+                status = constraint.is_satisfied_by_state(key)
+                if not status:
+                    del new_normalized_probabilities[key]
+                    break
 
         # Get the sum value for normalizing
         beta = self.calculate_beta(new_normalized_probabilities)
@@ -252,7 +254,7 @@ class ConstrainedHiddenMarkovProcess:
         return new_normalized_probabilities, beta
 
     def calculate_m_tilde(
-        self, dictionary: dict, constraint, beta_dict: dict, previous_alpha_dict: dict
+        self, dictionary: dict, constraints, beta_dict: dict, previous_alpha_dict: dict
     ) -> (dict, int):
         """
         Calculates the new transition probabilities between the hidden nodes
@@ -267,9 +269,11 @@ class ConstrainedHiddenMarkovProcess:
 
         # Apply the constraint to a new dictionary
         for key in dictionary:
-            status = constraint.is_satisfied_by_state(key)
-            if not status:
-                del normalized_transition_probabilities[key]
+            for constraint in constraints:
+                status = constraint.is_satisfied_by_state(key)
+                if not status:
+                    del normalized_transition_probabilities[key]
+                    break
 
         # Calculate the alpha value
         alpha = self.calculate_alpha(

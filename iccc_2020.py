@@ -1,6 +1,7 @@
 from markovs.ConstrainedHiddenMarkovProcess import *
 from markovs.ChimpSentenceGenerator import *
 from constraints.ConstraintStartsWithLetter import *
+from constraints.ConstraintStopWord import *
 import pickle
 import time
 import datetime
@@ -71,10 +72,10 @@ def main():
     # # Red rhyme
     # size_of_model = 4
     # observed_constraints = [
-    #     ConstraintRhymesWith("red", True),
+    #     [ConstraintRhymesWith("red", True)],
     #     None,
     #     None,
-    #     ConstraintMatchesString("red", True),
+    #     [ConstraintMatchesString("red", True)],
     # ]
 
     # Create constraints
@@ -83,7 +84,10 @@ def main():
         size_of_model = len(constraint)
         hidden_constraints = []
         for letter in constraint:
-            hidden_constraints.append(ConstraintStartsWithLetter(letter, True, 1))
+            hidden_constraints.append([
+                    ConstraintStartsWithLetter(letter, True, 1),
+                    ConstraintStopWord(False)
+                ])
 
         # Create a blank observed constraint list
         observed_constraints = []
@@ -94,7 +98,10 @@ def main():
         size_of_model = len(constraint)
         observed_constraints = []
         for letter in constraint:
-            observed_constraints.append(ConstraintStartsWithLetter(letter, True, 1))
+            observed_constraints.append([
+                    ConstraintStartsWithLetter(letter, True, 1),
+                    ConstraintStopWord(False)
+                ])
 
         # Create a blank hidden constraint list
         hidden_constraints = []
