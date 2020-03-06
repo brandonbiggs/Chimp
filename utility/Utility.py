@@ -94,14 +94,21 @@ def read_text_file(file_name) -> str:
     newstring = ""
     words_from_file = re.sub(r" (?='|\.|\,|\?| |\!)", "", words_from_file)
     words_from_file = re.sub(r"(<p>)", "", words_from_file)
-    for character in words_from_file:
-        # We don't care about questions so we'll just treat them like regular
-        #   sentences
-        if character == "?" or character == "!":
-            newstring += "."
-        elif character not in ';\n"<>[]@#$%^&*()-_+={}/\\' and not character.isdigit():
-            newstring += character
-        # else:
-        #     newstring += ""
-    # return words_from_file
+
+    word = ""
+    for character in words_from_file.lower():
+        if character not in '?!.\ ;\n"<>[]@#$%^&*()-_+={}/\\' and not character.isdigit():
+            word += character
+        elif character == "?" or character == "!":
+            word += "."
+        elif character == " ":
+            # Check if word isn't a random single character
+            if len(word) <= 1:
+                if word == "a" or word == "i":
+                    newstring += word + " "
+            else:
+                newstring += word + " "
+
+            word = ""
+            
     return newstring
