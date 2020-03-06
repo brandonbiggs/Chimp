@@ -1,3 +1,5 @@
+import nltk
+from nltk.tokenize import RegexpTokenizer
 import utility.Utility
 from progress.bar import Bar
 import utility.CountSentences as countSentences
@@ -11,6 +13,7 @@ class ProcessDataForMM:
         progress_bar=True,
         initial_prob_extensive=True,
         file_contents_bool=False,
+        should_tag_pos=False,
     ) -> None:
         """
 
@@ -40,7 +43,7 @@ class ProcessDataForMM:
         #     self.__init_with_progress(file_name)
         # else:
         #     self.__init_without_progress_bar(file_name)
-        self.__init_without_progress_bar(file_name, file_contents_bool)
+        self.__init_without_progress_bar(file_name, file_contents_bool, should_tag_pos)
 
     def __init_with_progress(self, file_name):
         self.file_name = file_name
@@ -55,7 +58,7 @@ class ProcessDataForMM:
         bar.next()
         bar.finish()
 
-    def __init_without_progress_bar(self, file_name, file_contents_bool):
+    def __init_without_progress_bar(self, file_name, file_contents_bool, should_tag_pos):
         self.file_name = file_name
         # self.file_contents = util.read_text_file(self.file_name)
         if file_contents_bool:
@@ -67,14 +70,15 @@ class ProcessDataForMM:
                 contents.get_sentences(self.number_of_sentences)
             )
 
-        self.__step_through_sentences()
+        self.__step_through_sentences(should_tag_pos)
         self.__setup_initial_probability()
         self.__setup_emission_probabilities()
         self.__setup_transition_probabilities()
 
-    def __step_through_sentences(self):
-        """
 
+    def __step_through_sentences(self, should_tag_pos):
+        """
+        :param should_tag_pos: bool to tag pos to string or not
         :return:
         """
         sentences = self.file_contents.split(".")
@@ -83,7 +87,15 @@ class ProcessDataForMM:
             # Gets rid of any words that are empty.
             if sentence == "":
                 continue
-            words = sentence.split(" ")
+            
+            if should_tag_pos:
+                tokenizer = RegexpTokenizer(r"\w+")
+                tokens = tokenizer.tokenize(sentence)
+                tokenized_text = nltk.pos_tag(tokens)
+
+                words = [token[0] + ':' + token[1] for token in tokenized_text]
+            else:
+                words = sentence.split(" ")
 
             # Setup for the initial probabilities as the first word of the sentence
             if self.initial_prob_extensive:

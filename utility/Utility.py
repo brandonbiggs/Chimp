@@ -57,7 +57,7 @@ def train(
         )
     elif model == "markovmodel":
         data = ProcessDataForMM(
-            text_file, number_of_sentences, False, file_contents_bool=text_contents
+            text_file, number_of_sentences, False, file_contents_bool=text_contents, should_tag_pos=True
         )
     else:
         raise Exception("Unknown model. Please use either 'chimp' or 'markovmodel'")
