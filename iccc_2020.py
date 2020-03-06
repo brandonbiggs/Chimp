@@ -23,6 +23,7 @@ def main():
     # defaults
     should_create_pickle = False
     should_get_total_solutions = False
+    should_use_comp = False
     sentence_count = 4
 
     data_file = 'data/red_rhyme.txt'
@@ -32,7 +33,7 @@ def main():
 
     # Capture arugments
     if len(sys.argv) == 1:
-        print("Usage: iccc_2020.py [--create-pickle, --perform-dfs] -n sentence_count -i data_file -p pickle_file -c constraint -o results_file")
+        print("Usage: iccc_2020.py [--create-pickle, --perform-dfs, --comp] -n sentence_count -i data_file -p pickle_file -c constraint -o results_file")
         print("Example: iccc_2020.py --create-pickle --perform-dfs -n 100 -i data/2012_fic.txt -p pickle_files/iccc_2020_dante_100.pickle -c \"LLGGAHVFT\" -o results/icc_2020_dante.txt")
         exit(1)
 
@@ -41,6 +42,8 @@ def main():
             should_create_pickle = True
         elif sys.argv[i] == '--perform-dfs':
             should_get_total_solutions = True
+        elif sys.argv[i] == '--comp':
+            should_use_comp = True
         elif sys.argv[i] == '-n':
             sentence_count = int(sys.argv[i+1])
         elif sys.argv[i] == '-i':
@@ -55,7 +58,8 @@ def main():
     if should_create_pickle:
         create_new_pickle(sentence_count=sentence_count,
                         data_file=data_file,
-                        pickle_file=pickle_file)
+                        pickle_file=pickle_file,
+                        model='chimp' if not should_use_comp else 'markovmodel')
 
     # Name of the pickle file to reduce train time. If you run the train function above,
     # make sure you change the below pickle file to match the new trained pickle file :)
@@ -63,31 +67,44 @@ def main():
 
     # Number of unique solutions to look for
     # sentence_iterations = 100000
-    sentence_iterations = 3
+    sentence_iterations = 10
 
     # Load our Hidden Markov Model from the pickle file
     with open(pickle_file, "rb") as handle:
         hidden_markov_model = pickle.load(handle)
 
-    # Red rhyme
-    size_of_model = 4
-    observed_constraints = [
-        ConstraintRhymesWith("red", True),
-        None,
-        None,
-        ConstraintMatchesString("red", True),
-    ]
+    # # Red rhyme
+    # size_of_model = 4
+    # observed_constraints = [
+    #     ConstraintRhymesWith("red", True),
+    #     None,
+    #     None,
+    #     ConstraintMatchesString("red", True),
+    # ]
 
-    # # Dynamically set problem
-    # size_of_model = len(constraint)
-    # observed_constraints = []
-    # for letter in constraint:
-    #     observed_constraints.append(ConstraintStartsWithLetter(letter, True, 1))
+    # Create constraints
+    if should_use_comp:  # for CoMP
+        # Dynamically set problem
+        size_of_model = len(constraint)
+        hidden_constraints = []
+        for letter in constraint:
+            hidden_constraints.append(ConstraintStartsWithLetter(letter, True, 1))
 
-    # Create a blank hidden constraint list
-    hidden_constraints = []
-    for x in range(size_of_model):
-        hidden_constraints.append(None)
+        # Create a blank observed constraint list
+        observed_constraints = []
+        for x in range(size_of_model):
+            observed_constraints.append(None)
+    else:  # for CHiMP
+        # Dynamically set problem
+        size_of_model = len(constraint)
+        observed_constraints = []
+        for letter in constraint:
+            observed_constraints.append(ConstraintStartsWithLetter(letter, True, 1))
+
+        # Create a blank hidden constraint list
+        hidden_constraints = []
+        for x in range(size_of_model):
+            hidden_constraints.append(None)
 
     mnemonics_chimp(hidden_markov_model, size_of_model=size_of_model, sentence_iterations=sentence_iterations,
                     observed_constraints=observed_constraints, hidden_constraints=hidden_constraints,
@@ -154,7 +171,7 @@ def mnemonics_chimp(
 
 
 
-def create_new_pickle(sentence_count: int, data_file: str, pickle_file: str):
+def create_new_pickle(sentence_count: int, data_file: str, pickle_file: str, model: str):
     """
     :param sentence_count: How many sentences to train on
     :param data_file: training data file path
@@ -173,7 +190,7 @@ def create_new_pickle(sentence_count: int, data_file: str, pickle_file: str):
     train(number_of_sentences=sentence_count,
           text_file=file_contents,
           pickle_file=pickle_file,
-          model="chimp",
+          model=model,
           text_contents=True)
 
 
