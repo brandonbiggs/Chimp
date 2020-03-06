@@ -373,9 +373,19 @@ class ConstrainedHiddenMarkovProcess:
         
         # Find possible initial hidden states (non-zero probabilities)
         initial_hidden_states = self.constrained_transition_probabilities[0]
+
+        # Count layer 0 initials for progress indicator
+        total_initials = 0
         for hidden_state in initial_hidden_states.keys():
             if initial_hidden_states[hidden_state] > 0.0:
-                print("- progress \033[33m%s\033[0m, layer 0, %s" % (datetime.datetime.now().strftime("%H:%M:%S"), hidden_state))
+                total_initials += 1
+
+
+        i = 0 # used for progress
+        for hidden_state in initial_hidden_states.keys():
+            if initial_hidden_states[hidden_state] > 0.0:
+                i += 1
+                print("- progress \033[33m%s\033[0m, %d/%d, %s" % (datetime.datetime.now().strftime("%H:%M:%S"), i, total_initials, hidden_state))
                 # Call recursive counting function on each non-zero hidden state
                 self.get_total_solution_count_emission_impl(hidden_state, 0, count, [])
         
@@ -433,10 +443,10 @@ class ConstrainedHiddenMarkovProcess:
             if layer_index == self.layers-1:
                 count[0] += 1
 
-                # print solution
-                for word in solution + [emission]:
-                    print(word, end=' ')
-                print(count[0])
+                # # print solution
+                # for word in solution + [emission]:
+                #     print(word, end=' ')
+                # print(count[0])
 
             else:
                 self.get_total_solution_count_hidden_impl(hidden_state,
