@@ -5,6 +5,8 @@ from utility.ProcessDataForMM import ProcessDataForMM
 from markovs.HiddenMarkovModel import HiddenMarkovModel
 import re
 
+START = '<<START>>'
+END = '<<END>>'
 
 def get_rand_num(first=0, second=1):
     # TODO - Replace with numpy random
