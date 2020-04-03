@@ -28,7 +28,7 @@ class ProcessDataForChimp:
         self.file_name = ""
         self.file_contents = ""
         self.processed_output = []
-        self.tokenized_text = ""
+        self.tokenized_text = []
         self.tokens = []
         self.parts_of_speech = []
         # DONE - Wouldn't be a bad idea to verify that these are working correctly however
@@ -98,9 +98,25 @@ class ProcessDataForChimp:
         Uses nltk to tokenize and tag each word with it's POS in the string
         :return: None
         """
-        tokenizer = RegexpTokenizer(r"\w+")
-        self.tokens = tokenizer.tokenize(self.file_contents)
-        self.tokenized_text = nltk.pos_tag(self.tokens)
+        sentences = self.file_contents.split(".")
+        for sentence in sentences:
+            sentence = sentence.lstrip().rstrip()
+            if sentence == "":
+                continue
+
+            tokenizer = RegexpTokenizer(r"\w+")
+            tokens = tokenizer.tokenize(sentence)
+            tokenized_text = nltk.pos_tag(tokens)
+
+            self.tokens.extend(tokens)
+            self.tokenized_text.extend(tokenized_text)
+
+            # Count first word pos into initial probabilities
+            if len(tokenized_text) > 0:
+                self.initial_probs.setdefault(tokenized_text[0][1], 0.0)
+                self.initial_probs[tokenized_text[0][1]] += 1.0
+
+
 
     def create_pos_dictionaries(self) -> None:
         """
@@ -113,8 +129,6 @@ class ProcessDataForChimp:
             if token[0] not in self.observed_nodes:
                 self.observed_nodes.append(token[0])
             # Creating count of each token
-            # print(token)
-            self.initial_probs.setdefault(token[1], []).append(1)
             self.emission_probs.setdefault(token[1], []).append([token[0], 1.0])
 
     def __create_emission_probabilities(self) -> None:
@@ -139,9 +153,9 @@ class ProcessDataForChimp:
 
         :return: None
         """
-        word_count = len(self.tokenized_text)
+        total_initial_nodes = sum(self.initial_probs.values())
         for key in self.initial_probs.keys():
-            self.initial_probs[key] = len(self.initial_probs.get(key)) / word_count
+            self.initial_probs[key] = self.initial_probs.get(key) / total_initial_nodes
 
     def __create_transition_probabilities(self):
         # TODO - Improvement - Maybe calculate transitions at the same time of
