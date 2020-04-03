@@ -4,6 +4,7 @@ from progress.bar import Bar
 
 # from utility.Utility import read_text_file
 import utility.Utility
+import utility.Utility as ut
 import utility.CountSentences
 
 
@@ -111,6 +112,8 @@ class ProcessDataForChimp:
             self.tokens.extend(tokens)
             self.tokenized_text.extend(tokenized_text)
 
+            self.tokenized_text.append((ut.END, ut.END))
+
             # Count first word pos into initial probabilities
             if len(tokenized_text) > 0:
                 self.initial_probs.setdefault(tokenized_text[0][1], 0.0)
@@ -168,15 +171,18 @@ class ProcessDataForChimp:
 
         # We look at the transitions between a current token and the previous
         #   token. Then we add that transition to the transition dictionary
-        first_token = True
-        previous_token = ""
+        skip_token = True
+        previous_token = (ut.END, ut.END)
         for token in self.tokenized_text:
-            if token[1] not in self.parts_of_speech:
+            if token[1] not in self.parts_of_speech and not ut.END:
                 self.parts_of_speech.append(token[1])
-            # If first token, we set previous token then skip to the next token
-            if first_token:
+
+            if token[0] is ut.END or previous_token[0] is ut.END:
+                skip_token = True
+            # If first token or end of sentence, we set previous token then skip to the next token
+            if skip_token:
                 previous_token = token
-                first_token = False
+                skip_token = False
             # If not first token, get the keys, add them to the transition dict
             else:
                 previous_key = previous_token[1]
