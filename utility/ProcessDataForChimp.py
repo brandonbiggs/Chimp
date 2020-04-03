@@ -116,8 +116,6 @@ class ProcessDataForChimp:
                 self.initial_probs.setdefault(tokenized_text[0][1], 0.0)
                 self.initial_probs[tokenized_text[0][1]] += 1.0
 
-
-
     def create_pos_dictionaries(self) -> None:
         """
         Iterates through the tokens and draws out their parts of speech
@@ -184,16 +182,17 @@ class ProcessDataForChimp:
                 previous_key = previous_token[1]
                 current_key = token[1]
                 # if we haven't created a dict yet for the previous key
-                self.transition_probs.setdefault(previous_key, {}).update(
-                    {current_key: 1.0}
-                )
+                self.transition_probs.setdefault(previous_key, {current_key: 0.0})
+                self.transition_probs[previous_key].setdefault(current_key, 0.0)
+                self.transition_probs[previous_key][current_key] += 1
                 previous_token = token
 
         # We now iterate over all keys and calculate their probabilities
         for key in self.transition_probs.keys():
-            count = len(self.transition_probs.get(key))
+            total_count = sum(self.transition_probs.get(key).values())
             for inner_key in self.transition_probs.get(key):
-                self.transition_probs.get(key)[inner_key] = 1 / count
+                value = self.transition_probs.get(key)[inner_key]
+                self.transition_probs.get(key)[inner_key] = value / total_count
 
         for pos in self.parts_of_speech:
             for inner_pos in self.parts_of_speech:
