@@ -83,6 +83,16 @@ def array_average(array: []) -> float:
     return total / len(array)
 
 
+def remove_pos_tags(sentence: str) -> str:
+    new_sentence = ''
+    words = sentence.split(' ')
+    for word in words:
+        word_split = word.split(':')
+        if len(word_split) > 0:
+            new_sentence += word_split[0] + ' '
+
+    return new_sentence.rstrip()
+
 def read_text_file(file_name) -> str:
     """
     Reads the text file
@@ -99,16 +109,19 @@ def read_text_file(file_name) -> str:
     for character in words_from_file.lower():
         if character not in '?!.\ ;\n"<>[]@#$%^&*()-_+={}/\\' and not character.isdigit():
             word += character
-        elif character == "?" or character == "!":
+        elif character == "?" or character == "!" or character == ".":
             word += "."
         elif character == " ":
             # Check if word isn't a random single character
             if len(word) <= 1:
                 if word == "a" or word == "i":
                     newstring += word + " "
+                if word == "." or word == ",":
+                    newstring += word
             else:
                 newstring += word + " "
 
             word = ""
+    newstring += word
             
     return newstring

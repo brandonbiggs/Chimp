@@ -98,7 +98,7 @@ class ProcessDataForMM:
                 words = sentence.split(" ")
 
             # Setup for the initial probabilities as the first word of the sentence
-            if self.initial_prob_extensive:
+            if self.initial_prob_extensive and len(words) > 0:
                 self.first_word_of_sentence.append(words[0])
 
             # Iterate over each word in the sentence
