@@ -83,6 +83,16 @@ def array_average(array: []) -> float:
     return total / len(array)
 
 
+def remove_pos_tags(sentence: str) -> str:
+    new_sentence = ''
+    words = sentence.split(' ')
+    for word in words:
+        word_split = word.split(':')
+        if len(word_split) > 0:
+            new_sentence += word_split[0] + ' '
+
+    return new_sentence.rstrip()
+
 def read_text_file(file_name) -> str:
     """
     Reads the text file
