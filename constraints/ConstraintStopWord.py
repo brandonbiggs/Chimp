@@ -8,13 +8,16 @@ class ConstraintStopWord(Constraint):
     """
 
     __must_be_stopword = False
+    __is_using_pos_tags = False
 
-    def __init__(self, must_be_stopword: bool):
+    def __init__(self, must_be_stopword: bool, is_using_pos_tags: bool):
         """
         :param must_be_stopword: If False, then the constrained word must not be a stopword
+        :param is_using_pos_tags: words are tagged with POS (e.g. 'word:NN')
         """
         Constraint.__init__(self)
         self.__must_be_stopword = must_be_stopword
+        self.__is_using_pos_tags = is_using_pos_tags
 
     def is_satisfied_by_state(self, word: str) -> bool:
         """
@@ -22,10 +25,17 @@ class ConstraintStopWord(Constraint):
         :param word:
         :return: bool
         """
-        if self.__must_be_stopword:
-            return word in STOP_WORDS
+        if not self.__is_using_pos_tags:
+            if self.__must_be_stopword:
+                return word in STOP_WORDS
+            else:
+                return word not in STOP_WORDS
         else:
-            return word not in STOP_WORDS
+            if self.__must_be_stopword:
+                return word.split(':')[0] in STOP_WORDS
+            else:
+                return word.split(':')[0] not in STOP_WORDS
+
 
     def print(self):
         print("Must be stop word:", self.__must_be_stopword)
