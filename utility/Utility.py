@@ -109,16 +109,19 @@ def read_text_file(file_name) -> str:
     for character in words_from_file.lower():
         if character not in '?!.\ ;\n"<>[]@#$%^&*()-_+={}/\\' and not character.isdigit():
             word += character
-        elif character == "?" or character == "!":
+        elif character == "?" or character == "!" or character == ".":
             word += "."
         elif character == " ":
             # Check if word isn't a random single character
             if len(word) <= 1:
                 if word == "a" or word == "i":
                     newstring += word + " "
+                if word == "." or word == ",":
+                    newstring += word
             else:
                 newstring += word + " "
 
             word = ""
+    newstring += word
             
     return newstring
