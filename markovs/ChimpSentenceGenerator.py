@@ -46,7 +46,7 @@ class ChimpSentenceGenerator:
             if rand < count:
                 if key is not None:
                     self.initial_pos = key
-                    return key
+                    return key[-1]
 
     def get_first_pos(self) -> str:
         """
@@ -64,7 +64,7 @@ class ChimpSentenceGenerator:
             if rand < sum:
                 if key is not None:
                     self.initial_pos = key
-                    return key
+                    return key[-1]
 
     def get_emission_word(self, node_layer: int, pos: str) -> str:
         """

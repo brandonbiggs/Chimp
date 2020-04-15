@@ -22,6 +22,8 @@ class HiddenMarkovModel:
     # observed_nodes = List of nodes
     observed_nodes = []
 
+    markov_order = 1
+
     def __init__(self, hidden_nodes, observed_nodes):
         self.hidden_nodes = hidden_nodes
         self.observed_nodes = observed_nodes
@@ -33,3 +35,4 @@ class HiddenMarkovModel:
         print("Initial Probabilities:", self.initial_probs)
         print("Transition Probabilities:", self.transition_probs)
         print("Emission Probabilities:", self.emission_probs)
+        print("Markov Order: ", self.markov_order)

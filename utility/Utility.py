@@ -26,6 +26,7 @@ def train(
     text_file="data/book_tiny.txt",
     pickle_file="pickle_files/new_file.pickle",
     model="chimp",
+    markov_order=1,
     verbose=True,
     text_contents=False,
 ) -> None:
@@ -55,7 +56,7 @@ def train(
     # Process the text file
     if model == "chimp":
         data = ProcessDataForChimp(
-            text_file, number_of_sentences, False, file_contents=text_contents
+            text_file, number_of_sentences, False, file_contents=text_contents, markov_order=markov_order
         )
     elif model == "markovmodel":
         data = ProcessDataForMM(

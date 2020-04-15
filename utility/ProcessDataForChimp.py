@@ -14,7 +14,7 @@ import utility.CountSentences
 
 class ProcessDataForChimp:
     def __init__(
-        self, file: str, number_of_sentences, progress_bar=True, file_contents=False
+        self, file: str, number_of_sentences, progress_bar=True, file_contents=False, markov_order=1
     ) -> None:
         """
         :param file: Name of the file to read and create probabilities from
@@ -40,6 +40,7 @@ class ProcessDataForChimp:
         self.emission_probs = {}
         self.hidden_nodes = []  # This is a list of dictionaries for each POS
         self.transition_probs = {}
+        self.markov_order = markov_order
         self.number_of_sentences = number_of_sentences
         self.file_contents_bool = file_contents
         if progress_bar:
@@ -116,8 +117,14 @@ class ProcessDataForChimp:
 
             # Count first word pos into initial probabilities
             if len(tokenized_text) > 0:
-                self.initial_probs.setdefault(tokenized_text[0][1], 0.0)
-                self.initial_probs[tokenized_text[0][1]] += 1.0
+                first_word_key_list = []
+                for _ in range(self.markov_order-1):
+                    first_word_key_list.append(ut.START)
+                first_word_key_list.append(tokenized_text[0][1])
+                first_word_key = tuple(first_word_key_list)
+                
+                self.initial_probs.setdefault(first_word_key, 0.0)
+                self.initial_probs[first_word_key] += 1.0
 
     def create_pos_dictionaries(self) -> None:
         """
@@ -126,6 +133,8 @@ class ProcessDataForChimp:
         :return: None
         """
         for token in self.tokenized_text:
+            if token[0] is ut.END:
+                continue
             # Creating observed nodes
             if token[0] not in self.observed_nodes:
                 self.observed_nodes.append(token[0])
@@ -163,8 +172,7 @@ class ProcessDataForChimp:
         #   putting them into the transition dictionary
         # This is the probabilities from one part of speech to another
         #       need to confirm that this is the right way we're doing this
-        #  TODO - Ask, is this order one markov? Is there a specific order in this
-        #       kind of model?
+        #
         #     transition_probs = {"DT": {"NN": 1.0, "DT": 0.0, "NNS": 0.0},
         #                  "NN": {"NN": 0.1, "DT": 0.2, "NNS": 0.7},
         #                  "NNS": {"NN": 0.4, "DT": 0.5, "NNS": 0.1}}
@@ -173,7 +181,8 @@ class ProcessDataForChimp:
         #   token. Then we add that transition to the transition dictionary
         skip_token = True
         previous_token = (ut.END, ut.END)
-        for token in self.tokenized_text:
+        for i in range(len(self.tokenized_text)):
+            token = self.tokenized_text[i]
             if token[1] not in self.parts_of_speech and not ut.END:
                 self.parts_of_speech.append(token[1])
 
@@ -185,8 +194,9 @@ class ProcessDataForChimp:
                 skip_token = False
             # If not first token, get the keys, add them to the transition dict
             else:
-                previous_key = previous_token[1]
-                current_key = token[1]
+                previous_key = self.__get_hidden_state(i-1)
+                current_key = self.__get_hidden_state(i)
+
                 # if we haven't created a dict yet for the previous key
                 self.transition_probs.setdefault(previous_key, {current_key: 0.0})
                 self.transition_probs[previous_key].setdefault(current_key, 0.0)
@@ -205,3 +215,24 @@ class ProcessDataForChimp:
                 if self.transition_probs.get(pos) is not None:
                     if inner_pos not in self.transition_probs.get(pos).keys():
                         self.transition_probs.get(pos).update({inner_pos: 0.0})
+
+    def __get_hidden_state(self, token_position) -> []:
+        """
+        Finds the hidden state given the markov order of the model
+        """
+        hidden_state = []
+        is_start_token = False  # True if before first token of sequence
+        for i in range(self.markov_order):
+            # Check if the lookback should be (and continue to be) a start token
+            if token_position-i < 0:
+                is_start_token = True
+            elif self.tokenized_text[token_position-i][1] is ut.END:
+                is_start_token = True
+
+            if is_start_token:
+                hidden_state.append(ut.START)
+            else:
+                hidden_state.append(self.tokenized_text[token_position-i][1])
+
+        hidden_state.reverse()
+        return tuple(hidden_state) # cast list as a tuple to make hashable

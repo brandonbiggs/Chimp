@@ -270,7 +270,8 @@ class ConstrainedHiddenMarkovProcess:
         # Apply the constraint to a new dictionary
         for key in dictionary:
             for constraint in constraints:
-                status = constraint.is_satisfied_by_state(key)
+                # Only check last hidden state regardless of markov order
+                status = constraint.is_satisfied_by_state(key[len(key)-1])
                 if not status:
                     del normalized_transition_probabilities[key]
                     break
@@ -286,7 +287,7 @@ class ConstrainedHiddenMarkovProcess:
                 normalized_transition_probabilities[key] = 0
             else:
                 previous_alpha = previous_alpha_dict.get(key)
-                beta = beta_dict.get(key)
+                beta = beta_dict.get(key[-1])
                 z = normalized_transition_probabilities.get(key)
                 normalized_transition_probabilities[key] = (
                     beta * z * previous_alpha
@@ -309,10 +310,10 @@ class ConstrainedHiddenMarkovProcess:
                 alpha = 0
             else:
                 alpha = previous_alpha.get(key)
-            if not beta_dict.get(key):
+            if not beta_dict.get(key[-1]):
                 beta = 0
             else:
-                beta = beta_dict.get(key)
+                beta = beta_dict.get(key[-1])
             z = dictionary.get(key)
             # print("Z", z, "beta", beta, "alpha", alpha)
             summation += z * beta * alpha
@@ -438,7 +439,7 @@ class ConstrainedHiddenMarkovProcess:
         """
         emission_probs = self.constrained_observed_emission_probabilities[layer_index]
 
-        for emission in emission_probs[hidden_state]:
+        for emission in emission_probs[hidden_state[-1]]:
             # Print emission for testing
             # self.print_emission(emission, hidden_state, layer_index);
             # solution.append(emission)
