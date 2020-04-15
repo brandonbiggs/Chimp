@@ -23,6 +23,7 @@ def main():
     should_get_total_solutions = False
     should_use_comp = False
     should_use_alphabet_loop = False
+    markov_order = 1
     sentence_count = 4
 
     data_file = 'data/red_rhyme.txt'
@@ -47,8 +48,12 @@ def main():
             should_use_comp = True
         elif sys.argv[i] == '--alphabet':
             should_use_alphabet_loop = True
+        elif sys.argv[i] == '-m':
+            markov_order = int(sys.argv[i+1])
         elif sys.argv[i] == '-n':
             sentence_count = int(sys.argv[i+1])
+        elif sys.argv[i] == '-s':
+            sentence_iterations = int(sys.argv[i+1])
         elif sys.argv[i] == '-i':
             data_file = sys.argv[i+1]
         elif sys.argv[i] == '-p':
@@ -66,7 +71,7 @@ def main():
     if should_use_alphabet_loop:
         alphabet_loop(should_use_comp=should_use_comp, should_create_pickle=should_create_pickle,
                       data_file=data_file, pickle_file=pickle_file,
-                      results_file=results_file, averages_file=averages_file)
+                      results_file=results_file, averages_file=averages_file, markov_order=markov_order)
 
     else:  # else using command line inputs
 
@@ -74,31 +79,32 @@ def main():
             create_new_pickle(sentence_count=sentence_count,
                             data_file=data_file,
                             pickle_file=pickle_file[:-7] + '_' + str(sentence_count) + '_' + model_str + pickle_file[-7:],
-                            model=model_str)
+                            model=model_str,
+                            markov_order=markov_order)
 
         # Load our Hidden Markov Model from the pickle file
         with open(pickle_file[:-7] + '_' + str(sentence_count) + '_' + model_str + pickle_file[-7:], "rb") as handle:
             hidden_markov_model = pickle.load(handle)
 
         # Red rhyme
-        size_of_model = 4
-        observed_constraints = [
-            [ConstraintRhymesWith("red", True)],
-            None,
-            None,
-            [ConstraintMatchesString("red", True)],
-        ]
+        # size_of_model = 4
+        # observed_constraints = [
+        #     [ConstraintRhymesWith("red", True)],
+        #     None,
+        #     None,
+        #     [ConstraintMatchesString("red", True)],
+        # ]
 
         # Create constraints
         if should_use_comp:  # for CoMP
             # Dynamically set problem
-            # size_of_model = len(constraint)
-            # hidden_constraints = []
-            # for letter in constraint:
-            #     hidden_constraints.append([
-            #             ConstraintStartsWithLetter(letter, True, 1),
-            #             # ConstraintStopWord(False, True)
-            #         ])
+            size_of_model = len(constraint)
+            hidden_constraints = []
+            for letter in constraint:
+                hidden_constraints.append([
+                        ConstraintStartsWithLetter(letter, True, 1),
+                        # ConstraintStopWord(False, True)
+                    ])
 
             # Create a blank observed constraint list
             observed_constraints = []
@@ -106,13 +112,13 @@ def main():
                 observed_constraints.append(None)
         else:  # for CHiMP
             # Dynamically set problem
-            # size_of_model = len(constraint)
-            # observed_constraints = []
-            # for letter in constraint:
-            #     observed_constraints.append([
-            #             ConstraintStartsWithLetter(letter, True, 1),
-            #             # ConstraintStopWord(False, True)
-            #         ])
+            size_of_model = len(constraint)
+            observed_constraints = []
+            for letter in constraint:
+                observed_constraints.append([
+                        ConstraintStartsWithLetter(letter, True, 1),
+                        # ConstraintStopWord(False, True)
+                    ])
 
             # Create a blank hidden constraint list
             hidden_constraints = []
@@ -124,12 +130,12 @@ def main():
                         result_file_name=results_file, constraint_str=constraint,
                         should_get_total_solutions=should_get_total_solutions,
                         training_sentence_count=sentence_count,
-                        model_str=model_str)
+                        model_str=model_str, markov_order=markov_order)
 
 
 def alphabet_loop(should_use_comp: bool, should_create_pickle: bool,
                   data_file: str, pickle_file: str,
-                  results_file: str, averages_file: str):
+                  results_file: str, averages_file: str, markov_order: int):
    
     start = time.time()
 
@@ -159,7 +165,7 @@ def alphabet_loop(should_use_comp: bool, should_create_pickle: bool,
             create_new_pickle(sentence_count=training_sentence_count,
                             data_file=data_file,
                             pickle_file=pickle_file[:-7] + '_' + str(training_sentence_count) + '_' + model_str + pickle_file[-7:],
-                            model=model_str)
+                            model=model_str, markov_order=markov_order)
 
         with open(pickle_file[:-7] + '_' + str(training_sentence_count) + '_' + model_str + pickle_file[-7:], "rb") as handle:
             hidden_markov_model = pickle.load(handle)
@@ -210,7 +216,7 @@ def mnemonics_chimp(
     hidden_markov_model, size_of_model: int, sentence_iterations: int,
     observed_constraints: list, hidden_constraints: list, result_file_name: str,
     constraint_str: str, should_get_total_solutions: bool,
-    training_sentence_count: int, model_str: str):
+    training_sentence_count: int, model_str: str, markov_order: int):
     """
 
     :param hidden_markov_model:
@@ -279,7 +285,7 @@ def mnemonics_chimp(
         return len(sentences)
 
 
-def create_new_pickle(sentence_count: int, data_file: str, pickle_file: str, model: str):
+def create_new_pickle(sentence_count: int, data_file: str, pickle_file: str, model: str, markov_order: int):
     """
     :param sentence_count: How many sentences to train on
     :param data_file: training data file path
@@ -299,6 +305,7 @@ def create_new_pickle(sentence_count: int, data_file: str, pickle_file: str, mod
           text_file=file_contents,
           pickle_file=pickle_file,
           model=model,
+          markov_order=markov_order,
           text_contents=True)
 
 
@@ -307,11 +314,11 @@ if __name__ == '__main__':
     alphabet = 'adtl'
     # alphabet = 't'
 
-    for _ in range(1):
-        rand_letter = alphabet[random.randint(0, len(alphabet)-1)]
-        sys.argv.append('-c')
-        sys.argv.append("%s" % rand_letter * 6)
+    # for _ in range(1):
+    #     rand_letter = alphabet[random.randint(0, len(alphabet)-1)]
+    #     sys.argv.append('-c')
+    #     sys.argv.append("%s" % rand_letter * 6)
 
-        main()
+    #     main()
 
-    # main()
+    main()
