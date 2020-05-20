@@ -60,7 +60,8 @@ def train(
         )
     elif model == "markovmodel":
         data = ProcessDataForMM(
-            text_file, number_of_sentences, False, file_contents_bool=text_contents, should_tag_pos=True
+            text_file, number_of_sentences, False, file_contents_bool=text_contents, should_tag_pos=True,
+            markov_order=markov_order
         )
     else:
         raise Exception("Unknown model. Please use either 'chimp' or 'markovmodel'")
@@ -70,6 +71,7 @@ def train(
     hidden_markov_model.initial_probs = data.initial_probs
     hidden_markov_model.transition_probs = data.transition_probs
     hidden_markov_model.emission_probs = data.emission_probs
+    hidden_markov_model.markov_order = data.markov_order
 
     # Store the hidden Markov Model that we just created
     with open(pickle_file, "wb") as handle:
