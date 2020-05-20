@@ -25,7 +25,11 @@ class ChimpSentenceGenerator:
                 pos = self.get_pos(node_layer, self.initial_pos)
             next_word = self.get_emission_word(node_layer, pos)
             if next_word is not None:
-                sentence += next_word + " "
+                if next_word != pos:  # Account for integrated pos tags
+                    sentence += next_word + ":" + pos + " "
+                else:
+                    sentence += next_word + " "
+
         return sentence.rstrip()
 
     def get_pos(self, node_layer, pos):
