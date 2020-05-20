@@ -16,14 +16,12 @@ except LookupError:
 
 
 class ConstraintIsPartOfSpeech(Constraint):
-    """
-    TODO - Need to rethink how this is working. Not working correctly.
-    """
 
     part_of_speech = ""
     must_be_pos = ""
+    using_integrated_pos_tags = False
 
-    def __init__(self, part_of_speech: str, must_be_pos: bool):
+    def __init__(self, part_of_speech: str, must_be_pos: bool, using_integrated_pos_tags=False):
         """
 
         :param part_of_speech: part of speech that we care about
@@ -34,6 +32,7 @@ class ConstraintIsPartOfSpeech(Constraint):
         Constraint.__init__(self)
         self.part_of_speech = part_of_speech
         self.must_be_pos = must_be_pos
+        self.using_integrated_pos_tags = using_integrated_pos_tags
 
     def is_satisfied_by_state(self, word: str) -> bool:
         """
@@ -42,7 +41,10 @@ class ConstraintIsPartOfSpeech(Constraint):
         :param word:
         :return:
         """
-        part_of_speech = word
+        if self.using_integrated_pos_tags:
+            part_of_speech = word.split(':')[1]
+        else:
+            part_of_speech = word
         # part_of_speech = self.__get_string_pos(word)
         if self.must_be_pos:
             if str(part_of_speech) == str(self.part_of_speech):
