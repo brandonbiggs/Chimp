@@ -23,6 +23,22 @@ class ConstrainedHiddenMarkovProcess:
     constrained_observed_emission_probabilities = []
     constrained_transition_probabilities = []
 
+    removed_nodes = []
+    # {
+    #     [
+    #         {
+    #             "name":
+    #             "status":
+    #         },
+    #         {
+
+    #         }
+    #     ]
+    # },
+    # {
+
+    # }
+
     def __init__(
         self,
         layers: int,
@@ -238,7 +254,8 @@ class ConstrainedHiddenMarkovProcess:
             for constraint in constraints:
                 status = constraint.is_satisfied_by_state(key)
                 if not status:
-                    del new_normalized_probabilities[key]
+                    new_normalized_probabilities[key] = 0.0
+                    # del new_normalized_probabilities[key]
                     break
 
         # Get the sum value for normalizing
@@ -246,9 +263,10 @@ class ConstrainedHiddenMarkovProcess:
 
         # Normalize values
         for key in new_normalized_probabilities.keys():
-            new_normalized_probabilities[key] = (
-                new_normalized_probabilities.get(key) / beta
-            )
+            if beta != 0:
+                new_normalized_probabilities[key] = (
+                    new_normalized_probabilities.get(key) / beta
+                )
 
         # Return the new normalized emission probabilities and the beta value
         return new_normalized_probabilities, beta
@@ -273,7 +291,7 @@ class ConstrainedHiddenMarkovProcess:
                 # Only check last hidden state regardless of markov order
                 status = constraint.is_satisfied_by_state(key[len(key)-1])
                 if not status:
-                    del normalized_transition_probabilities[key]
+                    # del normalized_transition_probabilities[key]
                     break
 
         # Calculate the alpha value
@@ -359,10 +377,10 @@ class ConstrainedHiddenMarkovProcess:
         """
         if node_layer != 0:
             new_output = copy.deepcopy(output)
-            for key in output.keys():
-                for inner_key in output.get(key).keys():
-                    if output.get(key).get(inner_key) == 0:
-                        del new_output.get(key)[inner_key]
+            # for key in output.keys():
+                # for inner_key in output.get(key).keys():
+                    # if output.get(key).get(inner_key) == 0:
+                        # del new_output.get(key)[inner_key]
             new_output = self.prune_empty_dictionary_keys(new_output)
             return new_output
         # Don't prune initial probabilities
