@@ -6,6 +6,7 @@ import pickle
 import time
 import datetime
 import sys
+import json
 
 from utility.Utility import *
 from utility.CountSentences import *
@@ -86,13 +87,19 @@ def main():
         with open(pickle_file[:-7] + '_' + str(sentence_count) + '_' + model_str + pickle_file[-7:], "rb") as handle:
             hidden_markov_model = pickle.load(handle)
 
-        # Red rhyme
+        # # Red rhyme
         # size_of_model = 4
         # observed_constraints = [
         #     [ConstraintRhymesWith("red", True)],
         #     None,
         #     None,
         #     [ConstraintMatchesString("red", True)],
+        # ]
+        # hidden_constraints = [
+        #     None,
+        #     None,
+        #     None,
+        #     None,
         # ]
 
         # Create constraints
@@ -105,11 +112,11 @@ def main():
                         ConstraintStartsWithLetter(letter, True, 1),
                         # ConstraintStopWord(False, True)
                     ])
-
             # Create a blank observed constraint list
             observed_constraints = []
             for x in range(size_of_model):
                 observed_constraints.append(None)
+
         else:  # for CHiMP
             # Dynamically set problem
             size_of_model = len(constraint)
@@ -119,7 +126,6 @@ def main():
                         ConstraintStartsWithLetter(letter, True, 1),
                         # ConstraintStopWord(False, True)
                     ])
-
             # Create a blank hidden constraint list
             hidden_constraints = []
             for x in range(size_of_model):
@@ -138,18 +144,33 @@ def alphabet_loop(should_use_comp: bool, should_create_pickle: bool,
                   results_file: str, averages_file: str, markov_order: int):
    
     start = time.time()
-
-    sentence_iterations = 100000
-    should_get_total_solutions = False
     model_str = 'chimp' if not should_use_comp else 'markovmodel'
     total_solutions = 0
 
     alphabet = 'abcdefghijklmnopqrstuvwxyz'
 
+    # # Graph 1 (training size)
+    # sentence_iterations = 10
+    # should_get_total_solutions = True
+    # constraint_lengths = [3]
+    # training_sentence_counts = [1, 10, 100, 1000, 10000]
+
+    # Graph 2 (sentence length)
+    sentence_iterations = 10
+    should_get_total_solutions = True
+    constraint_lengths = [1, 2, 3, 4, 5, 6, 7]
+    training_sentence_counts = [300]
+
+    # # Graph 3/4 (percent of unique solutions)
+    # sentence_iterations = 100000
+    # should_get_total_solutions = False
+    # constraint_lengths = [4, 6, 8, 10, 12, 14]
     # training_sentence_counts = [1, 10, 100, 1000, 10000, 100000]
+
+
     # training_sentence_counts = [3, 25, 250, 2500, 25000]
-    training_sentence_counts = [100000]
-    constraint_lengths = [4, 6, 8, 10, 12, 14]
+    # training_sentence_counts = [100000]
+    # constraint_lengths = [4, 6, 8, 10, 12, 14]
 
 
     # training_sentence_counts = [1, 10, 100, 200, 300, 400, 500, 1000, 10000]
@@ -157,7 +178,6 @@ def alphabet_loop(should_use_comp: bool, should_create_pickle: bool,
     # constraint_lengths = [4]
 
     # training_sentence_counts = [1]
-    # constraint_lengths = [1, 2, 3, 4, 5, 6, 7]
 
     for training_sentence_count in training_sentence_counts:
 
@@ -200,7 +220,7 @@ def alphabet_loop(should_use_comp: bool, should_create_pickle: bool,
                                                 result_file_name=results_file, constraint_str=letter * constraint_length,
                                                 should_get_total_solutions=should_get_total_solutions,
                                                 training_sentence_count=training_sentence_count,
-                                                model_str=model_str)
+                                                model_str=model_str, markov_order=markov_order)
                                             
 
             print("Finished alphabet in \033[34m%s \033[0mminutes" % ((time.time() - start) / 60))
@@ -233,6 +253,8 @@ def mnemonics_chimp(
         size_of_model, hidden_markov_model, hidden_constraints, observed_constraints
     )
     chimp.process()
+
+    print_chimp_to_json(chimp)
 
     # Can print out the probabilities if you'd like
     # chimp.print_new_markov_probabilities()
@@ -273,13 +295,13 @@ def mnemonics_chimp(
             # print("model, constraint, training_set_size, sentence_count")
             # print("%s, %s, %d, %d" % (model_str, constraint_str, training_sentence_count, len(sentences)), file=f)
 
-            # for sentence in sentences:
-            #     print("%s" % remove_pos_tags(sentence), file=f)
-            #     # print("%s" % sentence, file=f)
+            for sentence in sentences:
+                # print("%s" % remove_pos_tags(sentence), file=f)
+                print("%s" % sentence, file=f)
             
-            # pick 1 at random
-            if len(sentences) > 0:
-                print("%s" % remove_pos_tags(random.choice(sentences)), file=f) 
+            # # pick 1 at random
+            # if len(sentences) > 0:
+            #     print("%s" % remove_pos_tags(random.choice(sentences)), file=f) 
 
 
         return len(sentences)
@@ -309,9 +331,192 @@ def create_new_pickle(sentence_count: int, data_file: str, pickle_file: str, mod
           text_contents=True)
 
 
+def print_chimp_to_json(model):
+    print("Printing to json")
+
+    tokens_obj = []
+    last_hidden = []
+
+    active_layers = []
+    for i in range(model.layers):
+        # print hidden nodes
+        hidden_obj = []
+
+        active_nodes = []
+
+        # Initials are different
+        if i == 0:
+            hidden_node_obj = {
+                "name": "initial",
+                "status": "initial"
+            }
+            to_obj = []
+            for transition_name, transition_value in model.constrained_transition_probabilities[0].items():
+                to_obj.append({"name": toFullPOS(transition_name[0]), "value": transition_value})
+                if transition_value > 0.0:
+                    active_nodes.append(transition_name[0])
+
+            hidden_node_obj["to"] = to_obj
+            hidden_obj.append(hidden_node_obj)
+
+        else:
+            for hidden_node, transitions in model.constrained_transition_probabilities[i].items():
+                hidden_node_obj = { "name": toFullPOS(hidden_node[0]) }
+
+                isActive = False
+                for active in active_layers[i-1]:
+                    if hidden_node[0] == active:
+                        isActive = True
+                
+                if isActive:
+                    hidden_node_obj["status"] = "active"
+                else:
+                    hidden_node_obj["status"] = "inactive"
+
+                to_obj = []
+                for transition_name, transition_value in transitions.items():
+                    new_transition_value = 0.0
+                    if isActive:
+                        if transition_value > 0.0:
+                            new_transition_value = transition_value
+                            active_nodes.append(transition_name[0])
+
+                    to_obj.append({"name": toFullPOS(transition_name[0]), "value": new_transition_value})
+
+
+
+                if i == model.layers-1:
+                    for transition_name, transition_value in transitions.items():
+                        isInLast = False
+                        for j in range(len(last_hidden)):
+                            if last_hidden[j]["name"] == toFullPOS(transition_name[0]):
+                                isInLast = True
+                                break
+                        if not isInLast:
+                            isActive = False
+                            for active in active_nodes:
+                                if transition_name[0] == active:
+                                    isActive = True
+                            
+                            if isActive:
+                                last_hidden.append({"name": toFullPOS(transition_name[0]), "status": "active"})
+                            else:
+                                last_hidden.append({"name": toFullPOS(transition_name[0]), "status": "inactive"})
+                        
+
+                hidden_node_obj["to"] = to_obj
+
+                hidden_obj.append(hidden_node_obj)
+
+        active_layers.append(active_nodes)
+
+
+        # print observed nodes
+        observed_obj = []
+        for observed_node, observed_words in model.constrained_observed_emission_probabilities[i].items():
+            observed_node_obj = { "name": toFullPOS(observed_node) }
+            
+            to_obj = []
+            for word_name, word_value in observed_words.items():
+                to_obj.append({"name": word_name, "value": word_value})
+            observed_node_obj["to"] = to_obj
+
+            observed_obj.append(observed_node_obj)
+
+        tokens_obj.append({
+            "hidden": hidden_obj,
+            "observed": observed_obj
+        })
+
+    model_obj = {
+        "tokens": tokens_obj,
+        "lastHiddenStatuses": last_hidden
+    }
+
+    with open("model_red_rhyme.json", "w") as f:
+        print(json.dumps(model_obj, indent=4), file=f)
+
+
+def toFullPOS(pos_tag):
+    if (pos_tag == 'CC'):
+        return 'Conjunction'
+    elif (pos_tag == 'CD'):
+        return 'Number'
+    elif (pos_tag == 'DT'):
+        return 'Determiner'
+    elif (pos_tag == 'EX'):
+        return 'Ex There'
+    elif (pos_tag == 'FW'):
+        return 'Foreign'
+    elif (pos_tag == 'IN'):
+        return 'Preposition'
+    elif (pos_tag == 'JJ'):
+        return 'Adjective'
+    elif (pos_tag == 'JJR'):
+        return 'Adjective'
+    elif (pos_tag == 'JJS'):
+        return 'Adjective'
+    elif (pos_tag == 'LS'):
+        return 'List Mark'
+    elif (pos_tag == 'MD'):
+        return 'Modal'
+    elif (pos_tag == 'NN'):
+        return 'Noun'
+    elif (pos_tag == 'NNS'):
+        return 'Noun Plural'
+    elif (pos_tag == 'NNP'):
+        return 'Proper Noun'
+    elif (pos_tag == 'NNPS'):
+        return 'Proper Noun'
+    elif (pos_tag == 'PDT'):
+        return 'PreDT'
+    elif (pos_tag == 'POS'):
+        return 'Pos End'
+    elif (pos_tag == 'PRP'):
+        return 'Per Pronoun'
+    elif (pos_tag == 'PRP$'):
+        return 'Pos Pronoun'
+    elif (pos_tag == 'RB'):
+        return 'Adverb'
+    elif (pos_tag == 'RBR'):
+        return 'Adverb Comp'
+    elif (pos_tag == 'RBS'):
+        return 'Adverb Sup'
+    elif (pos_tag == 'RP'):
+        return 'Particle'
+    elif (pos_tag == 'SYM'):
+        return 'Symbol'
+    elif (pos_tag == 'TO'):
+        return 'to'
+    elif (pos_tag == 'UH'):
+        return 'Interjection'
+    elif (pos_tag == 'VB'):
+        return 'Verb'
+    elif (pos_tag == 'VBD'):
+        return 'Verb Past'
+    elif (pos_tag == 'VBG'):
+        return 'Verb Gerund'
+    elif (pos_tag == 'VBN'):
+        return 'Verb PP'
+    elif (pos_tag == 'VBP'):
+        return 'VBP'
+    elif (pos_tag == 'VBZ'):
+        return 'VBZ'
+    elif (pos_tag == 'WDT'):
+        return 'WH-determiner'
+    elif (pos_tag == 'WP'):
+        return 'WH-pronoun'
+    elif (pos_tag == 'WP$'):
+        return 'Possesive WP'
+    elif (pos_tag == 'WRB'):
+        return 'Wh-adverb'
+    else:
+        return pos_tag
+
+
 if __name__ == '__main__':
     # alphabet = 'abcdefghijklmnopqrstuvwxyz'
-    alphabet = 'adtl'
+    # alphabet = 'adtl'
     # alphabet = 't'
 
     # for _ in range(1):
@@ -321,4 +526,5 @@ if __name__ == '__main__':
 
     #     main()
 
+    # print_chimp_to_json()
     main()
