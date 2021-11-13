@@ -12,7 +12,7 @@ import utility.CountSentences
 # nltk.download("averaged_perceptron_tagger", quiet=True)
 
 
-class ProcessDataForChimp:
+class TrainChimp():
     def __init__(
         self, file: str, number_of_sentences, progress_bar=True, file_contents=False, markov_order=1
     ) -> None:
@@ -139,6 +139,7 @@ class ProcessDataForChimp:
             if token[0] not in self.observed_nodes:
                 self.observed_nodes.append(token[0])
             # Creating count of each token
+            #self.initial_probs.setdefault(token[1], []).append(1)
             self.emission_probs.setdefault(token[1], []).append([token[0], 1.0])
 
     def __create_emission_probabilities(self) -> None:

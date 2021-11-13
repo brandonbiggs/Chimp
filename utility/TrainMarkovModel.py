@@ -1,12 +1,11 @@
 import nltk
 from nltk.tokenize import WhitespaceTokenizer
-import utility.Utility
 import utility.Utility as ut
 from progress.bar import Bar
 import utility.CountSentences as countSentences
 
 
-class ProcessDataForMM:
+class TrainMarkovModel:
     def __init__(
         self,
         file_name: str,
@@ -113,7 +112,6 @@ class ProcessDataForMM:
                 if not self.transition_probs.get(word):
                     # If the word isn't the last word, get the next word and add it to
                     #   the value of the previous dictionary
-                    # else:
                     if not words[i] == words[-1]:
                         # Adds all words except last word of sentence to initial probs
                         if not self.initial_prob_extensive:

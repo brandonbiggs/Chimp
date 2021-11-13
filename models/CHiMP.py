@@ -1,4 +1,5 @@
 import copy
+from typing import Tuple
 from constraints.ConstraintContainsString import *
 from constraints.ConstraintIsPartOfSpeech import *
 from constraints.ConstraintMatchesString import *
@@ -150,7 +151,7 @@ class ConstrainedHiddenMarkovProcess:
         beta_dict: dict,
         previous_alpha: dict,
         transition_probs: dict,
-    ) -> (dict, dict):
+    ) -> Tuple(dict, dict):
         """
         Processes the hidden layer at the given node_position layer
         :param node_position: the node layer we're calculating
@@ -196,7 +197,7 @@ class ConstrainedHiddenMarkovProcess:
 
         return previous_alpha, new_transition_probs
 
-    def process_observed_node(self, node_position: int) -> (dict, dict):
+    def process_observed_node(self, node_position: int) -> Tuple(dict, dict):
         """
         Calculates the new probabilities of observed nodes if a constraint exists
         :param node_position: layer in the graph
@@ -239,7 +240,7 @@ class ConstrainedHiddenMarkovProcess:
             summation += dictionary.get(key)
         return summation
 
-    def calculate_e_tilde(self, dictionary: dict, constraints) -> (dict, int):
+    def calculate_e_tilde(self, dictionary: dict, constraint) -> Tuple(dict, int):
         """
         Calculates the new emission probabilities based on constraints
             Potential ways to make faster - write check for constraint if it's
@@ -272,8 +273,8 @@ class ConstrainedHiddenMarkovProcess:
         return new_normalized_probabilities, beta
 
     def calculate_m_tilde(
-        self, dictionary: dict, constraints, beta_dict: dict, previous_alpha_dict: dict
-    ) -> (dict, int):
+        self, dictionary: dict, constraint, beta_dict: dict, previous_alpha_dict: dict
+    ) -> Tuple(dict, int):
         """
         Calculates the new transition probabilities between the hidden nodes
             given any constraints in either/both the hidden and observed nodes
