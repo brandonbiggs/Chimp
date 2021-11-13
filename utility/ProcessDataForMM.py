@@ -1,4 +1,7 @@
+import nltk
+from nltk.tokenize import WhitespaceTokenizer
 import utility.Utility
+import utility.Utility as ut
 from progress.bar import Bar
 import utility.CountSentences as countSentences
 
@@ -11,6 +14,8 @@ class ProcessDataForMM:
         progress_bar=True,
         initial_prob_extensive=True,
         file_contents_bool=False,
+        should_tag_pos=False,
+        markov_order=1,
     ) -> None:
         """
 
@@ -36,11 +41,12 @@ class ProcessDataForMM:
         self.transition_probs = {}
         self.initial_prob_extensive = initial_prob_extensive
         self.number_of_sentences = number_of_sentences
+        self.markov_order = markov_order
         # if progress_bar:
         #     self.__init_with_progress(file_name)
         # else:
         #     self.__init_without_progress_bar(file_name)
-        self.__init_without_progress_bar(file_name, file_contents_bool)
+        self.__init_without_progress_bar(file_name, file_contents_bool, should_tag_pos)
 
     def __init_with_progress(self, file_name):
         self.file_name = file_name
@@ -55,7 +61,7 @@ class ProcessDataForMM:
         bar.next()
         bar.finish()
 
-    def __init_without_progress_bar(self, file_name, file_contents_bool):
+    def __init_without_progress_bar(self, file_name, file_contents_bool, should_tag_pos):
         self.file_name = file_name
         # self.file_contents = util.read_text_file(self.file_name)
         if file_contents_bool:
@@ -67,14 +73,15 @@ class ProcessDataForMM:
                 contents.get_sentences(self.number_of_sentences)
             )
 
-        self.__step_through_sentences()
+        self.__step_through_sentences(should_tag_pos)
         self.__setup_initial_probability()
         self.__setup_emission_probabilities()
         self.__setup_transition_probabilities()
 
-    def __step_through_sentences(self):
-        """
 
+    def __step_through_sentences(self, should_tag_pos):
+        """
+        :param should_tag_pos: bool to tag pos to string or not
         :return:
         """
         sentences = self.file_contents.split(".")
@@ -83,37 +90,42 @@ class ProcessDataForMM:
             # Gets rid of any words that are empty.
             if sentence == "":
                 continue
-            words = sentence.split(" ")
+            
+            if should_tag_pos:
+                tokenizer = WhitespaceTokenizer()
+                tokens = tokenizer.tokenize(sentence)
+                tokenized_text = nltk.pos_tag(tokens)
+
+                words = [token[0] + ':' + token[1] for token in tokenized_text]
+            else:
+                words = sentence.split(" ")
 
             # Setup for the initial probabilities as the first word of the sentence
-            if self.initial_prob_extensive:
+            if self.initial_prob_extensive and len(words) > 0:
                 self.first_word_of_sentence.append(words[0])
 
             # Iterate over each word in the sentence
-            for word in words:
+            for i in range(len(words)):
+                word = self.__get_hidden_state(words, i)
+
                 # Start the checking for setting up the transition probabilities
                 # If the word has not been added to the transition probabilities, add it
                 if not self.transition_probs.get(word):
-                    # Check to see if the word is the last word in the list, if it is
-                    #   add the word to the dictionary, but give it an empty value
-                    if word == words[-1]:
-                        self.transition_probs.update({word: {}})
                     # If the word isn't the last word, get the next word and add it to
                     #   the value of the previous dictionary
-                    else:
+                    # else:
+                    if not words[i] == words[-1]:
                         # Adds all words except last word of sentence to initial probs
                         if not self.initial_prob_extensive:
                             self.first_word_of_sentence.append(word)
-                        next_word_index = words.index(word) + 1
-                        next_word = words[next_word_index]
+                        next_word = self.__get_hidden_state(words, i+1)
                         self.transition_probs.update({word: {next_word: 1.0}})
                 # If the word has been added to the transition probabilities, we need
                 # to update it's score, unless it's still the last word.
                 else:
                     # If it's not the last word, we'll update it. Otherwise move on
-                    if word != words[-1]:
-                        next_word_index = words.index(word) + 1
-                        next_word = words[next_word_index]
+                    if i != len(words)-1:
+                        next_word = self.__get_hidden_state(words, i+1)
                         # Check the current value of the dictionary value for the next word
                         current_score = self.transition_probs.get(word).get(next_word)
                         # If the value is None, that means it's an empty dictionary for the key
@@ -134,8 +146,8 @@ class ProcessDataForMM:
                         #     print(self.transition_probs.get(word))
 
                 # Add the unique word to the hidden nodes list.
-                if word not in self.hidden_nodes:
-                    self.hidden_nodes.append(word)
+                if words[i] not in self.hidden_nodes:
+                    self.hidden_nodes.append(words[i])
 
         self.observed_nodes = self.hidden_nodes
 
@@ -163,11 +175,33 @@ class ProcessDataForMM:
         :return:
         """
         for word in self.first_word_of_sentence:
-            if not self.initial_probs.get(word):
+
+            first_word_key_list = []
+            for _ in range(self.markov_order-1):
+                first_word_key_list.append(ut.START)
+            first_word_key_list.append(word)
+            first_word_key = tuple(first_word_key_list)
+
+            if not self.initial_probs.get(first_word_key):
+
                 percent = self.first_word_of_sentence.count(word) / len(
                     self.first_word_of_sentence
                 )
-                self.initial_probs.update({word: percent})
+                self.initial_probs.update({first_word_key: percent})
+
+    def __get_hidden_state(self, tokens, token_position) -> []:
+        """
+        Finds the hidden state given the markov order of the model
+        """
+        hidden_state = []
+        i = token_position
+        for j in range(self.markov_order-1, -1, -1):
+            if i-j < 0:
+                hidden_state.append(ut.START)
+            else:
+                hidden_state.append(tokens[i-j])
+
+        return tuple(hidden_state) # cast list as a tuple to make hashable
 
     def debug_print(self):
         print("Hidden nodes:")

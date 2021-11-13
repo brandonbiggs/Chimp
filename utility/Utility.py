@@ -5,6 +5,8 @@ from utility.ProcessDataForMM import ProcessDataForMM
 from markovs.HiddenMarkovModel import HiddenMarkovModel
 import re
 
+START = '<<START>>'
+END = '<<END>>'
 
 def get_rand_num(first=0, second=1):
     # TODO - Replace with numpy random
@@ -24,6 +26,7 @@ def train(
     text_file="data/book_tiny.txt",
     pickle_file="pickle_files/new_file.pickle",
     model="chimp",
+    markov_order=1,
     verbose=True,
     text_contents=False,
 ) -> None:
@@ -53,11 +56,12 @@ def train(
     # Process the text file
     if model == "chimp":
         data = ProcessDataForChimp(
-            text_file, number_of_sentences, False, file_contents=text_contents
+            text_file, number_of_sentences, False, file_contents=text_contents, markov_order=markov_order
         )
     elif model == "markovmodel":
         data = ProcessDataForMM(
-            text_file, number_of_sentences, False, file_contents_bool=text_contents
+            text_file, number_of_sentences, False, file_contents_bool=text_contents, should_tag_pos=True,
+            markov_order=markov_order
         )
     else:
         raise Exception("Unknown model. Please use either 'chimp' or 'markovmodel'")
@@ -67,6 +71,7 @@ def train(
     hidden_markov_model.initial_probs = data.initial_probs
     hidden_markov_model.transition_probs = data.transition_probs
     hidden_markov_model.emission_probs = data.emission_probs
+    hidden_markov_model.markov_order = data.markov_order
 
     # Store the hidden Markov Model that we just created
     with open(pickle_file, "wb") as handle:
@@ -83,6 +88,16 @@ def array_average(array: []) -> float:
     return total / len(array)
 
 
+def remove_pos_tags(sentence: str) -> str:
+    new_sentence = ''
+    words = sentence.split(' ')
+    for word in words:
+        word_split = word.split(':')
+        if len(word_split) > 0:
+            new_sentence += word_split[0] + ' '
+
+    return new_sentence.rstrip()
+
 def read_text_file(file_name) -> str:
     """
     Reads the text file
@@ -94,14 +109,24 @@ def read_text_file(file_name) -> str:
     newstring = ""
     words_from_file = re.sub(r" (?='|\.|\,|\?| |\!)", "", words_from_file)
     words_from_file = re.sub(r"(<p>)", "", words_from_file)
-    for character in words_from_file:
-        # We don't care about questions so we'll just treat them like regular
-        #   sentences
-        if character == "?" or character == "!":
-            newstring += "."
-        elif character not in ';\n"<>[]@#$%^&*()-_+={}/\\' and not character.isdigit():
-            newstring += character
-        # else:
-        #     newstring += ""
-    # return words_from_file
+
+    word = ""
+    for character in words_from_file.lower():
+        if character not in '?!.\ ;\n"<>[]@#$%^&*()-_+={}/\\' and not character.isdigit():
+            word += character
+        elif character == "?" or character == "!" or character == ".":
+            word += "."
+        elif character == " ":
+            # Check if word isn't a random single character
+            if len(word) <= 1:
+                if word == "a" or word == "i":
+                    newstring += word + " "
+                if word == "." or word == ",":
+                    newstring += word
+            else:
+                newstring += word + " "
+
+            word = ""
+    newstring += word
+            
     return newstring

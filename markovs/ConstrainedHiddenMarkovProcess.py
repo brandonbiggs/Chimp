@@ -5,6 +5,8 @@ from constraints.ConstraintMatchesString import *
 from constraints.ConstraintRhymesWith import *
 from constraints.NoConstraint import *
 
+import datetime
+
 
 class ConstrainedHiddenMarkovProcess:
     """
@@ -20,6 +22,22 @@ class ConstrainedHiddenMarkovProcess:
     observed_node_betas = []
     constrained_observed_emission_probabilities = []
     constrained_transition_probabilities = []
+
+    removed_nodes = []
+    # {
+    #     [
+    #         {
+    #             "name":
+    #             "status":
+    #         },
+    #         {
+
+    #         }
+    #     ]
+    # },
+    # {
+
+    # }
 
     def __init__(
         self,
@@ -146,8 +164,8 @@ class ConstrainedHiddenMarkovProcess:
         """
         # Check constraints
         constraint = self.hidden_constraints[node_position]
-        if constraint is None:
-            constraint = NoConstraint
+        if constraint is None or constraint == [None]:
+            constraint = [NoConstraint]
 
         # Make a deep copy of the previous alpha dictionary
         alpha_copy = copy.deepcopy(previous_alpha)
@@ -192,7 +210,7 @@ class ConstrainedHiddenMarkovProcess:
         constraint = self.observed_constraints[node_position]
 
         # If constraint does exist, we need to calculate the new probabilities
-        if constraint:
+        if constraint and constraint != [None]:
             new_emission_probs = dict()
             # Iterate over each key to calculate new emission probabilities
             for key in self.hidden_markov_model.emission_probs.keys():
@@ -221,7 +239,7 @@ class ConstrainedHiddenMarkovProcess:
             summation += dictionary.get(key)
         return summation
 
-    def calculate_e_tilde(self, dictionary: dict, constraint) -> (dict, int):
+    def calculate_e_tilde(self, dictionary: dict, constraints) -> (dict, int):
         """
         Calculates the new emission probabilities based on constraints
             Potential ways to make faster - write check for constraint if it's
@@ -233,24 +251,28 @@ class ConstrainedHiddenMarkovProcess:
         # Make a copy so we can delete values that aren't satisfied by constraint
         new_normalized_probabilities = copy.deepcopy(dictionary)
         for key in dictionary:
-            status = constraint.is_satisfied_by_state(key)
-            if not status:
-                del new_normalized_probabilities[key]
+            for constraint in constraints:
+                status = constraint.is_satisfied_by_state(key)
+                if not status:
+                    new_normalized_probabilities[key] = 0.0
+                    # del new_normalized_probabilities[key]
+                    break
 
         # Get the sum value for normalizing
         beta = self.calculate_beta(new_normalized_probabilities)
 
         # Normalize values
         for key in new_normalized_probabilities.keys():
-            new_normalized_probabilities[key] = (
-                new_normalized_probabilities.get(key) / beta
-            )
+            if beta != 0:
+                new_normalized_probabilities[key] = (
+                    new_normalized_probabilities.get(key) / beta
+                )
 
         # Return the new normalized emission probabilities and the beta value
         return new_normalized_probabilities, beta
 
     def calculate_m_tilde(
-        self, dictionary: dict, constraint, beta_dict: dict, previous_alpha_dict: dict
+        self, dictionary: dict, constraints, beta_dict: dict, previous_alpha_dict: dict
     ) -> (dict, int):
         """
         Calculates the new transition probabilities between the hidden nodes
@@ -265,9 +287,12 @@ class ConstrainedHiddenMarkovProcess:
 
         # Apply the constraint to a new dictionary
         for key in dictionary:
-            status = constraint.is_satisfied_by_state(key)
-            if not status:
-                del normalized_transition_probabilities[key]
+            for constraint in constraints:
+                # Only check last hidden state regardless of markov order
+                status = constraint.is_satisfied_by_state(key[len(key)-1])
+                if not status:
+                    # del normalized_transition_probabilities[key]
+                    break
 
         # Calculate the alpha value
         alpha = self.calculate_alpha(
@@ -280,7 +305,7 @@ class ConstrainedHiddenMarkovProcess:
                 normalized_transition_probabilities[key] = 0
             else:
                 previous_alpha = previous_alpha_dict.get(key)
-                beta = beta_dict.get(key)
+                beta = beta_dict.get(key[-1])
                 z = normalized_transition_probabilities.get(key)
                 normalized_transition_probabilities[key] = (
                     beta * z * previous_alpha
@@ -303,10 +328,10 @@ class ConstrainedHiddenMarkovProcess:
                 alpha = 0
             else:
                 alpha = previous_alpha.get(key)
-            if not beta_dict.get(key):
+            if not beta_dict.get(key[-1]):
                 beta = 0
             else:
-                beta = beta_dict.get(key)
+                beta = beta_dict.get(key[-1])
             z = dictionary.get(key)
             # print("Z", z, "beta", beta, "alpha", alpha)
             summation += z * beta * alpha
@@ -352,12 +377,117 @@ class ConstrainedHiddenMarkovProcess:
         """
         if node_layer != 0:
             new_output = copy.deepcopy(output)
-            for key in output.keys():
-                for inner_key in output.get(key).keys():
-                    if output.get(key).get(inner_key) == 0:
-                        del new_output.get(key)[inner_key]
+            # for key in output.keys():
+                # for inner_key in output.get(key).keys():
+                    # if output.get(key).get(inner_key) == 0:
+                        # del new_output.get(key)[inner_key]
             new_output = self.prune_empty_dictionary_keys(new_output)
             return new_output
         # Don't prune initial probabilities
         else:
             return output
+
+    def get_total_solution_count(self) -> int:
+        """
+        Counts the total solutions possible using a depth first search via
+        recursive functions
+        """
+        count = [0]  # total solution count
+        
+        # Find possible initial hidden states (non-zero probabilities)
+        initial_hidden_states = self.constrained_transition_probabilities[0]
+
+        # Count layer 0 initials for progress indicator
+        total_initials = 0
+        for hidden_state in initial_hidden_states.keys():
+            if initial_hidden_states[hidden_state] > 0.0:
+                total_initials += 1
+
+
+        i = 0 # used for progress
+        for hidden_state in initial_hidden_states.keys():
+            if initial_hidden_states[hidden_state] > 0.0:
+                i += 1
+                print("- progress \033[33m%s\033[0m, %d/%d, %s" % (datetime.datetime.now().strftime("%H:%M:%S"), i, total_initials, hidden_state))
+                # Call recursive counting function on each non-zero hidden state
+                self.get_total_solution_count_emission_impl(hidden_state, 0, count, [])
+        
+        return count[0]
+
+    def get_total_solution_count_hidden_impl(self,
+                                             previous_hidden_state: dict,
+                                             layer_index: int,
+                                             count: [int],
+                                             solution: [str]):
+        """
+        Finds hidden states based on the previous hidden state
+
+        Forms a recursive function pair with it's emission counterpart function:
+        get_total_solution_count_emission_impl()
+
+        :param previous_hidden_state: the hidden state from the previous layer
+        :param layer_index: indicates the current layer
+        :param count: total solution count (is an array as a way to passed by reference)
+        """
+        transition_probs = self.constrained_transition_probabilities[layer_index]
+
+        # Find possible hidden states transitioning from previous hidden state
+        for hidden_state in transition_probs[previous_hidden_state]:
+            # Call recursive emission function for each hidden state
+            self.get_total_solution_count_emission_impl(hidden_state,
+                                                        layer_index,
+                                                        count,
+                                                        solution)
+
+    def get_total_solution_count_emission_impl(self,
+                                               hidden_state: dict,
+                                               layer_index: int,
+                                               count: [int],
+                                               solution: [str]):
+        """
+        Finds emission states based on the given hidden state and counts them
+        towards total solutions if on the last layer
+
+        Forms a recursive function pair with it's hidden counterpart function:
+        get_total_solution_count_hidden_impl()
+
+        :param hidden_state: the hidden state by which the emission should be chosen
+        :param layer_index: indicates the current layer
+        :param count: total solution count (is an array as a way to passed by reference)
+        """
+        emission_probs = self.constrained_observed_emission_probabilities[layer_index]
+
+        for emission in emission_probs[hidden_state[-1]]:
+            # Print emission for testing
+            # self.print_emission(emission, hidden_state, layer_index);
+            # solution.append(emission)
+
+            # If at last layer, increment for each possible emission
+            if layer_index == self.layers-1:
+                count[0] += 1
+
+                # # print solution
+                # for word in solution + [emission]:
+                #     print(word, end=' ')
+                # print(count[0])
+
+            else:
+                self.get_total_solution_count_hidden_impl(hidden_state,
+                                                          layer_index+1,
+                                                          count,
+                                                          solution + [emission])
+
+    def print_emission(self, emission: str, hidden_state: str, layer_index: int):
+        """
+        Prints emission string indented according to it's layer
+        
+        This function is for testing and visualizing the
+        recursive total solution count functions
+
+        :param emission: emission string
+        :param hidden_state: hidden state string
+        :param layer_index: layer the emission occurs at
+        """
+        for _ in range(layer_index):
+            print('   ', end='')
+        print('\033[34m%d \033[33m%s\033[0m %s' % (layer_index+1, hidden_state, emission))
