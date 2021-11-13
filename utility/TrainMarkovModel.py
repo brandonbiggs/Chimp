@@ -6,29 +6,24 @@ import utility.CountSentences as countSentences
 
 
 class TrainMarkovModel:
-    def __init__(
-        self,
-        file_name: str,
-        number_of_sentences,
-        progress_bar=True,
-        initial_prob_extensive=True,
-        file_contents_bool=False,
-        should_tag_pos=False,
-        markov_order=1,
-    ) -> None:
-        """
+    def __init__(self, file_name: str, number_of_sentences: int, initial_prob_extensive: bool = True,
+        file_contents_bool: bool = False, should_tag_pos: bool = False, markov_order: int = 1,) -> None:
+        """[summary]
 
-        :param file_name:
-        :param number_of_sentences:
-        :param progress_bar:
-        :param initial_prob_extensive: True means use only the first word of the sentence to
+        Args:
+            file_name (str): [description]
+            number_of_sentences (int): [description]
+            initial_prob_extensive (bool, optional): True means use only the first word of the sentence to
             set the initial probabilities. False means use all words except last word of
-            sentence for initial probabilities
-        :param file_contents: If this is set to true, file is not the name of a file,
+            sentence for initial probabilities. Defaults to True.
+            file_contents_bool (bool, optional): If this is set to true, file is not the name of a file,
             but it's actually the contents of a file. The purpose of this is to make sure
             chimp and markov model are using the same exact sentences. Verbose and text_contents
-            should not both be set to True
+            should not both be set to True. Defaults to False.
+            should_tag_pos (bool, optional): [description]. Defaults to False.
+            markov_order (int, optional): [description]. Defaults to 1.
         """
+
         self.file_name = ""
         self.file_contents = ""
         self.hidden_nodes = []
@@ -41,28 +36,8 @@ class TrainMarkovModel:
         self.initial_prob_extensive = initial_prob_extensive
         self.number_of_sentences = number_of_sentences
         self.markov_order = markov_order
-        # if progress_bar:
-        #     self.__init_with_progress(file_name)
-        # else:
-        #     self.__init_without_progress_bar(file_name)
-        self.__init_without_progress_bar(file_name, file_contents_bool, should_tag_pos)
-
-    def __init_with_progress(self, file_name):
         self.file_name = file_name
-        bar = Bar("Processing", max=6)
-        # self.file_contents = util.read_text_file(self.file_name)
-        contents = countSentences.CountSentences(self.file_name)
-        contents.shuffle_sentences(10)
-        self.file_contents = contents.sentence_list_as_string(
-            contents.get_sentences(self.number_of_sentences)
-        )
 
-        bar.next()
-        bar.finish()
-
-    def __init_without_progress_bar(self, file_name, file_contents_bool, should_tag_pos):
-        self.file_name = file_name
-        # self.file_contents = util.read_text_file(self.file_name)
         if file_contents_bool:
             self.file_contents = self.file_name
         else:
@@ -77,11 +52,11 @@ class TrainMarkovModel:
         self.__setup_emission_probabilities()
         self.__setup_transition_probabilities()
 
+    def __step_through_sentences(self, should_tag_pos: bool):
+        """[summary]
 
-    def __step_through_sentences(self, should_tag_pos):
-        """
-        :param should_tag_pos: bool to tag pos to string or not
-        :return:
+        Args:
+            should_tag_pos (bool): bool to tag pos to string or not
         """
         sentences = self.file_contents.split(".")
         for sentence in sentences:

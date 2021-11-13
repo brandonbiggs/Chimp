@@ -1,13 +1,15 @@
 import copy
-from typing import Tuple
+from typing import List, Tuple
+import datetime
+from rich.pretty import pprint
+from rich.json import JSON
+
+from models.HiddenMarkovModel import HiddenMarkovModel
 from constraints.ConstraintContainsString import *
 from constraints.ConstraintIsPartOfSpeech import *
 from constraints.ConstraintMatchesString import *
 from constraints.ConstraintRhymesWith import *
 from constraints.NoConstraint import *
-
-import datetime
-
 
 class ConstrainedHiddenMarkovProcess:
     """
@@ -23,30 +25,10 @@ class ConstrainedHiddenMarkovProcess:
     observed_node_betas = []
     constrained_observed_emission_probabilities = []
     constrained_transition_probabilities = []
+    # removed_nodes = []
 
-    removed_nodes = []
-    # {
-    #     [
-    #         {
-    #             "name":
-    #             "status":
-    #         },
-    #         {
-
-    #         }
-    #     ]
-    # },
-    # {
-
-    # }
-
-    def __init__(
-        self,
-        layers: int,
-        hidden_markov_model,
-        hidden_constraints: list,
-        observed_constraints: list,
-    ):
+    def __init__(self, layers: int, hidden_markov_model: HiddenMarkovModel, hidden_constraints: list,
+        observed_constraints: list):
         """
         :param layers: Defines number of hidden/observed nodes in graph
         :param hidden_markov_model: the hmm we're applying constraints to
@@ -63,7 +45,7 @@ class ConstrainedHiddenMarkovProcess:
             self.beginning_alpha[key] = 1
 
         # Setting default values for beta, emission probabilities, transitions
-        for layer in range(layers):
+        for _ in range(layers):
             self.observed_node_betas.append(0)
             self.constrained_observed_emission_probabilities.append(0)
             self.constrained_transition_probabilities.append(0)
@@ -74,23 +56,20 @@ class ConstrainedHiddenMarkovProcess:
         :return: None
         """
         for node_layer in range(self.layers):
-            print("\nObserved layer", node_layer, "of the NHHMM")
-            print("Beta list:", self.observed_node_betas[node_layer])
-            print(
-                "Emission Probabilities:",
-                self.constrained_observed_emission_probabilities[node_layer],
-            )
+            print(f"\nObserved layer {node_layer} of the NHHMM")
+            print("Beta list: ")
+            pprint(self.observed_node_betas[node_layer])
+            
+            print(f"Emission Probabilities:")
+            pprint(self.constrained_observed_emission_probabilities[node_layer])
+
             print("Hidden Layer:", node_layer)
             if node_layer != 0:
-                print(
-                    "Transition Probabilities:",
-                    self.constrained_transition_probabilities[node_layer],
-                )
+                print("Transition Probabilities:")
+                pprint(self.constrained_transition_probabilities[node_layer])
             else:
-                print(
-                    "Initial Probabilities:",
-                    self.constrained_transition_probabilities[node_layer],
-                )
+                print("Initial Probabilities:")
+                pprint(self.constrained_transition_probabilities[node_layer])
 
     def process(self) -> None:
         """
@@ -145,13 +124,8 @@ class ConstrainedHiddenMarkovProcess:
             )
             self.constrained_transition_probabilities[node_layer] = transition_probs
 
-    def process_hidden_node(
-        self,
-        node_position: int,
-        beta_dict: dict,
-        previous_alpha: dict,
-        transition_probs: dict,
-    ) -> Tuple(dict, dict):
+    def process_hidden_node(self, node_position: int, beta_dict: dict, previous_alpha: dict,
+        transition_probs: dict) -> Tuple[dict, dict]:
         """
         Processes the hidden layer at the given node_position layer
         :param node_position: the node layer we're calculating
@@ -197,7 +171,7 @@ class ConstrainedHiddenMarkovProcess:
 
         return previous_alpha, new_transition_probs
 
-    def process_observed_node(self, node_position: int) -> Tuple(dict, dict):
+    def process_observed_node(self, node_position: int) -> Tuple[dict, dict]:
         """
         Calculates the new probabilities of observed nodes if a constraint exists
         :param node_position: layer in the graph
@@ -240,7 +214,7 @@ class ConstrainedHiddenMarkovProcess:
             summation += dictionary.get(key)
         return summation
 
-    def calculate_e_tilde(self, dictionary: dict, constraint) -> Tuple(dict, int):
+    def calculate_e_tilde(self, dictionary: dict, constraints) -> Tuple[dict, int]:
         """
         Calculates the new emission probabilities based on constraints
             Potential ways to make faster - write check for constraint if it's
@@ -272,9 +246,7 @@ class ConstrainedHiddenMarkovProcess:
         # Return the new normalized emission probabilities and the beta value
         return new_normalized_probabilities, beta
 
-    def calculate_m_tilde(
-        self, dictionary: dict, constraint, beta_dict: dict, previous_alpha_dict: dict
-    ) -> Tuple(dict, int):
+    def calculate_m_tilde(self, dictionary: dict, constraints, beta_dict: dict, previous_alpha_dict: dict) -> Tuple[dict, int]:
         """
         Calculates the new transition probabilities between the hidden nodes
             given any constraints in either/both the hidden and observed nodes
@@ -339,9 +311,7 @@ class ConstrainedHiddenMarkovProcess:
         return summation
 
     @staticmethod
-    def update_new_transition_probs(
-        key: str, dictionary: dict, new_transition_dict: dict
-    ) -> dict:
+    def update_new_transition_probs(key: str, dictionary: dict, new_transition_dict: dict) -> dict:
         """
         Create a new set of transition probabilities from one hidden node layer
         to the previous hidden node layer
@@ -415,11 +385,8 @@ class ConstrainedHiddenMarkovProcess:
         
         return count[0]
 
-    def get_total_solution_count_hidden_impl(self,
-                                             previous_hidden_state: dict,
-                                             layer_index: int,
-                                             count: [int],
-                                             solution: [str]):
+    def get_total_solution_count_hidden_impl(self, previous_hidden_state: dict, layer_index: int,
+                                             count: List[int], solution: List[str]):
         """
         Finds hidden states based on the previous hidden state
 
@@ -443,8 +410,8 @@ class ConstrainedHiddenMarkovProcess:
     def get_total_solution_count_emission_impl(self,
                                                hidden_state: dict,
                                                layer_index: int,
-                                               count: [int],
-                                               solution: [str]):
+                                               count: List[int],
+                                               solution: List[str]):
         """
         Finds emission states based on the given hidden state and counts them
         towards total solutions if on the last layer

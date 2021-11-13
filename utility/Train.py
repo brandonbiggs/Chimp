@@ -5,19 +5,27 @@ from models.HiddenMarkovModel import HiddenMarkovModel
 
 def train(number_of_sentences: int, text_file: str = "data/book_tiny.txt", 
         pickle_file: str = "pickle_files/new_file.pickle", model: str = "chimp", verbose: bool = True,
-        text_contents: bool = False, pickle_model: bool = False) -> HiddenMarkovModel:
-    """
-    Create the hidden markov model and store it for use later
-    :param number_of_sentences
-    :param text_file:
-    :param pickle_file:
-    :param model:
-    :param verbose:
-    :param text_contents: If this is set to true, text file is not the name of a file,
+        text_contents: bool = False, pickle_model: bool = False, markov_order: int = 1) -> HiddenMarkovModel:
+    """Create the hidden markov model and store it for use later
+
+    Args:
+        number_of_sentences (int): [description]
+        text_file (str, optional): [description]. Defaults to "data/book_tiny.txt".
+        pickle_file (str, optional): [description]. Defaults to "pickle_files/new_file.pickle".
+        model (str, optional): [description]. Defaults to "chimp".
+        verbose (bool, optional): [description]. Defaults to True.
+        text_contents (bool, optional): If this is set to true, text file is not the name of a file,
         but it's actually the contents of a file. The purpose of this is to make sure
         chimp and markov model are using the same exact sentences. Verbose and text_contents
-        should not both be set to True
-    :return: None
+        should not both be set to True. Defaults to False.
+        pickle_model (bool, optional): [description]. Defaults to False.
+        markov_order (int, optional): [description]. Defaults to 1.
+
+    Raises:
+        Exception: [description]
+
+    Returns:
+        HiddenMarkovModel: [description]
     """
     if verbose and not text_contents:
         print("Starting training on:", text_file)
@@ -26,18 +34,16 @@ def train(number_of_sentences: int, text_file: str = "data/book_tiny.txt",
     else:
         if verbose:
             print("Your file will be saved to: ", pickle_file)
+    
     # Process the text file
     if model == "chimp":
         if verbose: print("Training CHiMP model.")
-        data = TrainChimp(
-            text_file, number_of_sentences, False, file_contents=text_contents, markov_order=markov_order
-        )
+        data = TrainChimp(text_file, number_of_sentences, False, file_contents=text_contents, markov_order=markov_order)
+    
     elif model == "markovmodel":
         if verbose: print("Training Markov model.")
-        data = TrainMarkovModel(
-            text_file, number_of_sentences, False, file_contents_bool=text_contents, should_tag_pos=True,
-            markov_order=markov_order
-        )
+        data = TrainMarkovModel(text_file, number_of_sentences, False, file_contents_bool=text_contents, should_tag_pos=True,
+            markov_order=markov_order)
     else:
         raise Exception("Unknown model. Please use either 'chimp' or 'markovmodel'")
 

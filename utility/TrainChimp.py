@@ -3,9 +3,8 @@ from nltk.tokenize import RegexpTokenizer
 from progress.bar import Bar
 
 # from utility.Utility import read_text_file
-import utility.Utility
 import utility.Utility as ut
-import utility.CountSentences
+import utility.CountSentences as countSentences
 
 
 # nltk.download("tagsets", quiet=True)
@@ -13,9 +12,7 @@ import utility.CountSentences
 
 
 class TrainChimp():
-    def __init__(
-        self, file: str, number_of_sentences, progress_bar=True, file_contents=False, markov_order=1
-    ) -> None:
+    def __init__(self, file: str, number_of_sentences, progress_bar=True, file_contents=False, markov_order=1) -> None:
         """
         :param file: Name of the file to read and create probabilities from
         :param number_of_sentences:
@@ -32,17 +29,22 @@ class TrainChimp():
         self.tokenized_text = []
         self.tokens = []
         self.parts_of_speech = []
+        
         # DONE - Wouldn't be a bad idea to verify that these are working correctly however
-        self.observed_nodes = []  # List of every word that's possible
-        self.initial_probs = (
-            {}
-        )  # Dictionary (key: pos, value: probability of pos/count of pos)
+        # List of every word that's possible
+        self.observed_nodes = [] 
+        
+        # Dictionary (key: pos, value: probability of pos/count of pos)
+        self.initial_probs = ({})  
         self.emission_probs = {}
-        self.hidden_nodes = []  # This is a list of dictionaries for each POS
+        
+        # This is a list of dictionaries for each POS
+        self.hidden_nodes = [] 
         self.transition_probs = {}
         self.markov_order = markov_order
         self.number_of_sentences = number_of_sentences
         self.file_contents_bool = file_contents
+        
         if progress_bar:
             self.__init_with_progress(file)
         else:
@@ -65,6 +67,7 @@ class TrainChimp():
         bar.next()
         self.create_pos_dictionaries()
         bar.next()
+        
         # Create each of the probability dictionaries
         self.__create_initial_probabilities()
         bar.next()
@@ -81,7 +84,7 @@ class TrainChimp():
         if self.file_contents_bool:
             self.file_contents = self.file_name
         else:
-            contents = utility.CountSentences.CountSentences(self.file_name)
+            contents = countSentences.CountSentences(self.file_name)
             contents.shuffle_sentences(10)
             self.file_contents = contents.sentence_list_as_string(
                 contents.get_sentences(self.number_of_sentences)
@@ -89,7 +92,7 @@ class TrainChimp():
 
         self.tokenize_and_tag_text()
         self.create_pos_dictionaries()
-
+        
         # Create each of the probability dictionaries
         self.__create_initial_probabilities()
         self.__create_emission_probabilities()
@@ -100,7 +103,9 @@ class TrainChimp():
         Uses nltk to tokenize and tag each word with it's POS in the string
         :return: None
         """
-        sentences = self.file_contents.split(".")
+        # sentences = self.file_contents.split(".")
+        sentences = nltk.sent_tokenize(self.file_contents)
+        
         for sentence in sentences:
             sentence = sentence.lstrip().rstrip()
             if sentence == "":
@@ -108,11 +113,19 @@ class TrainChimp():
 
             tokenizer = RegexpTokenizer(r"\w+")
             tokens = tokenizer.tokenize(sentence)
+
+            # [('mary', 'NN'), ('now', 'RB'), ('loves', 'VBZ'), ('red', 'JJ')]
+            # [('fred', 'VBN'), ('sees', 'NNS'), ('mary', 'JJ'), ('sometimes', 'RB')]
+            # [('mary', 'JJ'), ('likes', 'NNS'), ('red', 'VBD')]
+            # [('ted', 'VBN'), ('now', 'RB'), ('likes', 'VBZ'), ('green', 'JJ')]
             tokenized_text = nltk.pos_tag(tokens)
+            # TODO - Add the parts of sentence tags here!
 
             self.tokens.extend(tokens)
+            
+            # Not sure if we need the start tokens in there yet.
+            # self.tokenized_text.append((ut.START, ut.START))
             self.tokenized_text.extend(tokenized_text)
-
             self.tokenized_text.append((ut.END, ut.END))
 
             # Count first word pos into initial probabilities
@@ -121,11 +134,13 @@ class TrainChimp():
                 for _ in range(self.markov_order-1):
                     first_word_key_list.append(ut.START)
                 first_word_key_list.append(tokenized_text[0][1])
-                first_word_key = tuple(first_word_key_list)
                 
+                # Need to figure out why tuple and set default..Maybe text can be multiple? idk
+                #       I think this is there if the markov order > 1
+                first_word_key = tuple(first_word_key_list)
                 self.initial_probs.setdefault(first_word_key, 0.0)
                 self.initial_probs[first_word_key] += 1.0
-
+    
     def create_pos_dictionaries(self) -> None:
         """
         Iterates through the tokens and draws out their parts of speech
@@ -139,7 +154,6 @@ class TrainChimp():
             if token[0] not in self.observed_nodes:
                 self.observed_nodes.append(token[0])
             # Creating count of each token
-            #self.initial_probs.setdefault(token[1], []).append(1)
             self.emission_probs.setdefault(token[1], []).append([token[0], 1.0])
 
     def __create_emission_probabilities(self) -> None:
@@ -217,7 +231,7 @@ class TrainChimp():
                     if inner_pos not in self.transition_probs.get(pos).keys():
                         self.transition_probs.get(pos).update({inner_pos: 0.0})
 
-    def __get_hidden_state(self, token_position) -> []:
+    def __get_hidden_state(self, token_position) -> list:
         """
         Finds the hidden state given the markov order of the model
         """

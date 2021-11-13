@@ -1,17 +1,27 @@
-import utility.Utility
+import utility.Utility as ut
 import random
+import re
 
 
 class CountSentences:
-    def __init__(self, text_file):
-        file = utility.Utility.read_text_file(text_file)
-        filtered = filter(None, file.split("."))
+    def __init__(self, text_file: str) -> None:
+        """[summary]
+
+        Args:
+            text_file (str): path to text file
+        """
+        file = ut.read_text_file(text_file)
+        text = ut.cleanup_text_file(file)
         self.num_sentences = 0
-        self.sentences = list(filtered)
+        self.sentences = re.split("\.|\?|\!", text)
+        
+        # Remove empty strings
+        self.sentences = [i for i in self.sentences if i]
+        
         self.num_sentences = len(self.sentences)
 
-    def shuffle_sentences(self, amount_of_shuffles=1) -> None:
-        for i in range(amount_of_shuffles):
+    def shuffle_sentences(self, amount_of_shuffles: int = 1) -> None:
+        for _ in range(amount_of_shuffles):
             random.shuffle(self.sentences)
 
     def get_sentences(self, number_to_get: int) -> list:

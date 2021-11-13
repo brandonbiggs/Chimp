@@ -40,19 +40,23 @@ def read_text_file(file_name: str) -> str:
     file = open(file_name, "r")
     text = file.read()
     file.close()
+    return text
 
+def cleanup_text_file(text: str) -> str:
     newstring = ""
     text = re.sub(r" (?='|\.|\,|\?| |\!)", "", text)
     text = re.sub(r"(<p>)", "", text)
 
     word = ""
-    for character in text.lower():
-        if character not in '?!.\ ;\n"<>[]@#$%^&*()-_+={}/\\' and not character.isdigit():
+    
+    # Lowering changes how NLTK parses the word, so we want to be careful not to unnecessarily change the casing
+    for character in text:
+        # if character not in '?!.\ ;\n"<>[]@#$%^&*()-_+={}/\\' and not character.isdigit():
+        if character not in '\ ;\n"<>[]@#$%^&*()-_+={}/\\':
             word += character
-        elif character == "?" or character == "!" or character == ".":
-            word += "."
         elif character == " ":
             # Check if word isn't a random single character
+            #       Sometimes the text gets very messy and is just random letters. This checks for that
             if len(word) <= 1:
                 if word == "a" or word == "i":
                     newstring += word + " "
@@ -60,7 +64,6 @@ def read_text_file(file_name: str) -> str:
                     newstring += word
             else:
                 newstring += word + " "
-
             word = ""
     newstring += word
             

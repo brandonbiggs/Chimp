@@ -1,3 +1,6 @@
+from rich.pretty import pprint
+from rich.json import JSON
+
 class HiddenMarkovModel:
     """
     TODO - Instead of strings as the keys in the probabilities, we need to keep
@@ -29,10 +32,21 @@ class HiddenMarkovModel:
         self.observed_nodes = observed_nodes
 
     def print(self):
-        print("Hidden Markov Model")
-        print("Hidden Nodes:", self.hidden_nodes)
-        print("Observed Nodes:", self.observed_nodes)
-        print("Initial Probabilities:", self.initial_probs)
-        print("Transition Probabilities:", self.transition_probs)
-        print("Emission Probabilities:", self.emission_probs)
-        print("Markov Order: ", self.markov_order)
+        pprint("Hidden Markov Model")
+        
+        print(f"Hidden Nodes:")
+        pprint(self.hidden_nodes)
+        
+        print(f"Observed Nodes:")
+        pprint(self.observed_nodes)
+        
+        print(f"Initial Probabilities: ")
+        pprint(self.initial_probs)
+        
+        print(f"Transition Probabilities:")
+        pprint(self.transition_probs)
+        
+        print(f"Emission Probabilities")
+        pprint(self.emission_probs)
+        
+        print(f"Markov Order: {self.markov_order}")
