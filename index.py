@@ -10,7 +10,7 @@ verbose = True
 markov_order = 1
 
 model = train(number_of_sentences, text_file, pickle_file, model, verbose, markov_order=markov_order)
-model.print()
+# model.print()
 
 length = 4
 hidden_constraints = [[ConstraintIsPartOfSpeech("NNP", True)], None, None, None]
@@ -23,9 +23,9 @@ NHHMM = ConstrainedHiddenMarkovProcess(
     )
 NHHMM.process()
 print("NHHMM Finished")
-NHHMM.print_new_markov_probabilities()
+# NHHMM.print_new_markov_probabilities()
 
-# sentence_generator = ChimpSentenceGenerator(NHHMM, length)
-# for x in range(10):
-#     print(sentence_generator.create_sentence())
-#     print("\n")
+sentence_generator = ChimpSentenceGenerator(NHHMM, length)
+for _ in range(10):
+    print(sentence_generator.create_sentence())
+    # print("\n")
