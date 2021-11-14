@@ -49,7 +49,6 @@ def cleanup_text_file(text: str) -> str:
 
     word = ""
     
-    # Lowering changes how NLTK parses the word, so we want to be careful not to unnecessarily change the casing
     for character in text:
         # if character not in '?!.\ ;\n"<>[]@#$%^&*()-_+={}/\\' and not character.isdigit():
         if character not in '\ ;\n"<>[]@#$%^&*()-_+={}/\\':

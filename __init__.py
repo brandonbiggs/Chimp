@@ -1,5 +1,6 @@
-version_info = (0, 0, 7)
-version = ".".join(str(c) for c in version_info) + "pre-alpha"
+version_info = (0, 0, 8)
+version = ".".join(str(c) for c in version_info) + "beta"
+authors = ["Brandon Biggs", "Porter Glines"]
 
 nltk_tags = {
     "CC": "coordinating conjunction",

@@ -21,4 +21,5 @@ chimp-env/
 # Ignore results
 #results/
 .pytest_cache
+testing.py
 

@@ -1,5 +1,8 @@
+from re import sub
 import nltk
 from nltk.tokenize import RegexpTokenizer
+from nltk.data import find
+from bllipparser import RerankingParser
 from progress.bar import Bar
 
 # from utility.Utility import read_text_file
@@ -44,6 +47,15 @@ class TrainChimp():
         self.markov_order = markov_order
         self.number_of_sentences = number_of_sentences
         self.file_contents_bool = file_contents
+
+        # Sentence parser
+        while True:
+            try:
+                self.parser = RerankingParser.from_unified_model_dir('nltk_data/models/WSJ-PTB3')
+                break
+            except:
+                pass
+        self.part_of_sentence_labels = ["NP", "VP", "ADVP"]
         
         if progress_bar:
             self.__init_with_progress(file)
@@ -105,7 +117,6 @@ class TrainChimp():
         """
         # sentences = self.file_contents.split(".")
         sentences = nltk.sent_tokenize(self.file_contents)
-        
         for sentence in sentences:
             sentence = sentence.lstrip().rstrip()
             if sentence == "":
@@ -113,14 +124,21 @@ class TrainChimp():
 
             tokenizer = RegexpTokenizer(r"\w+")
             tokens = tokenizer.tokenize(sentence)
-
             # [('mary', 'NN'), ('now', 'RB'), ('loves', 'VBZ'), ('red', 'JJ')]
             # [('fred', 'VBN'), ('sees', 'NNS'), ('mary', 'JJ'), ('sometimes', 'RB')]
             # [('mary', 'JJ'), ('likes', 'NNS'), ('red', 'VBD')]
             # [('ted', 'VBN'), ('now', 'RB'), ('likes', 'VBZ'), ('green', 'JJ')]
             tokenized_text = nltk.pos_tag(tokens)
+            
             # TODO - Add the parts of sentence tags here!
-
+            tree_string = self.parser.simple_parse(sentence)
+            sentence_tree = nltk.Tree.fromstring(tree_string)
+            for sub_tree in sentence_tree.subtrees():
+                if sub_tree.label() in self.part_of_sentence_labels:
+                    token = (" ".join(sub_tree.leaves()), sub_tree.label())
+                    self.tokenized_text.append(token)
+            # print(sentence_tree)
+            
             self.tokens.extend(tokens)
             
             # Not sure if we need the start tokens in there yet.
@@ -140,6 +158,8 @@ class TrainChimp():
                 first_word_key = tuple(first_word_key_list)
                 self.initial_probs.setdefault(first_word_key, 0.0)
                 self.initial_probs[first_word_key] += 1.0
+        # print(self.tokenized_text)
+        # quit(0)
     
     def create_pos_dictionaries(self) -> None:
         """
