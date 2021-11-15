@@ -50,27 +50,6 @@ class ConstrainedHiddenMarkovProcess:
             self.constrained_observed_emission_probabilities.append(0)
             self.constrained_transition_probabilities.append(0)
 
-    def print_new_markov_probabilities(self) -> None:
-        """
-        Debugging function to print out info about the NHHMM
-        :return: None
-        """
-        for node_layer in range(self.layers):
-            print(f"\nObserved layer {node_layer} of the NHHMM")
-            print("Beta list: ")
-            pprint(self.observed_node_betas[node_layer])
-            
-            print(f"Emission Probabilities:")
-            pprint(self.constrained_observed_emission_probabilities[node_layer])
-
-            print("Hidden Layer:", node_layer)
-            if node_layer != 0:
-                print("Transition Probabilities:")
-                pprint(self.constrained_transition_probabilities[node_layer])
-            else:
-                print("Initial Probabilities:")
-                pprint(self.constrained_transition_probabilities[node_layer])
-
     def process(self) -> None:
         """
         Iterate through the hidden and observed nodes starting with the last
@@ -433,11 +412,6 @@ class ConstrainedHiddenMarkovProcess:
             # If at last layer, increment for each possible emission
             if layer_index == self.layers-1:
                 count[0] += 1
-
-                # # print solution
-                # for word in solution + [emission]:
-                #     print(word, end=' ')
-                # print(count[0])
 
             else:
                 self.get_total_solution_count_hidden_impl(hidden_state,

@@ -49,13 +49,13 @@ class TrainChimp():
         self.file_contents_bool = file_contents
 
         # Sentence parser
+        self.part_of_sentence_labels = ["NP", "VP", "ADVP"]
         while True:
             try:
                 self.parser = RerankingParser.from_unified_model_dir('nltk_data/models/WSJ-PTB3')
                 break
             except:
                 pass
-        self.part_of_sentence_labels = ["NP", "VP", "ADVP"]
         
         if progress_bar:
             self.__init_with_progress(file)

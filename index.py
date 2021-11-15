@@ -1,33 +1,44 @@
 from utility.Train import train
 from models.CHiMP import *
 from utility.ChimpSentenceGenerator import *
+import pickle
+from utility.print import *
 
 number_of_sentences = 4
-text_file = "data/ccil.txt"
-text_file = "data/book_medium.txt"
-pickle_file = "pickle_files/new_file.pickle"
+text_file_path = "data"
+text_file_name = "ccil.txt"
+# text_file_name = "book_medium.txt"
+text_file_path = f"{text_file_path}/{text_file_name}"
+pickle_file = f"pickle_files/{text_file_name}.pickle"
 model = "chimp"
 verbose = True
 markov_order = 1
+pickle_model = True
 
-model = train(number_of_sentences, text_file, pickle_file, model, verbose, markov_order=markov_order)
-model.print()
-quit(0)
+# model = train(number_of_sentences, text_file_path, pickle_file, model, verbose, markov_order=markov_order, pickle_model=pickle_model)
+# model.print()
+# quit(0)
 
-length = 4
-hidden_constraints = [[ConstraintIsPartOfSpeech("NNP", True)], None, None, None]
+with open(pickle_file, "rb") as handle:
+    model = pickle.load(handle)
+# model.print()
+# model_to_json(model, output_file="test.txt")
+# quit(0)
+
+length = 3
+hidden_constraints = [[ConstraintIsPartOfSpeech("NP", True)], [ConstraintIsPartOfSpeech("ADVP", True)], [ConstraintIsPartOfSpeech("VP", True)]]
 
 # observed_constraints = [None, None, ConstraintContainsString("t", True)]
-observed_constraints = [None, None, None, None]
+observed_constraints = []
+for _ in range(length):
+    observed_constraints.append(None)
 
-NHHMM = ConstrainedHiddenMarkovProcess(
-        length, model, hidden_constraints, observed_constraints
-    )
+NHHMM = ConstrainedHiddenMarkovProcess(length, model, hidden_constraints, observed_constraints)
 NHHMM.process()
 print("NHHMM Finished")
-# NHHMM.print_new_markov_probabilities()
+print_chimp_markov_probabilities(NHHMM)
 
 # sentence_generator = ChimpSentenceGenerator(NHHMM, length)
 # for _ in range(10):
-    # print(sentence_generator.create_sentence())
+#     print(sentence_generator.create_sentence())
     # print("\n")
