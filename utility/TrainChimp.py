@@ -136,30 +136,35 @@ class TrainChimp():
             for sub_tree in sentence_tree.subtrees():
                 if sub_tree.label() in self.part_of_sentence_labels:
                     token = (" ".join(sub_tree.leaves()), sub_tree.label())
-                    self.tokenized_text.append(token)
-            # print(sentence_tree)
-            
+                    self.tokenized_text.append(token)            
             self.tokens.extend(tokens)
             
             # Not sure if we need the start tokens in there yet.
             # self.tokenized_text.append((ut.START, ut.START))
             self.tokenized_text.extend(tokenized_text)
             self.tokenized_text.append((ut.END, ut.END))
-
+            
             # Count first word pos into initial probabilities
-            if len(tokenized_text) > 0:
+            if len(self.tokenized_text) > 0:
                 first_word_key_list = []
                 for _ in range(self.markov_order-1):
                     first_word_key_list.append(ut.START)
+                # first part of speech
                 first_word_key_list.append(tokenized_text[0][1])
-                
+                # First part of sentence (should probably add to the other function for part of sentence..)
+                first_word_key_list.append(self.tokenized_text[0][1])
+
                 # Need to figure out why tuple and set default..Maybe text can be multiple? idk
                 #       I think this is there if the markov order > 1
-                first_word_key = tuple(first_word_key_list)
-                self.initial_probs.setdefault(first_word_key, 0.0)
-                self.initial_probs[first_word_key] += 1.0
-        # print(self.tokenized_text)
-        # quit(0)
+                if self.markov_order == 1:
+                    for word in first_word_key_list:
+                        self.initial_probs.setdefault(word, 0.0)
+                        self.initial_probs[word] += 1.0
+                # Not sure here yet, but this doesn't work for part of speech and part of sentence..
+                else:
+                    first_word_key = tuple(first_word_key_list)
+                    self.initial_probs.setdefault(first_word_key, 0.0)
+                    self.initial_probs[first_word_key] += 1.0
     
     def create_pos_dictionaries(self) -> None:
         """

@@ -23,6 +23,8 @@ class ChimpSentenceGenerator:
                 pos = self.get_first_pos()
             else:
                 pos = self.get_pos(node_layer, self.initial_pos)
+            # print(f"pos: {pos}")
+            # HERE
             next_word = self.get_emission_word(node_layer, pos)
             if next_word is not None:
                 # TODO - Play with this a little bit to learn about porter's comment
@@ -44,15 +46,21 @@ class ChimpSentenceGenerator:
         """
         rand = get_rand_num()
         count = 0
+        # print(f"node layer: {node_layer}")
+        # print(f"pos {pos}")
         emission_probs = self.NHHMM.constrained_transition_probabilities[node_layer].get(pos)
+        # print(emission_probs)
         if emission_probs is None:
             return None
         for key in emission_probs.keys():
+            # print(f"key: {key}")
             count += emission_probs.get(key)
             if rand < count:
                 if key is not None:
                     self.initial_pos = key
-                    return key[-1]
+                    # print(f"key -1 : {key[-1]}")
+                    return key
+                    # return key[-1]
 
     def get_first_pos(self) -> str:
         """
@@ -81,6 +89,8 @@ class ChimpSentenceGenerator:
         """
         rand = get_rand_num()
         sum = 0
+        if pos is None:
+            return None
         if len(pos) == 1:
             emission_probs = self.NHHMM.constrained_observed_emission_probabilities[node_layer][pos[0]]
         elif isinstance(pos, str):
@@ -88,6 +98,7 @@ class ChimpSentenceGenerator:
         # TODO - Figure out how to generate sentences on markov order > 1
         else:
             emission_probs = None
+
         if emission_probs is None:
             return None
         for key in emission_probs.keys():
