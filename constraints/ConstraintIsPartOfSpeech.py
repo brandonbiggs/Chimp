@@ -45,9 +45,8 @@ class ConstraintIsPartOfSpeech(Constraint):
             part_of_speech = word.split(':')[1]
         else:
             part_of_speech = word
-        # part_of_speech = self.__get_string_pos(word)
         if self.must_be_pos:
-            if str(part_of_speech) == str(self.part_of_speech):
+            if (str(part_of_speech) == str(self.part_of_speech)) and len(part_of_speech) == len(self.part_of_speech):
                 return True
             else:
                 return False
