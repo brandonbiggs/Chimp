@@ -7,13 +7,12 @@ from utility.ChimpSentenceGenerator import *
 from models.CHiMP import *
 
 print("Setting up..")
-number_of_sentences = 1
+number_of_sentences = 10000
 text_file_path = "data"
 # John likes the blue house at the end of the street.
-text_file_name = "one_sentence.txt"
-# text_file_name = "ccil.txt"
-# text_file_name = "book_medium.txt"
-# text_file_name = "w_fic_2012.txt"
+# text_file_name = "one_sentence.txt"
+text_file_name = "/home/biggbs/school/COCA-Dataset/CocaDataset-01/2016_acad.txt"
+
 text_file_path = f"{text_file_path}/{text_file_name}"
 pickle_hmm_file = f"pickle_files/{text_file_name}.pickle"
 pickle_chimp_model_file = f"pickle_files/{text_file_name}_chimp.pickle"

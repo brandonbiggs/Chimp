@@ -53,6 +53,7 @@ class TrainChimp():
         while True:
             try:
                 self.parser = RerankingParser.from_unified_model_dir('/home/biggbs/nltk_data/models/WSJ-PTB3')
+                # self.parser = RerankingParser.from_unified_model_dir('nltk_data/models/WSJ-PTB3')
                 break
             except:
                 pass
