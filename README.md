@@ -5,12 +5,18 @@ Email [Brandon](mailto:biggbran@isu.edu) if there are any questions.
 
 ### Dependencies
 Part of sentence parser:
-`python -mbllipparser.ModelFetcher -i WSJ-PTB3`
+```
+python -mbllipparser.ModelFetcher -i WSJ-PTB3
+mv ~/.local/share/bllipparser/WSJ-PTB3 ~/nltk_data/models/.
+```
+
 
 You may need to use the following two lines for the NLTK package. These are sporadically
 used in the constraint files and the ChimpProcessData class.
-`nltk.download('tagsets')`
-`nltk.download('averaged_perceptron_tagger')`
+```
+nltk.download('tagsets')
+`nltk.download('averaged_perceptron_tagger')
+```
 - Note on Macs - If you run into an error about "SSL: CERTIFICATE VERIFY FAILED" follow the instructions
 in the following link - https://stackoverflow.com/questions/41348621/ssl-error-downloading-nltk-data
     
@@ -64,6 +70,8 @@ exactly as intended.
 - Do a lot of analysis on the creation of sentences between the regular markov model and Chimp
 - The unit tests are also not yet implemented.
 - Write function to output model to json file
+- Write better error handling, especially for missing model files
+- Write checks for missing model files
 
 
 
