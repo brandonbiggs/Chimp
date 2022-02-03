@@ -2,14 +2,40 @@ from rich.pretty import pprint
 from rich.json import JSON
 from rich import print_json
 import json
+from bllipparser import RerankingParser
+import nltk
+
+def print_sentence_tree(sentence: str) -> None:
+    # Sentence parser
+    part_of_sentence_labels = ["NP", "VP", "ADVP"]
+    while True:
+        try:
+            parser = RerankingParser.from_unified_model_dir('nltk_data/models/WSJ-PTB3')
+            break
+        except:
+            pass
+    try:
+        tree_string = parser.simple_parse(sentence)
+        sentence_tree = nltk.Tree.fromstring(tree_string)
+        print(sentence_tree)
+        # for sub_tree in sentence_tree.subtrees():
+        #     if sub_tree.label() in part_of_sentence_labels:
+        #         token = (" ".join(sub_tree.leaves()), sub_tree.label())
+        #         tokenized_text.append(token)            
+        # tokens.extend(tokens)
+    except IndexError:
+        pass
 
 def print_model(model) -> None:
     print("Hidden Markov Model")
     
-    print(f"Hidden Nodes:")
-    pprint(model.hidden_nodes)
+    print(f"Hidden State Alphabet:")
+    # print(model.hidden_nodes)
+    # pprint(model.hidden_nodes)
+    # print(model.emission_probs.keys())
+    pprint(list(model.emission_probs.keys()))
     
-    print(f"Observed Nodes:")
+    print(f"Emission State Alphabet: ")
     pprint(model.observed_nodes)
     
     print(f"Initial Probabilities: ")

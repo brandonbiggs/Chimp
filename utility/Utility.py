@@ -1,5 +1,6 @@
 import random
 import re
+import pickle
 
 START = '<<START>>'
 END = '<<END>>'
@@ -19,7 +20,6 @@ def array_average(array: list) -> float:
     for value in array:
         total += value
     return total / len(array)
-
 
 def remove_pos_tags(sentence: str) -> str:
     new_sentence = ''
@@ -67,3 +67,9 @@ def cleanup_text_file(text: str) -> str:
     newstring += word
             
     return newstring
+
+def pickle_model(pickle_file: str, model, verbose:str = False,):
+    with open(pickle_file, "wb") as handle:
+        pickle.dump(model, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    if verbose:
+        print("Finished training. Saved model to pickle file.")

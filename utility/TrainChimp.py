@@ -131,13 +131,16 @@ class TrainChimp():
             tokenized_text = nltk.pos_tag(tokens)
             
             # TODO - Add the parts of sentence tags here!
-            tree_string = self.parser.simple_parse(sentence)
-            sentence_tree = nltk.Tree.fromstring(tree_string)
-            for sub_tree in sentence_tree.subtrees():
-                if sub_tree.label() in self.part_of_sentence_labels:
-                    token = (" ".join(sub_tree.leaves()), sub_tree.label())
-                    self.tokenized_text.append(token)            
-            self.tokens.extend(tokens)
+            try:
+                tree_string = self.parser.simple_parse(sentence)
+                sentence_tree = nltk.Tree.fromstring(tree_string)
+                for sub_tree in sentence_tree.subtrees():
+                    if sub_tree.label() in self.part_of_sentence_labels:
+                        token = (" ".join(sub_tree.leaves()), sub_tree.label())
+                        self.tokenized_text.append(token)            
+                self.tokens.extend(tokens)
+            except IndexError:
+                pass
             
             # Not sure if we need the start tokens in there yet.
             # self.tokenized_text.append((ut.START, ut.START))
@@ -150,9 +153,15 @@ class TrainChimp():
                 for _ in range(self.markov_order-1):
                     first_word_key_list.append(ut.START)
                 # first part of speech
-                first_word_key_list.append(tokenized_text[0][1])
+                try:
+                    first_word_key_list.append(tokenized_text[0][1])
+                except IndexError:
+                    pass
                 # First part of sentence (should probably add to the other function for part of sentence..)
-                first_word_key_list.append(self.tokenized_text[0][1])
+                try:
+                    first_word_key_list.append(self.tokenized_text[0][1])
+                except IndexError:
+                    pass
 
                 # Need to figure out why tuple and set default..Maybe text can be multiple? idk
                 #       I think this is there if the markov order > 1
