@@ -6,6 +6,7 @@ from utility.print import *
 from utility.ChimpSentenceGenerator import *
 from models.CHiMP import *
 
+print("Setting up..")
 number_of_sentences = 1
 text_file_path = "data"
 # John likes the blue house at the end of the street.
@@ -23,7 +24,7 @@ markov_order = 1
 pickle_model_bool = True
 
 # print_sentence_tree("John likes the blue house at the end of the street.")
-
+print("Starting training..")
 model = train(number_of_sentences, text_file_path, pickle_hmm_file, model, verbose, markov_order=markov_order, pickle_model_bool=pickle_model_bool)
 # model_to_json(model, output_file=f"output/{text_file_name}")
 # print_chimp_markov_probabilities(model)

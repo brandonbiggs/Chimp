@@ -2,16 +2,16 @@ from constraints.Constraint import Constraint
 
 import nltk
 
-try:
-    nltk.data.find("~/nltk_data/tokenizers/punkt")
-except LookupError:
-    nltk.download("punkt", quiet=True)
+# try:
+#     nltk.data.find("~/nltk_data/tokenizers/punkt")
+# except LookupError:
+#     nltk.download("punkt", quiet=True)
 
-try:
-    nltk.data.find("~/nltk_data/taggers/averaged_perceptron_tagger"
-    )
-except LookupError:
-    nltk.download("averaged_perceptron_tagger", quiet=True)
+# try:
+#     nltk.data.find("~/nltk_data/taggers/averaged_perceptron_tagger"
+#     )
+# except LookupError:
+#     nltk.download("averaged_perceptron_tagger", quiet=True)
 
 
 class ConstraintIsPartOfSpeech(Constraint):
