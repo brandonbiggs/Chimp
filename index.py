@@ -33,12 +33,13 @@ def print_sentences(length, NHHMM):
         print(sentence_generator.create_sentence())
 
 if __name__ == '__main__':
-    prod = True
+    prod = False
     model_name = "chimp"
     train_model_bool = True
     load_model_bool = False
     process_model_bool = False
     print_sentences_bool = False
+    linux = True
     length = 7
 
     if prod:
@@ -47,24 +48,27 @@ if __name__ == '__main__':
         text_file_path = "/home/biggbs/school/COCA-Dataset/CocaDataset-01"
         text_file_name = "2016_fic.txt"
         # text_file_name = "2016_acad.txt"
-        verbose = True
-        parser_path = "/home/biggbs/nltk_data/models/WSJ-PTB3"
     else:
-        number_of_sentences = 100
+        number_of_sentences = 2
         text_file_path = "data"
-        text_file_name = "book_medium.txt"
-        # text_file_name = "one_sentence.txt"
-        verbose = True
-        parser_path = "nltk_data/models/WSJ-PTB3"
+        # text_file_name = "book_medium.txt"
+        text_file_name = "one_sentence.txt"
     
     if model_name == "chimp":
         pickle_file = f"pickle_files/{text_file_name}_chimp.pickle"
     else:
         pickle_file = f"pickle_files/{text_file_name}_hmm.pickle"
 
+    if linux:
+        parser_path = "/home/biggbs/nltk_data/models/WSJ-PTB3"
+    else:
+        parser_path = "nltk_data/models/WSJ-PTB3"
+    
     input_file = f"{text_file_path}/{text_file_name}"
     markov_order = 1
     pickle_model_bool = True
+    verbose = True
+
 
     if train_model_bool:
         model = train(number_of_sentences = number_of_sentences, text_file = input_file, pickle_file = pickle_file, model = model_name, 

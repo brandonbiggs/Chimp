@@ -51,14 +51,12 @@ class TrainChimp():
 
         # Sentence parser
         self.part_of_sentence_labels = ["NP", "VP", "ADVP"]
-        quit(0)
-        while True:
-            try:
-                self.parser = RerankingParser.from_unified_model_dir(parser_path)
-                print("Part of sentence tagger loaded..", file=open("logs/parser_output.txt", "a"))
-                break
-            except:
-                pass
+        try:
+            self.parser = RerankingParser.from_unified_model_dir(parser_path)
+            print("Parser successfully loaded. Continuing..")
+        except:
+            print("Parser failed to load, quitting.")
+            quit(1)
         if progress_bar:
             self.__init_with_progress(file)
         else:
