@@ -54,6 +54,7 @@ class TrainChimp():
         while True:
             try:
                 self.parser = RerankingParser.from_unified_model_dir(parser_path)
+                print("Part of sentence tagger loaded..", file=open("logs/parser_output.txt", "a"))
                 break
             except:
                 pass
@@ -131,16 +132,19 @@ class TrainChimp():
             tokenized_text = nltk.pos_tag(tokens)
             
             # TODO - Add the parts of sentence tags here!
-            try:
-                tree_string = self.parser.simple_parse(sentence)
-                sentence_tree = nltk.Tree.fromstring(tree_string)
-                for sub_tree in sentence_tree.subtrees():
-                    if sub_tree.label() in self.part_of_sentence_labels:
-                        token = (" ".join(sub_tree.leaves()), sub_tree.label())
-                        self.tokenized_text.append(token)            
-                self.tokens.extend(tokens)
-            except IndexError:
-                pass
+            while True:
+                try:
+                    tree_string = self.parser.simple_parse(sentence)
+                    sentence_tree = nltk.Tree.fromstring(tree_string)
+                    for sub_tree in sentence_tree.subtrees():
+                        if sub_tree.label() in self.part_of_sentence_labels:
+                            token = (" ".join(sub_tree.leaves()), sub_tree.label())
+                            self.tokenized_text.append(token)            
+                    self.tokens.extend(tokens)
+                    break
+                except:
+                    print(f"Error while parsing.. trying again. Sentence: '{sentence}'", file=open("logs/parser_output.txt", "a"))
+                    pass
             
             # Not sure if we need the start tokens in there yet.
             # self.tokenized_text.append((ut.START, ut.START))

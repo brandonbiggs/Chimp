@@ -33,10 +33,10 @@ def print_sentences(length, NHHMM):
         print(sentence_generator.create_sentence())
 
 if __name__ == '__main__':
-    prod = False
+    prod = True
     model_name = "chimp"
     train_model_bool = True
-    load_model_bool = True
+    load_model_bool = False
     process_model_bool = False
     print_sentences_bool = False
     length = 7
