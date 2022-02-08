@@ -1,5 +1,6 @@
 from json.tool import main
 import pickle
+import time
 
 from utility.Train import train
 from utility.Utility import *
@@ -33,14 +34,14 @@ def print_sentences(length, NHHMM):
         print(sentence_generator.create_sentence())
 
 if __name__ == '__main__':
-    prod = False
+    prod = True
     model_name = "chimp"
+    linux = True
+
     train_model_bool = True
     load_model_bool = False
     process_model_bool = False
     print_sentences_bool = False
-    linux = True
-    length = 7
 
     if prod:
         # 100K
@@ -68,6 +69,8 @@ if __name__ == '__main__':
     markov_order = 1
     pickle_model_bool = True
     verbose = True
+    length = 7
+    startTime = time.time()
 
 
     if train_model_bool:
@@ -85,3 +88,6 @@ if __name__ == '__main__':
 
     if print_sentences_bool:
         print_sentences(length, NHHMM)
+
+    executionTime = (time.time() - startTime)
+    print(f'Execution time in seconds: {str(executionTime)}')
