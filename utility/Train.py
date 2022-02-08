@@ -37,7 +37,6 @@ def train(number_of_sentences: int, text_file: str = "data/book_tiny.txt",
             print("Your file will be saved to: ", pickle_file)
     
     # Process the text file
-    quit(0)
     if model == "chimp":
         if verbose: print("Training CHiMP model.")
         data = TrainChimp(text_file, number_of_sentences=number_of_sentences, progress_bar=False, file_contents=text_contents, markov_order=markov_order, parser_path=parser_path)

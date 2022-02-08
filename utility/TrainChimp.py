@@ -51,6 +51,7 @@ class TrainChimp():
 
         # Sentence parser
         self.part_of_sentence_labels = ["NP", "VP", "ADVP"]
+        quit(0)
         while True:
             try:
                 self.parser = RerankingParser.from_unified_model_dir(parser_path)
