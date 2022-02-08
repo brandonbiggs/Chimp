@@ -15,7 +15,8 @@ import utility.CountSentences as countSentences
 
 
 class TrainChimp():
-    def __init__(self, file: str, number_of_sentences, progress_bar=True, file_contents=False, markov_order=1) -> None:
+    def __init__(self, file: str, number_of_sentences, progress_bar=True, file_contents=False, markov_order=1, 
+        parser_path="nltk_data/models/WSJ-PTB3") -> None:
         """
         :param file: Name of the file to read and create probabilities from
         :param number_of_sentences:
@@ -52,12 +53,10 @@ class TrainChimp():
         self.part_of_sentence_labels = ["NP", "VP", "ADVP"]
         while True:
             try:
-                self.parser = RerankingParser.from_unified_model_dir('/home/biggbs/nltk_data/models/WSJ-PTB3')
-                # self.parser = RerankingParser.from_unified_model_dir('nltk_data/models/WSJ-PTB3')
+                self.parser = RerankingParser.from_unified_model_dir(parser_path)
                 break
             except:
                 pass
-        
         if progress_bar:
             self.__init_with_progress(file)
         else:

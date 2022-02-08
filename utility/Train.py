@@ -5,7 +5,8 @@ from utility.Utility import pickle_model
 
 def train(number_of_sentences: int, text_file: str = "data/book_tiny.txt", 
         pickle_file: str = "pickle_files/new_file.pickle", model: str = "chimp", verbose: bool = True,
-        text_contents: bool = False, pickle_model_bool: bool = False, markov_order: int = 1) -> HiddenMarkovModel:
+        text_contents: bool = False, pickle_model_bool: bool = False, markov_order: int = 1, parser_path: str = "nltk_data/models/WSJ-PTB3") -> HiddenMarkovModel:
+    
     """Create the hidden markov model and store it for use later
 
     Args:
@@ -38,7 +39,7 @@ def train(number_of_sentences: int, text_file: str = "data/book_tiny.txt",
     # Process the text file
     if model == "chimp":
         if verbose: print("Training CHiMP model.")
-        data = TrainChimp(text_file, number_of_sentences, False, file_contents=text_contents, markov_order=markov_order)
+        data = TrainChimp(text_file, number_of_sentences=number_of_sentences, progress_bar=False, file_contents=text_contents, markov_order=markov_order, parser_path=parser_path)
     
     elif model == "markovmodel":
         if verbose: print("Training Markov model.")
@@ -57,8 +58,4 @@ def train(number_of_sentences: int, text_file: str = "data/book_tiny.txt",
     # Store the hidden Markov Model that we just created
     if pickle_model_bool:
         pickle_model(pickle_file, hidden_markov_model, verbose)
-        # with open(pickle_file, "wb") as handle:
-        #     pickle.dump(hidden_markov_model, handle, protocol=pickle.HIGHEST_PROTOCOL)
-        # if verbose:
-        #     print("Finished training. Saved model to pickle file.")
     return hidden_markov_model

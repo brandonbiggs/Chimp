@@ -1,3 +1,4 @@
+from json.tool import main
 import pickle
 
 from utility.Train import train
@@ -6,52 +7,77 @@ from utility.print import *
 from utility.ChimpSentenceGenerator import *
 from models.CHiMP import *
 
-print("Setting up..")
-number_of_sentences = 10000
-# John likes the blue house at the end of the street.
-# text_file_path = "data"
-# text_file_name = "one_sentence.txt"
+def load_model(file_to_load):
+    with open(file_to_load, "rb") as handle:
+        model = pickle.load(handle)
+    return model
 
-text_file_path = "/home/biggbs/school/COCA-Dataset/CocaDataset-01/"
-text_file_name = "2016_acad.txt"
+def process(length, model):
+    hidden_constraints = []
+    observed_constraints = []
+    for _ in range(length):
+        observed_constraints.append(None)
+        hidden_constraints.append(None)
 
-text_file_path = f"{text_file_path}/{text_file_name}"
-pickle_hmm_file = f"pickle_files/{text_file_name}.pickle"
-pickle_chimp_model_file = f"pickle_files/{text_file_name}_chimp.pickle"
+    # hidden_constraints = [[ConstraintIsPartOfSpeech("NP", True)], [ConstraintIsPartOfSpeech("VP", True)], None]
+    # hidden_constraints = [[ConstraintIsPartOfSpeech("NNP", True)], None, None, None, None, None, None]
 
-model = "chimp"
-verbose = True
-markov_order = 1
-pickle_model_bool = True
+    NHHMM = ConstrainedHiddenMarkovProcess(length, model, hidden_constraints, observed_constraints)
+    NHHMM.process()
+    print("NHHMM Finished")
+    return NHHMM
 
-# print_sentence_tree("John likes the blue house at the end of the street.")
-print("Starting training..")
-model = train(number_of_sentences, text_file_path, pickle_hmm_file, model, verbose, markov_order=markov_order, pickle_model_bool=pickle_model_bool)
-# model_to_json(model, output_file=f"output/{text_file_name}")
-# print_chimp_markov_probabilities(model)
-print_model(model)
-exit(0)
+def print_sentences(length, NHHMM):
+    sentence_generator = ChimpSentenceGenerator(NHHMM, length)
+    for _ in range(10):
+        print(sentence_generator.create_sentence())
 
-with open(pickle_hmm_file, "rb") as handle:
-    model = pickle.load(handle)
+if __name__ == '__main__':
+    prod = False
+    model_name = "chimp"
+    train_model_bool = True
+    load_model_bool = True
+    process_model_bool = False
+    print_sentences_bool = False
+    length = 7
 
-length = 3
-# hidden_constraints = [[ConstraintIsPartOfSpeech("NP", True)], [ConstraintIsPartOfSpeech("VP", True)], None]
-# hidden_constraints = [[ConstraintIsPartOfSpeech("NP", True)], None, None]
+    if prod:
+        # 100K
+        number_of_sentences = 100000
+        text_file_path = "/home/biggbs/school/COCA-Dataset/CocaDataset-01"
+        text_file_name = "2016_fic.txt"
+        # text_file_name = "2016_acad.txt"
+        verbose = False
+        parser_path = "/home/biggbs/nltk_data/models/WSJ-PTB3"
+    else:
+        number_of_sentences = 100
+        text_file_path = "data"
+        text_file_name = "book_medium.txt"
+        # text_file_name = "one_sentence.txt"
+        verbose = True
+        parser_path = "nltk_data/models/WSJ-PTB3"
+    
+    if model_name == "chimp":
+        pickle_file = f"pickle_files/{text_file_name}_chimp.pickle"
+    else:
+        pickle_file = f"pickle_files/{text_file_name}_hmm.pickle"
 
-hidden_constraints = [None, None, None]
-observed_constraints = []
-for _ in range(length):
-    observed_constraints.append(None)
+    input_file = f"{text_file_path}/{text_file_name}"
+    markov_order = 1
+    pickle_model_bool = True
 
-NHHMM = ConstrainedHiddenMarkovProcess(length, model, hidden_constraints, observed_constraints)
-NHHMM.process()
-pickle_model(pickle_chimp_model_file, NHHMM, True)
-print("NHHMM Finished")
-# print_chimp_markov_probabilities(NHHMM)
-# print_model(NHHMM)
+    if train_model_bool:
+        model = train(number_of_sentences = number_of_sentences, text_file = input_file, pickle_file = pickle_file, model = model_name, 
+            verbose=verbose, markov_order=markov_order, pickle_model_bool=pickle_model_bool, parser_path=parser_path)
+    # print_model(model)
 
-# sentence_generator = ChimpSentenceGenerator(NHHMM, length)
-# for _ in range(10):
-#     print(sentence_generator.create_sentence())
-#     print("\n")
+    if load_model_bool:
+        model = load_model(pickle_file)
+    # print_model(model)
+
+    if process_model_bool:
+        NHHMM = process(length=length, model=model)
+    # print_chimp_markov_probabilities(NHHMM)
+
+    if print_sentences_bool:
+        print_sentences(length, NHHMM)
