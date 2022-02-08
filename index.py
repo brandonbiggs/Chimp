@@ -47,7 +47,7 @@ if __name__ == '__main__':
         text_file_path = "/home/biggbs/school/COCA-Dataset/CocaDataset-01"
         text_file_name = "2016_fic.txt"
         # text_file_name = "2016_acad.txt"
-        verbose = False
+        verbose = True
         parser_path = "/home/biggbs/nltk_data/models/WSJ-PTB3"
     else:
         number_of_sentences = 100
