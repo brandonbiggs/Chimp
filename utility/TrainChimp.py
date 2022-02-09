@@ -72,6 +72,10 @@ class TrainChimp():
             self.file_contents = contents.sentence_list_as_string(
                 contents.get_sentences(self.number_of_sentences)
             )
+            with open("results/raw_sentences.txt", 'a') as out:
+                for sentence in self.file_contents.split("."):
+                    out.write(sentence + '\n')
+                
         print("Sentences collected..")
 
         print("Beginning tokenizing process..")

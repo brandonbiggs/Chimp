@@ -50,10 +50,10 @@ if __name__ == '__main__':
         text_file_name = "2016_fic.txt"
         # text_file_name = "2016_acad.txt"
     else:
-        number_of_sentences = 2
+        number_of_sentences = 10
         text_file_path = "data"
-        # text_file_name = "book_medium.txt"
-        text_file_name = "one_sentence.txt"
+        text_file_name = "book_medium.txt"
+        # text_file_name = "one_sentence.txt"
     
     if model_name == "chimp":
         pickle_file = f"pickle_files/{text_file_name}_chimp.pickle"
