@@ -119,10 +119,10 @@ class TrainChimp():
         sentences = nltk.sent_tokenize(self.file_contents)
         counter = 0
         for sentence in sentences:
-            print(f"{sentence}", file=open("logs/sentences.txt", "a"))
             # Just to make sure it's still making progress
             counter = counter + 1
-            if counter % 500 == 0:
+            if counter % 250 == 0:
+                print(f"{sentence}", file=open("logs/sentences.txt", "a"))
                 print(".", end = '')
             sentence = sentence.lstrip().rstrip()
             if sentence == "":
