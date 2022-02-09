@@ -117,7 +117,11 @@ class TrainChimp():
         """
         # sentences = self.file_contents.split(".")
         sentences = nltk.sent_tokenize(self.file_contents)
+        counter = 0
         for sentence in sentences:
+            # Just to make sure it's still making progress
+            if counter % 500 == 0:
+                print(".", end = '')
             sentence = sentence.lstrip().rstrip()
             if sentence == "":
                 continue
@@ -178,6 +182,7 @@ class TrainChimp():
                     first_word_key = tuple(first_word_key_list)
                     self.initial_probs.setdefault(first_word_key, 0.0)
                     self.initial_probs[first_word_key] += 1.0
+            counter = counter + 1
     
     def create_pos_dictionaries(self) -> None:
         """
