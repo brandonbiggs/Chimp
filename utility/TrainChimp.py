@@ -147,7 +147,7 @@ class TrainChimp():
                 # break
             except:
                 print(f"Error while parsing.. trying again. Sentence: '{sentence}'", file=open("logs/parser_output.txt", "a"))
-                break
+                continue
                 # pass
             
             # Not sure if we need the start tokens in there yet.
