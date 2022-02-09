@@ -45,7 +45,7 @@ if __name__ == '__main__':
 
     if prod:
         # 100K
-        number_of_sentences = 100000
+        number_of_sentences = 100
         text_file_path = "/home/biggbs/school/COCA-Dataset/CocaDataset-01"
         text_file_name = "2016_fic.txt"
         # text_file_name = "2016_acad.txt"

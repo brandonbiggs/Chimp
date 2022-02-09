@@ -119,7 +119,9 @@ class TrainChimp():
         sentences = nltk.sent_tokenize(self.file_contents)
         counter = 0
         for sentence in sentences:
+            print(f"{sentence}", file=open("logs/sentences.txt", "a"))
             # Just to make sure it's still making progress
+            counter = counter + 1
             if counter % 500 == 0:
                 print(".", end = '')
             sentence = sentence.lstrip().rstrip()
@@ -146,7 +148,7 @@ class TrainChimp():
                 self.tokens.extend(tokens)
                 # break
             except:
-                print(f"Error while parsing.. trying again. Sentence: '{sentence}'", file=open("logs/parser_output.txt", "a"))
+                print(f"Error while parsing.. trying again. Sentence: '{sentence}'", file=open("logs/parser_error.txt", "a"))
                 continue
                 # pass
             
@@ -182,7 +184,6 @@ class TrainChimp():
                     first_word_key = tuple(first_word_key_list)
                     self.initial_probs.setdefault(first_word_key, 0.0)
                     self.initial_probs[first_word_key] += 1.0
-            counter = counter + 1
     
     def create_pos_dictionaries(self) -> None:
         """
