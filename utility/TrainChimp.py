@@ -57,42 +57,13 @@ class TrainChimp():
         except:
             print("Parser failed to load, quitting.")
             quit(1)
-        if progress_bar:
-            self.__init_with_progress(file)
-        else:
-            self.__init_without_progress_bar(file)
+        self.__init(file)
 
-    def __init_with_progress(self, file_name: str) -> None:
-        self.file_name = file_name
-        bar = Bar("Processing", max=6)
-        if self.file_contents_bool:
-            self.file_contents = self.file_name
-        else:
-            contents = utility.CountSentences.CountSentences(self.file_name)
-            contents.shuffle_sentences(10)
-            self.file_contents = contents.sentence_list_as_string(
-                contents.get_sentences(self.number_of_sentences)
-            )
-        # self.file_contents = utility.Utility.read_text_file(self.file_name)
-        bar.next()
-        self.tokenize_and_tag_text()
-        bar.next()
-        self.create_pos_dictionaries()
-        bar.next()
-        
-        # Create each of the probability dictionaries
-        self.__create_initial_probabilities()
-        bar.next()
-        self.__create_emission_probabilities()
-        bar.next()
-        self.__create_transition_probabilities()
-        bar.next()
-        bar.finish()
-
-    def __init_without_progress_bar(self, file_name: str) -> None:
+    def __init(self, file_name: str) -> None:
         self.file_name = file_name
 
         # self.file_contents = utility.Utility.read_text_file(self.file_name)
+        print("Starting to collect sentences..")
         if self.file_contents_bool:
             self.file_contents = self.file_name
         else:
@@ -101,14 +72,21 @@ class TrainChimp():
             self.file_contents = contents.sentence_list_as_string(
                 contents.get_sentences(self.number_of_sentences)
             )
+        print("Sentences collected..")
 
+        print("Beginning tokenizing process..")
         self.tokenize_and_tag_text()
+        print("Finished tokenizing..")
+
+        print("Creating dictionaries..")
         self.create_pos_dictionaries()
         
         # Create each of the probability dictionaries
+        print("Creating probabilities..")
         self.__create_initial_probabilities()
         self.__create_emission_probabilities()
         self.__create_transition_probabilities()
+        print("Finished basic training.")
 
     def tokenize_and_tag_text(self) -> None:
         """
