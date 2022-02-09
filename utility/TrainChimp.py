@@ -105,7 +105,8 @@ class TrainChimp():
             counter = counter + 1
             if counter % 250 == 0:
                 print(f"{sentence}", file=open("logs/sentences.txt", "a"))
-                print(".", end = '')
+            if counter % 500 == 0:
+                print(f"Current Count: {counter}")
             sentence = sentence.lstrip().rstrip()
             if sentence == "":
                 continue
