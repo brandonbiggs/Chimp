@@ -43,7 +43,7 @@ def train(number_of_sentences: int, text_file: str = "data/book_tiny.txt",
     
     elif model == "markovmodel":
         if verbose: print("Training Markov model.")
-        data = TrainMarkovModel(text_file, number_of_sentences, False, file_contents_bool=text_contents, should_tag_pos=True,
+        data = TrainMarkovModel(text_file, number_of_sentences, False, file_contents_bool=text_contents, should_tag_pos=False,
             markov_order=markov_order)
     else:
         raise Exception("Unknown model. Please use either 'chimp' or 'markovmodel'")

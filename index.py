@@ -1,6 +1,8 @@
 from json.tool import main
+from operator import mod
 import pickle
 import time
+import re
 
 from utility.Train import train
 from utility.Utility import *
@@ -13,12 +15,29 @@ def load_model(file_to_load):
         model = pickle.load(handle)
     return model
 
-def process(length, model):
+def process_mm(length, model):
     hidden_constraints = []
     observed_constraints = []
     for _ in range(length):
         observed_constraints.append(None)
         hidden_constraints.append(None)
+    
+    NHHMM = ConstrainedHiddenMarkovProcess(length, model, hidden_constraints, observed_constraints)
+    NHHMM.process()
+    print("NHHMM Finished")
+    return NHHMM
+
+def process_Chimp(length, model):
+    hidden_constraints = []
+    observed_constraints = []
+    for _ in range(length):
+        observed_constraints.append(None)
+        hidden_constraints.append(None)
+    # ["NP", "VP", "ADVP"]
+    hidden_constraints[0] = [ConstraintIsPartOfSpeech("NP", True)]
+    hidden_constraints[1] = [ConstraintIsPartOfSpeech("VP", True)]
+    hidden_constraints[2] = [ConstraintIsPartOfSpeech("ADVP", True)]
+
 
     # hidden_constraints = [[ConstraintIsPartOfSpeech("NP", True)], [ConstraintIsPartOfSpeech("VP", True)], None]
     # hidden_constraints = [[ConstraintIsPartOfSpeech("NNP", True)], None, None, None, None, None, None]
@@ -28,14 +47,22 @@ def process(length, model):
     print("NHHMM Finished")
     return NHHMM
 
+def prettify_sentence(sentence: str) -> str:
+    sentence = sentence.capitalize()
+    sentence = sentence + "."
+    sentence = re.sub(r'\s+([?.!"])', r'\1', sentence)
+    return sentence
+
 def print_sentences(length, NHHMM):
     sentence_generator = ChimpSentenceGenerator(NHHMM, length)
     for _ in range(10):
-        print(sentence_generator.create_sentence())
+        sentence = sentence_generator.create_sentence()
+        print(prettify_sentence(sentence))
 
 if __name__ == '__main__':
     prod = True
-    model_name = "chimp"
+    # model_name = "chimp"
+    model_name = "markovmodel"
     linux = True
 
     train_model_bool = True
@@ -50,9 +77,9 @@ if __name__ == '__main__':
         text_file_name = "2016_fic.txt"
         # text_file_name = "2016_acad.txt"
     else:
-        number_of_sentences = 10
+        number_of_sentences = 3
         text_file_path = "data"
-        text_file_name = "book_medium.txt"
+        text_file_name = "fic_test.txt"
         # text_file_name = "one_sentence.txt"
     
     if model_name == "chimp":
@@ -69,7 +96,7 @@ if __name__ == '__main__':
     markov_order = 1
     pickle_model_bool = True
     verbose = True
-    length = 7
+    length = 3
     startTime = time.time()
 
 
@@ -83,7 +110,10 @@ if __name__ == '__main__':
     # print_model(model)
 
     if process_model_bool:
-        NHHMM = process(length=length, model=model)
+        if model_name == "chimp":
+            NHHMM = process_Chimp(length=length, model=model)
+        else:
+            NHHMM = process_mm(length=length, model=model)
     # print_chimp_markov_probabilities(NHHMM)
 
     if print_sentences_bool:

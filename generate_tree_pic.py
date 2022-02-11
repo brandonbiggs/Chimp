@@ -2,6 +2,7 @@ from bllipparser import RerankingParser
 from nltk.tree import Tree
 from nltk.draw.tree import TreeView
 import re
+import os
 
 sentence = "Mary lives next to the blue house and has a green house"
 
@@ -11,5 +12,4 @@ parsed_sentence = rrp.simple_parse(sentence)
 print(parsed_sentence)
 t = Tree.fromstring(parsed_sentence)
 TreeView(t)._cframe.print_to_file('output.ps')
-import os
 os.system('convert output.ps output2.png')
