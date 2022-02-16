@@ -6,7 +6,7 @@ class ConstraintMatchesString(Constraint):
     TODO
     """
 
-    def __init__(self, string: str, must_contain: bool):
+    def __init__(self, string: str, must_contain: bool = True):
         """
         :param string: string we are using to constrain
         :param must_contain: This is the concept of "match this" or "match the opposite of this"

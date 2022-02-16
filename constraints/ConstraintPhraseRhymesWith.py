@@ -1,7 +1,6 @@
 from constraints.Constraint import Constraint
 import pronouncing
 
-
 class ConstraintPhraseRhymesWith(Constraint):
     rhymes = []
     position_of_rhyme = 0
@@ -19,8 +18,13 @@ class ConstraintPhraseRhymesWith(Constraint):
         self.position_of_rhyme = position_of_rhyme
 
     def is_satisfied_by_state(self, phrase: str) -> bool:
-        word = phrase.split(" ")[self.position_of_rhyme]
-        if word.lower() in self.rhymes:
-            return True
+        word = phrase.split(" ")[self.position_of_rhyme].lower()
+        if self.must_rhyme:
+            if word in self.rhymes:
+                return True
+            else:
+                return False
+        # If a non rhyme is being searched for
         else:
-            return False
+            if word not in self.rhymes:
+                return True
