@@ -10,6 +10,11 @@ python -mbllipparser.ModelFetcher -i WSJ-PTB3
 mv ~/.local/share/bllipparser/WSJ-PTB3 ~/nltk_data/models/.
 ```
 
+Poesy for constraints -
+
+https://github.com/quadrismegistus/prosodic
+
+
 
 You may need to use the following two lines for the NLTK package. These are sporadically
 used in the constraint files and the ChimpProcessData class.
