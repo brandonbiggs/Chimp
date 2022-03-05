@@ -13,6 +13,12 @@ from utility.Utility import *
 from utility.print import *
 from utility.ChimpSentenceGenerator import *
 from models.CHiMP import *
+import pronouncing
+
+import nltk
+from nltk.corpus import cmudict
+from rich import print
+
 
 def load_model(file_to_load):
     with open(file_to_load, "rb") as handle:
@@ -85,16 +91,22 @@ def process_Chimp_limerick(length, model):
         hidden_constraints.append(None)
     
     hidden_constraints[0] = [ConstraintIsPartOfSpeech("NP", True)]
-    a_stresses = ConstraintMatchesPoetryScheme(False, False, 1, -1)
-    b_stresses = ConstraintMatchesPoetryScheme(False, False, 1, -1)
+    a_stresses = ConstraintMatchesPoetryScheme(True, True, "1", -1)
+    b_stresses = ConstraintMatchesPoetryScheme(True, True, "1", -1)
     # 8 syllables
     # nantucket = 010 
     # sentence = "there once was a man from nantucket"
-    observed_constraints[0] = [a_stresses, ConstraintContainsSyllables(8), ConstraintPhraseRhymesWith(word="lake", position_of_rhyme=-1, must_rhyme=True)]
-    observed_constraints[1] = [a_stresses, ConstraintContainsSyllables(8), ConstraintPhraseEndsWithString("bake")]
-    observed_constraints[2] = [b_stresses, ConstraintContainsSyllables(5), ConstraintPhraseRhymesWith(word="ring", position_of_rhyme=-1, must_rhyme=True)]
-    observed_constraints[3] = [b_stresses, ConstraintContainsSyllables(5), ConstraintPhraseEndsWithString("ring")]
-    observed_constraints[4] = [a_stresses, ConstraintContainsSyllables(8), ConstraintPhraseEndsWithString("cake")]
+    # observed_constraints[0] = [a_stresses, ConstraintContainsSyllables(8), ConstraintPhraseRhymesWith(word="lake", position_of_rhyme=-1, must_rhyme=True)]
+    # observed_constraints[1] = [a_stresses, ConstraintContainsSyllables(8), ConstraintPhraseRhymesWith(word="lake", position_of_rhyme=-1, must_rhyme=True)]
+    # observed_constraints[2] = [b_stresses, ConstraintContainsSyllables(5), ConstraintPhraseRhymesWith(word="ring", position_of_rhyme=-1, must_rhyme=True)]
+    # observed_constraints[3] = [b_stresses, ConstraintContainsSyllables(5), ConstraintPhraseEndsWithString("ring")]
+    # observed_constraints[4] = [a_stresses, ConstraintContainsSyllables(8), ConstraintPhraseEndsWithString("cake")]
+
+    observed_constraints[0] = [a_stresses, ConstraintContainsSyllables(8), ConstraintPhraseRhymesWith(word="say", position_of_rhyme=-1, must_rhyme=True)]
+    observed_constraints[1] = [a_stresses, ConstraintContainsSyllables(8), ConstraintPhraseRhymesWith(word="say", position_of_rhyme=-1, must_rhyme=True)]
+    observed_constraints[2] = [b_stresses, ConstraintContainsSyllables(5), ConstraintPhraseRhymesWith(word="brave", position_of_rhyme=-1, must_rhyme=True)]
+    observed_constraints[3] = [b_stresses, ConstraintContainsSyllables(5), ConstraintPhraseEndsWithString("brave")]
+    observed_constraints[4] = [a_stresses, ConstraintContainsSyllables(8), ConstraintPhraseEndsWithString("say")]
 
     NHHMM = ConstrainedHiddenMarkovProcess(length, model, hidden_constraints, observed_constraints)
     NHHMM.process()
@@ -177,17 +189,66 @@ def process_CoMP_limerick(length, model):
     # print(scheme_A.rhyme_list)
     return NHHMM
 
+def count_syllables(num_syllables: list, phrase: str) -> list:
+    cmu_dict = cmudict.dict()
+    num_of_syllables = 0
+    index = 0
+    sub_phrases = []
+    sub_phrase = ""
+    phrase = phrase.strip()
+    phrase = re.sub(' +', ' ', phrase)
+    for word in phrase.split(" "):
+        word = word.lower()
+        sub_phrase += word + " "
+        try:
+            num_of_syllables = num_of_syllables + [len(list(y for y in x if y[-1].isdigit())) for x in cmu_dict[word]][0]
+        except KeyError:
+            return None
+        if num_of_syllables == num_syllables[index]:
+            index += 1
+            num_of_syllables = 0 
+            sub_phrases.append(sub_phrase.strip())
+            sub_phrase = ""
+    # print(sub_phrases)
+    return sub_phrases
+
+def prettify_and_print_limericks(sentence: str) -> str:
+    sub_phrases = count_syllables([8, 8, 5, 5, 8], sentence)
+    if sub_phrases is None:
+        print(sentence)
+    else:
+        # print(sub_phrases)
+        for phrase in sub_phrases:
+            new_phrase = ""
+            for word in phrase.split(" "):
+                test = pronouncing.phones_for_word(word)
+                output = pronouncing.stresses(test[0])
+                if output == "1":
+                    new_phrase += f"[bold]{word}[/bold] "
+                    # print(f"[bold]{word}[/bold] - {test[0]} - {output}")
+                elif output == "0":
+                    new_phrase += f"{word} "
+                    # print(f"{word} - {test[0]} - {output}")
+                else:
+                    new_phrase += f"[bold red]{word}[/bold red] "
+                    # print(f"[bold red]{word}[/bold red] - {test[0]} - {output}")
+            print(new_phrase)
+
 def prettify_sentence(sentence: str) -> str:
     sentence = sentence.capitalize()
     sentence = sentence + "."
     sentence = re.sub(r'\s+([?.!"])', r'\1', sentence)
     return sentence
 
-def print_sentences(length, NHHMM):
+def print_sentences(length, NHHMM, poem_type):
     sentence_generator = ChimpSentenceGenerator(NHHMM, length)
     for _ in range(10):
         sentence = sentence_generator.create_sentence()
-        print(prettify_sentence(sentence))
+        if poem_type == "limerick":
+            prettify_and_print_limericks(sentence)
+            print("")
+        else:
+            print(prettify_sentence(sentence))
 
 if __name__ == '__main__':
     prod = True
@@ -266,7 +327,7 @@ if __name__ == '__main__':
 
     if print_sentences_bool:
         # print(f"Model: {model}")
-        print_sentences(length, NHHMM)
+        print_sentences(length, NHHMM, poem_type)
 
     executionTime = (time.time() - startTime)
     print(f'Execution time in seconds: {str(executionTime)}')
