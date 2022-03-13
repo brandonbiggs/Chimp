@@ -4,7 +4,19 @@ import re, string
 
 class ConstraintMatchesPoetryScheme(Constraint):
     """
-    TODO
+    Thinking of regex for stress patterns..
+    typically a preposition shouldn't be a stressed word
+    phrase doesn't have to have a min or max of 8 syllables
+    any word that is a preposition and is single syllable, change it's stress to 0
+
+    SP = sentence_phrase
+    if SP.syllables >= (7+rhymeword.syllables.count) or < 3 syllables, return False
+    if SP.lastword ! rhyme with rhyme word, return false
+    if stresses.count < 3 return false (after disregarding single syllable prepositions)
+    treat 1 and 2 stresses the same
+    if SP.stress_pattern is ! subsequence of ?1??1??1?? > can be 0 or 1, return false 
+    anything that comes after the 8th position has to match the rhyming word stress pattern
+    Change ?1??1??1?? to ?1??1??1XX where the X are specific to the rhyming word
     """
 
     def __init__(self, must_match_stress_pattern: bool, check_stress_pattern: bool, stress_pattern: str, stress_pattern_position: int):
