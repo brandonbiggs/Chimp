@@ -7,8 +7,8 @@ from rich import print
 # sentence = "and they might have gone on growing" # should be 3
 # sentence = "All the things we hide in water" # should be 4
 # sentence = "press against the ones we know" # should be 4
-# sentence = "if music be the food of love play on" # should be 5
-sentence = "there once was a man from nantucket"
+sentence = "if music be the food of love play on" # should be 5
+# sentence = "there once was a man from nantucket"
 
 # There once was a man from Nantucket
 # Who kept all his cash in a bucket.
@@ -53,6 +53,10 @@ def prettify_and_print_limericks(sentence: str) -> str:
                 # print(f"[bold red]{word}[/bold red] - {test[0]} - {output}")
         print(new_phrase)
 
-sentence = "A matter of free will at stake waited for the cornbread to bake a a sudden spring a silver nose ring a word about the bride 's cake"
-sentence = "There once was a man from Nantucket Who kept all his cash in a bucket But his daughter named Nan Ran away with a man And as for the bucket Nantucket"
-prettify_and_print_limericks(sentence)
+# sentence = "A matter of free will at stake waited for the cornbread to bake a a sudden spring a silver nose ring a word about the bride 's cake"
+# sentence = "There once was a man from Nantucket Who kept all his cash in a bucket But his daughter named Nan Ran away with a man And as for the bucket Nantucket"
+# prettify_and_print_limericks(sentence)
+
+import pronouncing
+phones_list = pronouncing.phones_for_word("snappiest")
+print(pronouncing.stresses(phones_list[0]))

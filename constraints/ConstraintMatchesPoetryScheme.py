@@ -1,6 +1,13 @@
+from os import symlink
 from constraints.Constraint import Constraint
 import pronouncing
 import re, string
+import nltk
+try:
+    nltk.data.find("~/nltk_data/tokenizers/punkt")
+except LookupError:
+    nltk.download('cmudict', quiet=True)
+from nltk.corpus import cmudict
 
 class ConstraintMatchesPoetryScheme(Constraint):
     """
@@ -10,8 +17,8 @@ class ConstraintMatchesPoetryScheme(Constraint):
     any word that is a preposition and is single syllable, change it's stress to 0
 
     SP = sentence_phrase
-    if SP.syllables >= (7+rhymeword.syllables.count) or < 3 syllables, return False
-    if SP.lastword ! rhyme with rhyme word, return false
+    [x] if SP.syllables >= (7+rhymeword.syllables.count) or < 3 syllables, return False
+    [x] if SP.lastword ! rhyme with rhyme word, return false
     if stresses.count < 3 return false (after disregarding single syllable prepositions)
     treat 1 and 2 stresses the same
     if SP.stress_pattern is ! subsequence of ?1??1??1?? > can be 0 or 1, return false 
@@ -19,40 +26,94 @@ class ConstraintMatchesPoetryScheme(Constraint):
     Change ?1??1??1?? to ?1??1??1XX where the X are specific to the rhyming word
     """
 
-    def __init__(self, must_match_stress_pattern: bool, check_stress_pattern: bool, stress_pattern: str, stress_pattern_position: int):
+    def __init__(self, stress_pattern: str, rhymeword: str, stresses):
         """
         
         """
         Constraint.__init__(self)
-        self.must_match = must_match_stress_pattern
-        self.check_pattern = check_stress_pattern
-        self.stress_pattern = stress_pattern
-        self.stress_pattern_word_position = stress_pattern_position
+        self.stress_pattern = re.compile(stress_pattern)
+        self.cmu_dict = cmudict.dict()        
+        self.rhymeword = rhymeword
+        self.stresses = stresses
 
     def is_satisfied_by_state(self, phrase: str) -> bool:
         phrase = re.sub(rf"[{string.punctuation}]", "", phrase)
-        
-        stress_pattern_dict = {}
-        try:
-            for word in phrase.split(" "):
-                output = pronouncing.stresses(pronouncing.phones_for_word(word)[0])
-                stress_pattern_dict[word] = output
-        except:
+        phrase_syllables = self.count_syllables(phrase)
+        rhymeword_syllables = self.count_syllables(self.rhymeword)
+        # if SP.syllables >= (7+rhymeword.syllables.count) or < 3 syllables, return False
+        # print(f"phrase_syllables: {phrase_syllables}")
+        if phrase_syllables > self.stresses + rhymeword_syllables or phrase_syllables < 3:
+            return False
+        # if SP.lastword ! rhyme with rhyme word, return false
+        # This is taken care of with the other constraint...
+
+        # if stresses.count < 3 return false (after disregarding single syllable prepositions)
+        #   treat 1 and 2 stresses the same
+        num_stresses = self.count_stresses(phrase)
+        if num_stresses is None:
+            return False
+        # print(f"num_stresses: {num_stresses}")
+        if num_stresses < 3:
             return False
 
-        if self.must_match:
-            matching_word = phrase.split(" ")[self.stress_pattern_word_position]
-            matching_pattern = pronouncing.stresses(pronouncing.phones_for_word(matching_word)[0])
-            # print(f"{self.stress_pattern} - {matching_pattern}")
-            if matching_pattern != self.stress_pattern:
-                return False
-        if self.check_pattern:
-            # print(stress_pattern_dict)
-            previous_stress = None
-            for key,value in stress_pattern_dict.items():
-                if previous_stress is None:
-                    previous_stress = value
-                else:
-                    if previous_stress == 0 and value == 0:
-                        return False
-        return True
+        # Get stress sequence for the entire phrase, disregarding single syllable prepositions
+        stress_sequence = ""
+        for word in phrase.split(" "):
+            if self.count_syllables(word) > 1 or not self.check_for_preposition(word):
+                new_stresses = self.get_stresses(word)
+                if new_stresses is None:
+                    return False
+                stress_sequence = stress_sequence + new_stresses
+            else:
+                stress_sequence = stress_sequence + "0"
+
+
+        # Check if it's a subsequence
+        match = self.stress_pattern.match(stress_sequence)
+        # print(f"is_subsequence: {match}")
+        if match:
+            return True
+        else:
+            return False
+
+    def count_syllables(self, phrase: str) -> int:
+        num_of_syllables = 0
+        # print(f"phrase: {phrase}")
+        for word in phrase.split(" "):
+            word = word.lower()
+            try:
+                syllables = [len(list(y for y in x if y[-1].isdigit())) for x in self.cmu_dict[word]][0]
+                # print(f"word: {word} syllables: {syllables}")
+                num_of_syllables = num_of_syllables + syllables
+            except:
+                return 0
+        return num_of_syllables
+
+    @staticmethod
+    def check_for_preposition(word: str) -> bool:
+        tagged = nltk.pos_tag(word.split(" "))
+        if tagged[0][1] == "IN":
+            return True
+        else:
+            return False
+
+    @staticmethod
+    def get_stresses(word: str) -> int:
+        try:
+            phones_list = pronouncing.phones_for_word(word)
+            stresses_string = pronouncing.stresses(phones_list[0])
+            stresses_string = stresses_string.replace("2", "1")
+            return stresses_string
+        except:
+            return None
+
+    def count_stresses(self, phrase: str) -> int:
+        count = 0
+        for word in phrase.split(" "):
+            if self.count_syllables(word) > 1 or not self.check_for_preposition(word):
+                stress_string = self.get_stresses(word)
+                if stress_string is None:
+                    return None
+                stress_count = stress_string.count("1")
+                count += stress_count
+        return count

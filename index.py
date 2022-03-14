@@ -19,6 +19,8 @@ import nltk
 from nltk.corpus import cmudict
 from rich import print
 
+import pronouncing
+
 
 def load_model(file_to_load):
     with open(file_to_load, "rb") as handle:
@@ -83,6 +85,21 @@ def process_Chimp_limerick(length, model):
         [type]: Chimp processed model
     """
     print("CHiMP 2.0 - Limerick")
+
+    scheme_a = ".?1.?.?1.?.?"
+    scheme_b = ".?1.?.?"
+    rhyme_a = "say"
+    rhyme_b = "brave"
+    phones_list = pronouncing.phones_for_word(rhyme_a)
+    stresses_string = pronouncing.stresses(phones_list[0])
+    stresses_string = stresses_string.replace("2", "1")
+    scheme_a = scheme_a + stresses_string
+
+    phones_list = pronouncing.phones_for_word(rhyme_b)
+    stresses_string = pronouncing.stresses(phones_list[0])
+    stresses_string = stresses_string.replace("2", "1")
+    scheme_b = scheme_b + stresses_string
+
     hidden_constraints = []
     observed_constraints = []
 
@@ -91,8 +108,8 @@ def process_Chimp_limerick(length, model):
         hidden_constraints.append(None)
     
     hidden_constraints[0] = [ConstraintIsPartOfSpeech("NP", True)]
-    a_stresses = ConstraintMatchesPoetryScheme(True, True, "1", -1)
-    b_stresses = ConstraintMatchesPoetryScheme(True, True, "1", -1)
+    a_stresses = ConstraintMatchesPoetryScheme(scheme_a, rhyme_a, 7)
+    b_stresses = ConstraintMatchesPoetryScheme(scheme_b, rhyme_b, 4)
     # 8 syllables
     # nantucket = 010 
     # sentence = "there once was a man from nantucket"
@@ -102,11 +119,11 @@ def process_Chimp_limerick(length, model):
     # observed_constraints[3] = [b_stresses, ConstraintContainsSyllables(5), ConstraintPhraseEndsWithString("ring")]
     # observed_constraints[4] = [a_stresses, ConstraintContainsSyllables(8), ConstraintPhraseEndsWithString("cake")]
 
-    observed_constraints[0] = [a_stresses, ConstraintContainsSyllables(8), ConstraintPhraseRhymesWith(word="say", position_of_rhyme=-1, must_rhyme=True)]
-    observed_constraints[1] = [a_stresses, ConstraintContainsSyllables(8), ConstraintPhraseRhymesWith(word="say", position_of_rhyme=-1, must_rhyme=True)]
-    observed_constraints[2] = [b_stresses, ConstraintContainsSyllables(5), ConstraintPhraseRhymesWith(word="brave", position_of_rhyme=-1, must_rhyme=True)]
-    observed_constraints[3] = [b_stresses, ConstraintContainsSyllables(5), ConstraintPhraseEndsWithString("brave")]
-    observed_constraints[4] = [a_stresses, ConstraintContainsSyllables(8), ConstraintPhraseEndsWithString("say")]
+    observed_constraints[0] = [a_stresses, ConstraintPhraseRhymesWith(word="say", position_of_rhyme=-1, must_rhyme=True)]
+    observed_constraints[1] = [a_stresses, ConstraintPhraseRhymesWith(word="say", position_of_rhyme=-1, must_rhyme=True)]
+    observed_constraints[2] = [b_stresses, ConstraintPhraseRhymesWith(word="brave", position_of_rhyme=-1, must_rhyme=True)]
+    observed_constraints[3] = [b_stresses, ConstraintPhraseEndsWithString("brave")]
+    observed_constraints[4] = [a_stresses, ConstraintPhraseEndsWithString("say")]
 
     NHHMM = ConstrainedHiddenMarkovProcess(length, model, hidden_constraints, observed_constraints)
     NHHMM.process()
