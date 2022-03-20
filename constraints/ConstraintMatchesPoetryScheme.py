@@ -26,15 +26,17 @@ class ConstraintMatchesPoetryScheme(Constraint):
     Change ?1??1??1?? to ?1??1??1XX where the X are specific to the rhyming word
     """
 
-    def __init__(self, stress_pattern: str, rhymeword: str, stresses):
+    def __init__(self, stress_pattern: str, rhymeword: str, stresses: int, min_syllables: int = 6):
         """
         
         """
         Constraint.__init__(self)
+        self.bad_pos = ["IN"]
         self.stress_pattern = re.compile(stress_pattern)
         self.cmu_dict = cmudict.dict()        
         self.rhymeword = rhymeword
         self.stresses = stresses
+        self.min_syllables = min_syllables
 
     def is_satisfied_by_state(self, phrase: str) -> bool:
         phrase = re.sub(rf"[{string.punctuation}]", "", phrase)
@@ -42,7 +44,7 @@ class ConstraintMatchesPoetryScheme(Constraint):
         rhymeword_syllables = self.count_syllables(self.rhymeword)
         # if SP.syllables >= (7+rhymeword.syllables.count) or < 3 syllables, return False
         # print(f"phrase_syllables: {phrase_syllables}")
-        if phrase_syllables > self.stresses + rhymeword_syllables or phrase_syllables < 3:
+        if phrase_syllables > self.stresses + rhymeword_syllables or phrase_syllables < self.min_syllables:
             return False
         # if SP.lastword ! rhyme with rhyme word, return false
         # This is taken care of with the other constraint...
@@ -66,7 +68,7 @@ class ConstraintMatchesPoetryScheme(Constraint):
                 stress_sequence = stress_sequence + new_stresses
             else:
                 stress_sequence = stress_sequence + "0"
-
+        # print(stress_sequence)
 
         # Check if it's a subsequence
         match = self.stress_pattern.match(stress_sequence)
@@ -89,10 +91,11 @@ class ConstraintMatchesPoetryScheme(Constraint):
                 return 0
         return num_of_syllables
 
-    @staticmethod
-    def check_for_preposition(word: str) -> bool:
+    def check_for_preposition(self, word: str) -> bool:
         tagged = nltk.pos_tag(word.split(" "))
-        if tagged[0][1] == "IN":
+        # print(tagged)
+        if tagged[0][1] in self.bad_pos:
+            # print(tagged[0][1])
             return True
         else:
             return False

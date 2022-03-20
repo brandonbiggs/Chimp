@@ -7,6 +7,7 @@ from constraints.ConstraintContainsSyllables import ConstraintContainsSyllables
 from constraints.ConstraintPhraseRhymesWith import ConstraintPhraseRhymesWith
 from constraints.ConstraintPhraseEndsWithString import ConstraintPhraseEndsWithString
 from constraints.ConstraintMatchesPoetryScheme import ConstraintMatchesPoetryScheme
+from constraints.ConstraintSimilarSemanticMeaning import ConstraintSimilarSemanticMeaning
 
 from utility.Train import train
 from utility.Utility import *
@@ -86,19 +87,19 @@ def process_Chimp_limerick(length, model):
     """
     print("CHiMP 2.0 - Limerick")
 
-    scheme_a = ".?1.?.?1.?.?"
-    scheme_b = ".?1.?.?"
-    rhyme_a = "say"
-    rhyme_b = "brave"
+    scheme_a = "^.?1.?.?1.?.?"
+    scheme_b = "^.?1.?.?"
+    rhyme_a = "lake"
+    rhyme_b = "ring"
     phones_list = pronouncing.phones_for_word(rhyme_a)
     stresses_string = pronouncing.stresses(phones_list[0])
     stresses_string = stresses_string.replace("2", "1")
-    scheme_a = scheme_a + stresses_string
+    scheme_a = scheme_a + stresses_string + "$"
 
     phones_list = pronouncing.phones_for_word(rhyme_b)
     stresses_string = pronouncing.stresses(phones_list[0])
     stresses_string = stresses_string.replace("2", "1")
-    scheme_b = scheme_b + stresses_string
+    scheme_b = scheme_b + stresses_string + "$"
 
     hidden_constraints = []
     observed_constraints = []
@@ -108,22 +109,19 @@ def process_Chimp_limerick(length, model):
         hidden_constraints.append(None)
     
     hidden_constraints[0] = [ConstraintIsPartOfSpeech("NP", True)]
-    a_stresses = ConstraintMatchesPoetryScheme(scheme_a, rhyme_a, 7)
-    b_stresses = ConstraintMatchesPoetryScheme(scheme_b, rhyme_b, 4)
-    # 8 syllables
-    # nantucket = 010 
-    # sentence = "there once was a man from nantucket"
-    # observed_constraints[0] = [a_stresses, ConstraintContainsSyllables(8), ConstraintPhraseRhymesWith(word="lake", position_of_rhyme=-1, must_rhyme=True)]
-    # observed_constraints[1] = [a_stresses, ConstraintContainsSyllables(8), ConstraintPhraseRhymesWith(word="lake", position_of_rhyme=-1, must_rhyme=True)]
-    # observed_constraints[2] = [b_stresses, ConstraintContainsSyllables(5), ConstraintPhraseRhymesWith(word="ring", position_of_rhyme=-1, must_rhyme=True)]
-    # observed_constraints[3] = [b_stresses, ConstraintContainsSyllables(5), ConstraintPhraseEndsWithString("ring")]
-    # observed_constraints[4] = [a_stresses, ConstraintContainsSyllables(8), ConstraintPhraseEndsWithString("cake")]
+    a_max_syllables = 7
+    b_max_syllables = 4
+    a_stresses = ConstraintMatchesPoetryScheme(scheme_a, rhyme_a, a_max_syllables, min_syllables=6)
+    b_stresses = ConstraintMatchesPoetryScheme(scheme_b, rhyme_b, b_max_syllables, min_syllables=3)
 
-    observed_constraints[0] = [a_stresses, ConstraintPhraseRhymesWith(word="say", position_of_rhyme=-1, must_rhyme=True)]
-    observed_constraints[1] = [a_stresses, ConstraintPhraseRhymesWith(word="say", position_of_rhyme=-1, must_rhyme=True)]
-    observed_constraints[2] = [b_stresses, ConstraintPhraseRhymesWith(word="brave", position_of_rhyme=-1, must_rhyme=True)]
-    observed_constraints[3] = [b_stresses, ConstraintPhraseEndsWithString("brave")]
-    observed_constraints[4] = [a_stresses, ConstraintPhraseEndsWithString("say")]
+    # Similarities
+    theme_constrant = ConstraintSimilarSemanticMeaning(theme="sports")
+
+    observed_constraints[0] = [ConstraintPhraseRhymesWith(word="lake", position_of_rhyme=-1, must_rhyme=True), a_stresses, theme_constrant]
+    observed_constraints[1] = [ConstraintPhraseRhymesWith(word="lake", position_of_rhyme=-1, must_rhyme=True), a_stresses]
+    observed_constraints[2] = [ConstraintPhraseRhymesWith(word="ring", position_of_rhyme=-1, must_rhyme=True), b_stresses]
+    observed_constraints[3] = [ConstraintPhraseRhymesWith(word="ring", position_of_rhyme=-1, must_rhyme=True), b_stresses]
+    observed_constraints[4] = [ConstraintPhraseRhymesWith(word="lake", position_of_rhyme=-1, must_rhyme=True), a_stresses]
 
     NHHMM = ConstrainedHiddenMarkovProcess(length, model, hidden_constraints, observed_constraints)
     NHHMM.process()
@@ -230,26 +228,27 @@ def count_syllables(num_syllables: list, phrase: str) -> list:
     return sub_phrases
 
 def prettify_and_print_limericks(sentence: str) -> str:
-    sub_phrases = count_syllables([8, 8, 5, 5, 8], sentence)
-    if sub_phrases is None:
-        print(sentence)
-    else:
-        # print(sub_phrases)
-        for phrase in sub_phrases:
-            new_phrase = ""
-            for word in phrase.split(" "):
-                test = pronouncing.phones_for_word(word)
-                output = pronouncing.stresses(test[0])
-                if output == "1":
-                    new_phrase += f"[bold]{word}[/bold] "
-                    # print(f"[bold]{word}[/bold] - {test[0]} - {output}")
-                elif output == "0":
-                    new_phrase += f"{word} "
-                    # print(f"{word} - {test[0]} - {output}")
-                else:
-                    new_phrase += f"[bold red]{word}[/bold red] "
-                    # print(f"[bold red]{word}[/bold red] - {test[0]} - {output}")
-            print(new_phrase)
+    # sub_phrases = count_syllables([8, 8, 5, 5, 8], sentence)
+    print(sentence)
+    # if sub_phrases is None:
+    #     print(sentence)
+    # else:
+    #     print(sub_phrases)
+    #     for phrase in sub_phrases:
+    #         new_phrase = ""
+    #         for word in phrase.split(" "):
+    #             test = pronouncing.phones_for_word(word)
+    #             output = pronouncing.stresses(test[0])
+    #             if output == "1":
+    #                 new_phrase += f"[bold]{word}[/bold] "
+    #                 # print(f"[bold]{word}[/bold] - {test[0]} - {output}")
+    #             elif output == "0":
+    #                 new_phrase += f"{word} "
+    #                 # print(f"{word} - {test[0]} - {output}")
+    #             else:
+    #                 new_phrase += f"[bold red]{word}[/bold red] "
+    #                 # print(f"[bold red]{word}[/bold red] - {test[0]} - {output}")
+    #         print(new_phrase)
 
 def prettify_sentence(sentence: str) -> str:
     sentence = sentence.capitalize()
