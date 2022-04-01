@@ -111,17 +111,18 @@ def process_Chimp_limerick(length, model):
     hidden_constraints[0] = [ConstraintIsPartOfSpeech("NP", True)]
     a_max_syllables = 7
     b_max_syllables = 4
-    a_stresses = ConstraintMatchesPoetryScheme(scheme_a, rhyme_a, a_max_syllables, min_syllables=6)
-    b_stresses = ConstraintMatchesPoetryScheme(scheme_b, rhyme_b, b_max_syllables, min_syllables=3)
+    a_stresses = ConstraintMatchesPoetryScheme(scheme_a, rhyme_a, a_max_syllables, min_syllables=8)
+    b_stresses = ConstraintMatchesPoetryScheme(scheme_b, rhyme_b, b_max_syllables, min_syllables=5)
 
     # Similarities
-    theme_constrant = ConstraintSimilarSemanticMeaning(theme="sports")
+    # theme_constrant = ConstraintSimilarSemanticMeaning(theme="sports",  similarity_threshhold=0.7)
+    theme_constraint = ConstraintSimilarSemanticMeaning(theme="fruit",  similarity_threshhold=0.7)
 
-    observed_constraints[0] = [ConstraintPhraseRhymesWith(word="lake", position_of_rhyme=-1, must_rhyme=True), a_stresses, theme_constrant]
-    observed_constraints[1] = [ConstraintPhraseRhymesWith(word="lake", position_of_rhyme=-1, must_rhyme=True), a_stresses]
+    observed_constraints[0] = [ConstraintPhraseRhymesWith(word="lake", position_of_rhyme=-1, must_rhyme=True), a_stresses, theme_constraint]
+    observed_constraints[1] = [ConstraintPhraseRhymesWith(word="lake", position_of_rhyme=-1, must_rhyme=True), a_stresses, theme_constraint]
     observed_constraints[2] = [ConstraintPhraseRhymesWith(word="ring", position_of_rhyme=-1, must_rhyme=True), b_stresses]
     observed_constraints[3] = [ConstraintPhraseRhymesWith(word="ring", position_of_rhyme=-1, must_rhyme=True), b_stresses]
-    observed_constraints[4] = [ConstraintPhraseRhymesWith(word="lake", position_of_rhyme=-1, must_rhyme=True), a_stresses]
+    observed_constraints[4] = [ConstraintPhraseRhymesWith(word="lake", position_of_rhyme=-1, must_rhyme=True), a_stresses, theme_constraint]
 
     NHHMM = ConstrainedHiddenMarkovProcess(length, model, hidden_constraints, observed_constraints)
     NHHMM.process()
@@ -142,28 +143,54 @@ def process_Chimp_1_limerick(length, model):
     hidden_constraints = []
     observed_constraints = []
 
+    theme_constraint = ConstraintSimilarSemanticMeaning(theme="fruit",  similarity_threshhold=0.7)
+
     for _ in range(length):
-        # if _+1 == 5 or _+1 == 10 or _+1 == 25:
-        #     observed_constraints.append(scheme_A)
-        # elif _+1 == 15 or _+1 == 20:
-        #     observed_constraints.append(scheme_B)
-        # else:
         observed_constraints.append(None)
         hidden_constraints.append(None)
 
     hidden_constraints[0] = [ConstraintIsPartOfSpeech("NNP", True)]
 
-    observed_constraints[4] = [ConstraintPhraseRhymesWith(word="lake", position_of_rhyme=-1, must_rhyme=True)]
-    observed_constraints[9] = [ConstraintMatchesString("bake")]
-    observed_constraints[14] = [ConstraintPhraseRhymesWith(word="ring", position_of_rhyme=-1, must_rhyme=True)]
-    observed_constraints[19] = [ConstraintMatchesString("ring")]
+    observed_constraints[0] = [ConstraintContainsSyllables(1)]
+    observed_constraints[1] = [ConstraintContainsSyllables(2)]
+    observed_constraints[2] = [ConstraintContainsSyllables(2)]
+    observed_constraints[3] = [ConstraintContainsSyllables(2)]
+    observed_constraints[4] = [ConstraintPhraseRhymesWith(word="lake", position_of_rhyme=-1, must_rhyme=True), 
+                                theme_constraint,
+                                ConstraintContainsSyllables(1),
+                            ]
+    
+    observed_constraints[5] = [ConstraintContainsSyllables(1)]
+    observed_constraints[6] = [ConstraintContainsSyllables(2)]
+    observed_constraints[7] = [ConstraintContainsSyllables(2)]
+    observed_constraints[8] = [ConstraintContainsSyllables(2)]
+    observed_constraints[9] = [ConstraintMatchesString("bake"),
+                            ]
+    
+    observed_constraints[10] = [ConstraintContainsSyllables(1)]
+    observed_constraints[11] = [ConstraintContainsSyllables(1)]
+    observed_constraints[12] = [ConstraintContainsSyllables(1)]
+    observed_constraints[13] = [ConstraintContainsSyllables(1)]
+    observed_constraints[14] = [ConstraintPhraseRhymesWith(word="ring", position_of_rhyme=-1, must_rhyme=True), 
+                                    ConstraintContainsSyllables(1)
+                            ]
+    
+    observed_constraints[15] = [ConstraintContainsSyllables(1)]
+    observed_constraints[16] = [ConstraintContainsSyllables(1)]
+    observed_constraints[17] = [ConstraintContainsSyllables(1)]
+    observed_constraints[18] = [ConstraintContainsSyllables(1)]
+    observed_constraints[19] = [ConstraintMatchesString("ring")
+                            ]
+    
+    observed_constraints[20] = [ConstraintContainsSyllables(1)]
+    observed_constraints[21] = [ConstraintContainsSyllables(2)]
+    observed_constraints[22] = [ConstraintContainsSyllables(2)]
+    observed_constraints[23] = [ConstraintContainsSyllables(2)]
     observed_constraints[24] = [ConstraintMatchesString("cake")]
-
 
     NHHMM = ConstrainedHiddenMarkovProcess(length, model, hidden_constraints, observed_constraints)
     NHHMM.process()
     print("NHHMM Finished")
-    # print(scheme_A.rhyme_list)
     return NHHMM
 
 def process_CoMP_limerick(length, model):
@@ -249,6 +276,7 @@ def prettify_and_print_limericks(sentence: str) -> str:
     #                 new_phrase += f"[bold red]{word}[/bold red] "
     #                 # print(f"[bold red]{word}[/bold red] - {test[0]} - {output}")
     #         print(new_phrase)
+    return None
 
 def prettify_sentence(sentence: str) -> str:
     sentence = sentence.capitalize()
@@ -271,11 +299,10 @@ if __name__ == '__main__':
     linux = True
     model_name = "chimp"
     # model_name = "markovmodel"
-    length = 3
-    # poem_type = "limerick-chimp1"
-    poem_type = "limerick"
-
-
+    # length = 3
+    poem_type = "limerick-chimp1"
+    # poem_type = "limerick-chimp2"
+    # poem_type = "limerick-comp"
 
     train_model_bool = False
     load_model_bool = True
@@ -325,7 +352,7 @@ if __name__ == '__main__':
             if poem_type == "haiku":
                 length = 3
                 NHHMM = process_Chimp_haiku(length=length, model=model)
-            elif poem_type == "limerick":
+            elif poem_type == "limerick-chimp2":
                 length = 5
                 NHHMM = process_Chimp_limerick(length=length, model=model)
             elif poem_type == "limerick-chimp1":
@@ -334,7 +361,7 @@ if __name__ == '__main__':
             else:
                 NHHMM = process_Chimp(length=length, model=model)
         else:
-            if poem_type == "limerick":
+            if poem_type == "limerick-comp":
                 length = 25
                 NHHMM = process_CoMP_limerick(length=length, model=model)
             else:
