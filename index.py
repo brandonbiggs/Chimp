@@ -76,6 +76,76 @@ def process_Chimp_haiku(length, model):
     print("NHHMM Finished")
     return NHHMM
 
+def process_chimp2_limerick_series(length, model):
+    """_summary_
+
+    Args:
+        length (_type_): _description_
+        model (_type_): _description_
+    """
+    print("CHiMP 2.0 - Limerick - Series")
+    # https://www.thoughtco.com/simple-guide-to-word-families-2081410#:~:text=According%20to%20researchers%20Wylie%20and,%2Cug%2C%20ump%2C%20unk.
+    # Source: Richard E. Wylie and Donald D. Durrell, 1970. "Teaching Vowels Through Phonograms." Elementary English 47, 787-791.
+    rhyme_words = [
+        "back", # ack
+        "brain", # ain
+        "bake", # ake
+        "beat", # eat
+        "bell", # ell
+        "best", # est
+        "dice", # ice
+        "brick", # ick
+        "hide", # ide
+        "bump", # ump
+    ]
+    a_max_syllables = 7
+    b_max_syllables = 4
+
+    scheme_a = "^.?1.?.?1.?.?"
+    scheme_b = "^.?1.?.?"
+    output_file = "logs/long_run.txt"
+    total_startTime = time.time()
+    for a_word in rhyme_words:
+        phones_list = pronouncing.phones_for_word(a_word)
+        stresses_string = pronouncing.stresses(phones_list[0])
+        stresses_string = stresses_string.replace("2", "1")
+        scheme_a_new = scheme_a + stresses_string + "$"
+        for b_word in rhyme_words:
+            if a_word != b_word:
+                startTime = time.time()
+                phones_list = pronouncing.phones_for_word(b_word)
+                stresses_string = pronouncing.stresses(phones_list[0])
+                stresses_string = stresses_string.replace("2", "1")
+                scheme_b_new = scheme_b + stresses_string + "$"
+                hidden_constraints = []
+                observed_constraints = []
+
+                for _ in range(length):
+                    observed_constraints.append(None)
+                    hidden_constraints.append(None)
+
+                hidden_constraints[0] = [ConstraintIsPartOfSpeech("NP", True)]
+                a_stresses = ConstraintMatchesPoetryScheme(scheme_a_new, a_word, a_max_syllables, min_syllables=8)
+                b_stresses = ConstraintMatchesPoetryScheme(scheme_b_new, b_word, b_max_syllables, min_syllables=5)
+
+                observed_constraints[0] = [ConstraintPhraseRhymesWith(word=a_word, position_of_rhyme=-1, must_rhyme=True), a_stresses]
+                observed_constraints[1] = [ConstraintPhraseRhymesWith(word=a_word, position_of_rhyme=-1, must_rhyme=True), a_stresses]
+                observed_constraints[2] = [ConstraintPhraseRhymesWith(word=b_word, position_of_rhyme=-1, must_rhyme=True), b_stresses]
+                observed_constraints[3] = [ConstraintPhraseRhymesWith(word=b_word, position_of_rhyme=-1, must_rhyme=True), b_stresses]
+                observed_constraints[4] = [ConstraintPhraseRhymesWith(word=a_word, position_of_rhyme=-1, must_rhyme=True), a_stresses]
+
+                NHHMM = ConstrainedHiddenMarkovProcess(length, model, hidden_constraints, observed_constraints)
+                NHHMM.process()
+                executionTime = (time.time() - startTime)
+                print(f'Execution time in seconds: {str(executionTime)}')
+                print(f"NHHMM Finished in {str(executionTime)} seconds with rhyme words A: {a_word}, B: {b_word}.")
+                print(f"NHHMM Finished in {str(executionTime)} seconds with rhyme words A: {a_word}, B: {b_word}.", file=open(output_file, "a"))
+                print_sentences(length, NHHMM, poem_type=None, count = 5, output_file=output_file)
+                print("", file=open(output_file, "a"))
+    print("Finished.")
+    executionTime = (time.time() - total_startTime)
+    print(f'Execution time in seconds: {str(executionTime)}')              
+
 def process_Chimp_limerick(length, model):
     """A limerick is a five-line poem that consists of a single stanza, an AABBA rhyme scheme,
 
@@ -116,7 +186,7 @@ def process_Chimp_limerick(length, model):
 
     # Similarities
     # theme_constrant = ConstraintSimilarSemanticMeaning(theme="sports",  similarity_threshhold=0.7)
-    theme_constraint = ConstraintSimilarSemanticMeaning(theme="fruit",  similarity_threshhold=0.7)
+    theme_constraint = ConstraintSimilarSemanticMeaning(theme="health",  similarity_threshhold=0.7, verbose=True)
 
     observed_constraints[0] = [ConstraintPhraseRhymesWith(word="lake", position_of_rhyme=-1, must_rhyme=True), a_stresses, theme_constraint]
     observed_constraints[1] = [ConstraintPhraseRhymesWith(word="lake", position_of_rhyme=-1, must_rhyme=True), a_stresses, theme_constraint]
@@ -129,6 +199,171 @@ def process_Chimp_limerick(length, model):
     print("NHHMM Finished")
     # print(scheme_A.rhyme_list)
     return NHHMM
+
+def process_CoMP_limerick_series(length, model):
+    print("CoMP - Limerick - Series")
+    output_file = "logs/long_comp_run.txt"
+    rhyme_words = [
+        "back", # ack
+        "brain", # ain
+        # "bake", # ake
+        # "beat", # eat
+        # "bell", # ell
+        # "best", # est
+        # "dice", # ice
+        # "brick", # ick
+        # "hide", # ide
+        # "bump", # ump
+    ]
+    total_startTime = time.time()
+    for a_word in rhyme_words:
+        for b_word in rhyme_words:
+            observed_constraints = []
+            hidden_constraints = []
+            for _ in range(length):
+                hidden_constraints.append(None)
+                observed_constraints.append(None)
+            if a_word != b_word:
+                startTime = time.time()
+
+                observed_constraints[0] = [ConstraintContainsSyllables(1)]
+                observed_constraints[1] = [ConstraintContainsSyllables(2)]
+                observed_constraints[2] = [ConstraintContainsSyllables(2)]
+                observed_constraints[3] = [ConstraintContainsSyllables(2)]
+                observed_constraints[4] = [ConstraintPhraseRhymesWith(word=a_word, position_of_rhyme=-1, must_rhyme=True), 
+                                            ConstraintContainsSyllables(1),
+                                        ]
+                
+                observed_constraints[5] = [ConstraintContainsSyllables(1)]
+                observed_constraints[6] = [ConstraintContainsSyllables(2)]
+                observed_constraints[7] = [ConstraintContainsSyllables(2)]
+                observed_constraints[8] = [ConstraintContainsSyllables(2)]
+                observed_constraints[9] = [ConstraintPhraseRhymesWith(word=a_word, position_of_rhyme=-1, must_rhyme=True), 
+                                            ConstraintContainsSyllables(1),
+                                        ]
+                
+                observed_constraints[10] = [ConstraintContainsSyllables(1)]
+                observed_constraints[11] = [ConstraintContainsSyllables(1)]
+                observed_constraints[12] = [ConstraintContainsSyllables(1)]
+                observed_constraints[13] = [ConstraintContainsSyllables(1)]
+                observed_constraints[14] = [ConstraintPhraseRhymesWith(word=b_word, position_of_rhyme=-1, must_rhyme=True), 
+                                                ConstraintContainsSyllables(1)
+                                        ]
+                
+                observed_constraints[15] = [ConstraintContainsSyllables(1)]
+                observed_constraints[16] = [ConstraintContainsSyllables(1)]
+                observed_constraints[17] = [ConstraintContainsSyllables(1)]
+                observed_constraints[18] = [ConstraintContainsSyllables(1)]
+                observed_constraints[19] = [ConstraintPhraseRhymesWith(word=b_word, position_of_rhyme=-1, must_rhyme=True), 
+                                                ConstraintContainsSyllables(1)
+                                        ]
+                
+                observed_constraints[20] = [ConstraintContainsSyllables(1)]
+                observed_constraints[21] = [ConstraintContainsSyllables(2)]
+                observed_constraints[22] = [ConstraintContainsSyllables(2)]
+                observed_constraints[23] = [ConstraintContainsSyllables(2)]
+                observed_constraints[24] = [ConstraintPhraseRhymesWith(word=a_word, position_of_rhyme=-1, must_rhyme=True), 
+                                            ConstraintContainsSyllables(1),
+                                        ]
+
+                CoMP = ConstrainedHiddenMarkovProcess(length, model, hidden_constraints, observed_constraints)
+                CoMP.process()
+                executionTime = (time.time() - startTime)
+                print("CoMP Finished")
+                print(f'Execution time in seconds: {str(executionTime)}')
+                print(f"CoMP Finished in {str(executionTime)} seconds with rhyme words A: {a_word}, B: {b_word}.")
+                print(f"CoMP Finished in {str(executionTime)} seconds with rhyme words A: {a_word}, B: {b_word}.", file=open(output_file, "a"))
+                print_sentences(length, CoMP, poem_type=None, count = 5, output_file=output_file)
+                print("", file=open(output_file, "a"))
+    print("Finished.")
+    executionTime = (time.time() - total_startTime)
+    print(f'Execution time in seconds: {str(executionTime)}')   
+
+def process_Chimp_1_limerick_series(length, model):
+    """_summary_
+
+    Args:
+        length (_type_): _description_
+        model (_type_): _description_
+    """
+    print("CHiMP 1.0 - Limerick - Series")
+    output_file = "logs/long_chimp_1_run.txt"
+    rhyme_words = [
+        "back", # ack
+        "brain", # ain
+        "bake", # ake
+        "beat", # eat
+        "bell", # ell
+        "best", # est
+        "dice", # ice
+        "brick", # ick
+        "hide", # ide
+        "bump", # ump
+    ]
+    total_startTime = time.time()
+    for a_word in rhyme_words:
+        for b_word in rhyme_words:
+            hidden_constraints = []
+            observed_constraints = []
+            for _ in range(length):
+                observed_constraints.append(None)
+                hidden_constraints.append(None)
+            if a_word != b_word:
+                startTime = time.time()
+                hidden_constraints[0] = [ConstraintIsPartOfSpeech("NNP", True)]
+
+                observed_constraints[0] = [ConstraintContainsSyllables(1)]
+                observed_constraints[1] = [ConstraintContainsSyllables(2)]
+                observed_constraints[2] = [ConstraintContainsSyllables(2)]
+                observed_constraints[3] = [ConstraintContainsSyllables(2)]
+                observed_constraints[4] = [ConstraintPhraseRhymesWith(word=a_word, position_of_rhyme=-1, must_rhyme=True), 
+                                            ConstraintContainsSyllables(1),
+                                        ]
+                
+                observed_constraints[5] = [ConstraintContainsSyllables(1)]
+                observed_constraints[6] = [ConstraintContainsSyllables(2)]
+                observed_constraints[7] = [ConstraintContainsSyllables(2)]
+                observed_constraints[8] = [ConstraintContainsSyllables(2)]
+                observed_constraints[9] = [ConstraintPhraseRhymesWith(word=a_word, position_of_rhyme=-1, must_rhyme=True), 
+                                            ConstraintContainsSyllables(1),
+                                        ]
+                
+                observed_constraints[10] = [ConstraintContainsSyllables(1)]
+                observed_constraints[11] = [ConstraintContainsSyllables(1)]
+                observed_constraints[12] = [ConstraintContainsSyllables(1)]
+                observed_constraints[13] = [ConstraintContainsSyllables(1)]
+                observed_constraints[14] = [ConstraintPhraseRhymesWith(word=b_word, position_of_rhyme=-1, must_rhyme=True), 
+                                                ConstraintContainsSyllables(1)
+                                        ]
+                
+                observed_constraints[15] = [ConstraintContainsSyllables(1)]
+                observed_constraints[16] = [ConstraintContainsSyllables(1)]
+                observed_constraints[17] = [ConstraintContainsSyllables(1)]
+                observed_constraints[18] = [ConstraintContainsSyllables(1)]
+                observed_constraints[19] = [ConstraintPhraseRhymesWith(word=b_word, position_of_rhyme=-1, must_rhyme=True), 
+                                                ConstraintContainsSyllables(1)
+                                        ]
+                
+                observed_constraints[20] = [ConstraintContainsSyllables(1)]
+                observed_constraints[21] = [ConstraintContainsSyllables(2)]
+                observed_constraints[22] = [ConstraintContainsSyllables(2)]
+                observed_constraints[23] = [ConstraintContainsSyllables(2)]
+                observed_constraints[24] = [ConstraintPhraseRhymesWith(word=a_word, position_of_rhyme=-1, must_rhyme=True), 
+                                            ConstraintContainsSyllables(1),
+                                        ]
+
+                NHHMM = ConstrainedHiddenMarkovProcess(length, model, hidden_constraints, observed_constraints)
+                NHHMM.process()
+                executionTime = (time.time() - startTime)
+                print("NHHMM Finished")
+                print(f'Execution time in seconds: {str(executionTime)}')
+                print(f"NHHMM Finished in {str(executionTime)} seconds with rhyme words A: {a_word}, B: {b_word}.")
+                print(f"NHHMM Finished in {str(executionTime)} seconds with rhyme words A: {a_word}, B: {b_word}.", file=open(output_file, "a"))
+                print_sentences(length, NHHMM, poem_type=None, count = 5, output_file=output_file)
+                print("", file=open(output_file, "a"))
+    print("Finished.")
+    executionTime = (time.time() - total_startTime)
+    print(f'Execution time in seconds: {str(executionTime)}')   
 
 def process_Chimp_1_limerick(length, model):
     """A limerick is a five-line poem that consists of a single stanza, an AABBA rhyme scheme,
@@ -284,24 +519,38 @@ def prettify_sentence(sentence: str) -> str:
     sentence = re.sub(r'\s+([?.!"])', r'\1', sentence)
     return sentence
 
-def print_sentences(length, NHHMM, poem_type):
+def print_sentences(length, NHHMM, poem_type, count: int = 10, output_file: str = None):
     sentence_generator = ChimpSentenceGenerator(NHHMM, length)
-    for _ in range(10):
+    for _ in range(count):
         sentence = sentence_generator.create_sentence()
         if poem_type == "limerick":
             prettify_and_print_limericks(sentence)
             print("")
         else:
-            print(prettify_sentence(sentence))
+            if output_file is None:
+                print(prettify_sentence(sentence))
+            else:
+                print(prettify_sentence(sentence), file=open(output_file, "a"))
 
 if __name__ == '__main__':
+    # This is only for the long run - 
+    text_file_name = "2016_fic.txt"
+    pickle_file = f"pickle_files/{text_file_name}_hmm.pickle"
+    # pickle_file = f"pickle_files/{text_file_name}_chimp.pickle"
+    model = load_model(pickle_file)
+    # process_chimp2_limerick_series(5, model)
+    # process_Chimp_1_limerick_series(25, model)
+    process_CoMP_limerick_series(25, model)
+    quit(0)
+
+    # Everything below is for a normal run
     prod = True
     linux = True
     model_name = "chimp"
     # model_name = "markovmodel"
-    # length = 3
-    poem_type = "limerick-chimp1"
-    # poem_type = "limerick-chimp2"
+    length = 3
+    # poem_type = "limerick-chimp1"
+    poem_type = "limerick-chimp2"
     # poem_type = "limerick-comp"
 
     train_model_bool = False
