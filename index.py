@@ -206,14 +206,14 @@ def process_CoMP_limerick_series(length, model):
     rhyme_words = [
         "back", # ack
         "brain", # ain
-        # "bake", # ake
-        # "beat", # eat
-        # "bell", # ell
-        # "best", # est
-        # "dice", # ice
-        # "brick", # ick
-        # "hide", # ide
-        # "bump", # ump
+        "bake", # ake
+        "beat", # eat
+        "bell", # ell
+        "best", # est
+        "dice", # ice
+        "brick", # ick
+        "hide", # ide
+        "bump", # ump
     ]
     total_startTime = time.time()
     for a_word in rhyme_words:
