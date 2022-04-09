@@ -1,4 +1,5 @@
 #!/bin/bash
+echo $job_name
 #PBS -N $job_name
 #PBS -l select=1:ncpus=1:mem=8gb
 #PBS -q router
