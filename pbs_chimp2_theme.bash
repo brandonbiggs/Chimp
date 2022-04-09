@@ -7,7 +7,6 @@
 #PBS -j oe
 
 echo "test"
-echo $file
 module load conda
 conda activate chimp
 cd /home/biggbs/school/Chimp
