@@ -1,5 +1,4 @@
 #/bin/bash
-export job_name="chimp2-flower"
 export file="chimp2-theme-flower.py"
 qsub ./pbs_chimp2_theme.bash
 #./pbs_chimp2_theme.bash chimp2-lake chimp2-theme-lake.py
