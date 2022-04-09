@@ -267,39 +267,6 @@ def process_Chimp_limerick(length, model):
     # Similarities
     # theme_constrant = ConstraintSimilarSemanticMeaning(theme="sports",  similarity_threshhold=0.7)
     theme_constraint = ConstraintSimilarSemanticMeaning(theme="health",  similarity_threshhold=0.7, verbose=True)
-    # very specific words,
-    # flower, roses, puppies, green, rabbits, dew, raindrop, treetop, photosynthesis, chlorofil??, puddle, lake, mountaintop, snow?, 
-    # As long as the other meanings of the words are useful
-    # Five or so themes, with 5 generated limericks, one for each theme
-    # multiple choice
-
-    # floating constraints, coherence within the phrase
-    # Survey does #2
-    # Chimp 2.5 with a higher semantic threshhold, the floating constraint is the only way to get results
-    # Apply semantic constraints to each line and compare to chimp 1 and 2 but chimp 1 the constraint is at a specific position
-    # chimp 2 is floating constraints
-    # x is the threshold
-    # y is the # of solutions or a yes/no about being able to generate solutions
-    # could do the average over several semantic constraints
-
-    # Then in the survey show a semanticly constrained limerick from both chimp 1 and 2 that is the result of the highest threshhold from each model
-    # both would have the same theme, rate as to how well it achives that theme.
-
-    # 2 sections
-    # Section 1 - semantics
-    # section 2 - syntactic
-
-    # With the phrases, Vanilla markov model, to increase the cohesiveness, you have to increase the markov order. In this model, you can very the cohesiveness throughout
-    # by increasing the phrase length. Like a minimum cohesiveness level. At least X or at most Y. There's a range. Upper range avoids plagarism
-    # while the lower limit is a minimum cohesion level. A regular markov model is very set by the markov order.Future work - exploring these lengths
-    # as you can set different constraints additionally within that level. All sorts of floating constraints that you can put on these varying length phrases that can be generated via the model.
-    # Variable Order Markov Models - Check into those. Might want to mention those if they're similar/related in thesis
-
-    # Like "The United state of __" with a regular markov model, you wouldn't want variablility because it's more than likely "America", whereas a specific Markov order would provide any
-    # word that comes after "of" or the part of speech that is "of".
-
-    # https://transactions.ismir.net/articles/10.5334/tismir.97/
-    # https://www2.cose.isu.edu/~bodipaul/writing/
 
     observed_constraints[0] = [ConstraintPhraseRhymesWith(word="lake", position_of_rhyme=-1, must_rhyme=True), a_stresses, theme_constraint]
     observed_constraints[1] = [ConstraintPhraseRhymesWith(word="lake", position_of_rhyme=-1, must_rhyme=True), a_stresses, theme_constraint]
@@ -660,6 +627,39 @@ if __name__ == '__main__':
     process_chimp2_limerick_themes(5, model)
     quit(0)
 
+    # very specific words,
+    # flower, roses, puppies, green, rabbits, dew, raindrop, treetop, photosynthesis, chlorofil??, puddle, lake, mountaintop, snow?, 
+    # As long as the other meanings of the words are useful
+    # Five or so themes, with 5 generated limericks, one for each theme
+    # multiple choice
+
+    # floating constraints, coherence within the phrase
+    # Survey does #2
+    # Chimp 2.5 with a higher semantic threshhold, the floating constraint is the only way to get results
+    # Apply semantic constraints to each line and compare to chimp 1 and 2 but chimp 1 the constraint is at a specific position
+    # chimp 2 is floating constraints
+    # x is the threshold
+    # y is the # of solutions or a yes/no about being able to generate solutions
+    # could do the average over several semantic constraints
+
+    # Then in the survey show a semanticly constrained limerick from both chimp 1 and 2 that is the result of the highest threshhold from each model
+    # both would have the same theme, rate as to how well it achives that theme.
+
+    # 2 sections
+    # Section 1 - semantics
+    # section 2 - syntactic
+
+    # With the phrases, Vanilla markov model, to increase the cohesiveness, you have to increase the markov order. In this model, you can very the cohesiveness throughout
+    # by increasing the phrase length. Like a minimum cohesiveness level. At least X or at most Y. There's a range. Upper range avoids plagarism
+    # while the lower limit is a minimum cohesion level. A regular markov model is very set by the markov order.Future work - exploring these lengths
+    # as you can set different constraints additionally within that level. All sorts of floating constraints that you can put on these varying length phrases that can be generated via the model.
+    # Variable Order Markov Models - Check into those. Might want to mention those if they're similar/related in thesis
+
+    # Like "The United state of __" with a regular markov model, you wouldn't want variablility because it's more than likely "America", whereas a specific Markov order would provide any
+    # word that comes after "of" or the part of speech that is "of".
+
+    # https://transactions.ismir.net/articles/10.5334/tismir.97/
+    # https://www2.cose.isu.edu/~bodipaul/writing/
     # Everything below is for a normal run
     prod = True
     linux = True
