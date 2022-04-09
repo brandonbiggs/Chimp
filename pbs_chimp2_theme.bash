@@ -5,5 +5,6 @@
 #PBS -j oe
 
 module load conda
-conda env activate chimp
+conda activate chimp
+cd /home/biggbs/school/Chimp
 python3 $2
