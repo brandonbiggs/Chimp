@@ -90,7 +90,7 @@ def process_chimp2_limerick_themes(length, model, file_name, num_sentences_to_tr
 
 if __name__ == '__main__':
     theme = "flower"
-    word_2_vec = models.KeyedVectors.load_word2vec_format('/home/biggbs/gensim-data/glove-twitter-25/glove-twitter-25')
+    word2vec = models.KeyedVectors.load_word2vec_format('/home/biggbs/gensim-data/glove-twitter-25/glove-twitter-25')
 
     # theme_constraint = ConstraintSimilarSemanticMeaning(theme=theme,  similarity_threshhold=0.7)
     # This is only for the long run - 
@@ -102,4 +102,4 @@ if __name__ == '__main__':
     output_file = f"logs/chimp2-themes-{theme}.txt"
 
     # Themes
-    process_chimp2_limerick_themes(5, model, output_file, num_sentences_to_try, theme)
+    process_chimp2_limerick_themes(5, model, output_file, num_sentences_to_try, theme, word2vec)
