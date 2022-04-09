@@ -76,6 +76,86 @@ def process_Chimp_haiku(length, model):
     print("NHHMM Finished")
     return NHHMM
 
+def process_chimp2_limerick_themes(length, model):
+    print("CHiMP 2.0 - Limerick - Themes")
+    themes = [
+      "flower", 
+      "puppy", 
+      "rain", 
+      "lake", 
+      "mountain"
+    ]
+    similarity_threshholds = [
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.9,
+        0.95
+    ]
+
+    scheme_a = "^.?1.?.?1.?.?"
+    scheme_b = "^.?1.?.?"
+    rhyme_a = "back"
+    rhyme_b = "beat"
+    phones_list = pronouncing.phones_for_word(rhyme_a)
+    stresses_string = pronouncing.stresses(phones_list[0])
+    stresses_string = stresses_string.replace("2", "1")
+    scheme_a = scheme_a + stresses_string + "$"
+
+    phones_list = pronouncing.phones_for_word(rhyme_b)
+    stresses_string = pronouncing.stresses(phones_list[0])
+    stresses_string = stresses_string.replace("2", "1")
+    scheme_b = scheme_b + stresses_string + "$"
+
+    hidden_constraints = []
+    observed_constraints = []
+
+    for _ in range(length):
+        observed_constraints.append(None)
+        hidden_constraints.append(None)
+    
+    hidden_constraints[0] = [ConstraintIsPartOfSpeech("NP", True)]
+    a_max_syllables = 7
+    b_max_syllables = 4
+    a_stresses = ConstraintMatchesPoetryScheme(scheme_a, rhyme_a, a_max_syllables, min_syllables=8)
+    b_stresses = ConstraintMatchesPoetryScheme(scheme_b, rhyme_b, b_max_syllables, min_syllables=5)
+
+    # Similarities
+    # theme_constrant = ConstraintSimilarSemanticMeaning(theme="sports",  similarity_threshhold=0.7)
+    
+    output_file = "logs/chimp2-themes.txt"
+    total_startTime = time.time()
+    for theme in themes:
+        for threshhold in similarity_threshholds:
+            theme_constraint = ConstraintSimilarSemanticMeaning(theme=theme,  similarity_threshhold=threshhold, verbose=True)
+
+            observed_constraints[0] = [ConstraintPhraseRhymesWith(word=rhyme_a, position_of_rhyme=-1, must_rhyme=True), a_stresses, theme_constraint]
+            observed_constraints[1] = [ConstraintPhraseRhymesWith(word=rhyme_a, position_of_rhyme=-1, must_rhyme=True), a_stresses]
+            observed_constraints[2] = [ConstraintPhraseRhymesWith(word=rhyme_b, position_of_rhyme=-1, must_rhyme=True), b_stresses]
+            observed_constraints[3] = [ConstraintPhraseRhymesWith(word=rhyme_b, position_of_rhyme=-1, must_rhyme=True), b_stresses]
+            observed_constraints[4] = [ConstraintPhraseRhymesWith(word=rhyme_a, position_of_rhyme=-1, must_rhyme=True), a_stresses]
+
+            startTime = time.time()
+            NHHMM = ConstrainedHiddenMarkovProcess(length, model, hidden_constraints, observed_constraints)
+            NHHMM.process()
+
+            sentence_generator = ChimpSentenceGenerator(NHHMM, length)
+            sentences = sentence_generator.count_all_sentences(num_try=1000)
+
+            executionTime = (time.time() - startTime)
+
+            print(f'Execution time in seconds: {str(executionTime)}')
+            print(f"NHHMM Finished in {str(executionTime)} seconds with theme: {theme} and threshhold: {threshhold}.")
+            print(f"NHHMM Finished in {str(executionTime)} seconds with theme: {theme} and threshhold: {threshhold}.", file=open(output_file, "a"))
+            print(f"Number of sentences: {sentences}.", file=open(output_file, "a"))
+            print_sentences(length, NHHMM, poem_type=None, count = 5, output_file=output_file)
+            print("", file=open(output_file, "a"))
+
+    print("Finished.")
+    executionTime = (time.time() - total_startTime)
+    print(f'Execution time in seconds: {str(executionTime)}')
+
 def process_chimp2_limerick_series(length, model):
     """_summary_
 
@@ -187,6 +267,39 @@ def process_Chimp_limerick(length, model):
     # Similarities
     # theme_constrant = ConstraintSimilarSemanticMeaning(theme="sports",  similarity_threshhold=0.7)
     theme_constraint = ConstraintSimilarSemanticMeaning(theme="health",  similarity_threshhold=0.7, verbose=True)
+    # very specific words,
+    # flower, roses, puppies, green, rabbits, dew, raindrop, treetop, photosynthesis, chlorofil??, puddle, lake, mountaintop, snow?, 
+    # As long as the other meanings of the words are useful
+    # Five or so themes, with 5 generated limericks, one for each theme
+    # multiple choice
+
+    # floating constraints, coherence within the phrase
+    # Survey does #2
+    # Chimp 2.5 with a higher semantic threshhold, the floating constraint is the only way to get results
+    # Apply semantic constraints to each line and compare to chimp 1 and 2 but chimp 1 the constraint is at a specific position
+    # chimp 2 is floating constraints
+    # x is the threshold
+    # y is the # of solutions or a yes/no about being able to generate solutions
+    # could do the average over several semantic constraints
+
+    # Then in the survey show a semanticly constrained limerick from both chimp 1 and 2 that is the result of the highest threshhold from each model
+    # both would have the same theme, rate as to how well it achives that theme.
+
+    # 2 sections
+    # Section 1 - semantics
+    # section 2 - syntactic
+
+    # With the phrases, Vanilla markov model, to increase the cohesiveness, you have to increase the markov order. In this model, you can very the cohesiveness throughout
+    # by increasing the phrase length. Like a minimum cohesiveness level. At least X or at most Y. There's a range. Upper range avoids plagarism
+    # while the lower limit is a minimum cohesion level. A regular markov model is very set by the markov order.Future work - exploring these lengths
+    # as you can set different constraints additionally within that level. All sorts of floating constraints that you can put on these varying length phrases that can be generated via the model.
+    # Variable Order Markov Models - Check into those. Might want to mention those if they're similar/related in thesis
+
+    # Like "The United state of __" with a regular markov model, you wouldn't want variablility because it's more than likely "America", whereas a specific Markov order would provide any
+    # word that comes after "of" or the part of speech that is "of".
+
+    # https://transactions.ismir.net/articles/10.5334/tismir.97/
+    # https://www2.cose.isu.edu/~bodipaul/writing/
 
     observed_constraints[0] = [ConstraintPhraseRhymesWith(word="lake", position_of_rhyme=-1, must_rhyme=True), a_stresses, theme_constraint]
     observed_constraints[1] = [ConstraintPhraseRhymesWith(word="lake", position_of_rhyme=-1, must_rhyme=True), a_stresses, theme_constraint]
@@ -535,12 +648,16 @@ def print_sentences(length, NHHMM, poem_type, count: int = 10, output_file: str 
 if __name__ == '__main__':
     # This is only for the long run - 
     text_file_name = "2016_fic.txt"
-    pickle_file = f"pickle_files/{text_file_name}_hmm.pickle"
-    # pickle_file = f"pickle_files/{text_file_name}_chimp.pickle"
+    # pickle_file = f"pickle_files/{text_file_name}_hmm.pickle"
+    pickle_file = f"pickle_files/{text_file_name}_chimp.pickle"
     model = load_model(pickle_file)
+    # Series
     # process_chimp2_limerick_series(5, model)
     # process_Chimp_1_limerick_series(25, model)
-    process_CoMP_limerick_series(25, model)
+    # process_CoMP_limerick_series(25, model)
+
+    # Themes
+    process_chimp2_limerick_themes(5, model)
     quit(0)
 
     # Everything below is for a normal run

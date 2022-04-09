@@ -114,6 +114,20 @@ class ChimpSentenceGenerator:
                 sentences.append(sentence)
         return sentences
 
+    def count_all_sentences(self, num_try=100) -> int:
+        sentences = []
+        num_empty_sentences = 0
+        for _ in range(num_try):
+            sentence = self.create_sentence()
+            if sentences == "":
+                num_empty_sentences += 1
+            if num_empty_sentences >= 50:
+                return len(sentences)    
+            if sentence not in sentences:
+            #if sentence not in sentences and len(sentence.split(" ")) == self.length:
+                sentences.append(sentence)
+        return len(sentences)
+
     def create_possible_sentence_structure(self) -> list:
         """
         # TODO - This still has bugs, but it's not used
