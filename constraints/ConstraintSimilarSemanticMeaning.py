@@ -22,7 +22,8 @@ class ConstraintSimilarSemanticMeaning(Constraint):
             verbose (bool, optional): _description_. Defaults to False.
         """
         Constraint.__init__(self)
-        self.model = api.load(model)
+        # self.model = api.load(model)
+        self.mode = api.load("/home/biggbs/gensim-data/glove-twitter-25/glove-twitter-25.gz")
         self.similarity_threshhold = similarity_threshhold
         self.theme = theme
         self.verbose = verbose
