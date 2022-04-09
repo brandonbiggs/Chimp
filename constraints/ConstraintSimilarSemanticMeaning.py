@@ -1,6 +1,7 @@
 from constraints.Constraint import Constraint
 from nltk.tokenize import sent_tokenize, word_tokenize
 import gensim.downloader as api
+from gensim.models import Word2Vec
 import nltk
 
 class ConstraintSimilarSemanticMeaning(Constraint):
@@ -23,7 +24,7 @@ class ConstraintSimilarSemanticMeaning(Constraint):
         """
         Constraint.__init__(self)
         # self.model = api.load(model)
-        self.mode = api.load("/home/biggbs/gensim-data/glove-twitter-25/glove-twitter-25.gz")
+        self.mode =  Word2Vec("/home/biggbs/gensim-data/glove-twitter-25/glove-twitter-25.gz")
         self.similarity_threshhold = similarity_threshhold
         self.theme = theme
         self.verbose = verbose
