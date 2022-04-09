@@ -1,7 +1,15 @@
 #/bin/bash
-export file="chimp2-theme-flower.py"
+export file="chimp2-theme.py --theme 'flower'"
 qsub ./pbs_chimp2_theme.bash
-#./pbs_chimp2_theme.bash chimp2-lake chimp2-theme-lake.py
-#./pbs_chimp2_theme.bash chimp2-mountain chimp2-theme-mountain.py
-#./pbs_chimp2_theme.bash chimp2-puppy chimp2-theme-puppy.py
-#./pbs_chimp2_theme.bash chimp2-rain chimp2-theme-rain.py
+
+#export file="chimp2-theme.py --theme 'lake'"
+#qsub ./pbs_chimp2_theme.bash
+#
+#export file="chimp2-theme.py --theme 'mountain'"
+#qsub ./pbs_chimp2_theme.bash
+#
+#export file="chimp2-theme.py --theme 'puppy'"
+#qsub ./pbs_chimp2_theme.bash
+#
+#export file="chimp2-theme.py --theme 'rain'"
+#qsub ./pbs_chimp2_theme.bash
