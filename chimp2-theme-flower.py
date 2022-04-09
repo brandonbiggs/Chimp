@@ -18,7 +18,7 @@ def load_model(file_to_load):
         model = pickle.load(handle)
     return model
 
-def process_chimp2_limerick_themes(length, model, file_name, num_sentences_to_try: int, theme: str, word2vec):
+def process_chimp2_limerick_themes(length, model, file_name, num_sentences_to_try: int, theme: str):
     print("CHiMP 2.0 - Limerick - Themes")
 
     similarity_threshholds = [
@@ -29,6 +29,7 @@ def process_chimp2_limerick_themes(length, model, file_name, num_sentences_to_tr
         0.9,
         0.95
     ]
+    word2vec = models.KeyedVectors.load_word2vec_format('/home/biggbs/gensim-data/glove-twitter-25/glove-twitter-25')
 
     output_file = file_name
 
@@ -90,16 +91,14 @@ def process_chimp2_limerick_themes(length, model, file_name, num_sentences_to_tr
 
 if __name__ == '__main__':
     theme = "flower"
-    word2vec = models.KeyedVectors.load_word2vec_format('/home/biggbs/gensim-data/glove-twitter-25/glove-twitter-25')
 
     # theme_constraint = ConstraintSimilarSemanticMeaning(theme=theme,  similarity_threshhold=0.7)
     # This is only for the long run - 
     text_file_name = "2016_fic.txt"
     num_sentences_to_try = 100
-    # pickle_file = f"pickle_files/{text_file_name}_hmm.pickle"
     pickle_file = f"pickle_files/{text_file_name}_chimp.pickle"
     model = load_model(pickle_file)
     output_file = f"logs/chimp2-themes-{theme}.txt"
 
     # Themes
-    process_chimp2_limerick_themes(5, model, output_file, num_sentences_to_try, theme, word2vec)
+    process_chimp2_limerick_themes(5, model, output_file, num_sentences_to_try, theme)
