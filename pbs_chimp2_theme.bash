@@ -11,4 +11,4 @@ echo $file
 module load conda
 conda activate chimp
 cd /home/biggbs/school/Chimp
-#python3 $file
+python3 $file
