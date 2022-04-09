@@ -89,8 +89,7 @@ def process_chimp2_limerick_themes(length, model, file_name, num_sentences_to_tr
 
 if __name__ == '__main__':
     theme = "flower"
-    theme_constraint = ConstraintSimilarSemanticMeaning(theme=theme,  similarity_threshhold=0.7)
-    quit(0)
+    # theme_constraint = ConstraintSimilarSemanticMeaning(theme=theme,  similarity_threshhold=0.7)
     # This is only for the long run - 
     text_file_name = "2016_fic.txt"
     num_sentences_to_try = 100
