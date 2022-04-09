@@ -6,7 +6,6 @@ from constraints.ConstraintPhraseRhymesWith import ConstraintPhraseRhymesWith
 from constraints.ConstraintMatchesPoetryScheme import ConstraintMatchesPoetryScheme
 from constraints.ConstraintSimilarSemanticMeaning import ConstraintSimilarSemanticMeaning
 
-from utility.Train import train
 from utility.Utility import *
 from utility.print import *
 from utility.ChimpSentenceGenerator import *
