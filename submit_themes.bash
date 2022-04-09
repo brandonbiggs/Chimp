@@ -1,6 +1,6 @@
 #/bin/bash
 export file="chimp2-theme.py --theme 'flower'"
-qsub ./pbs_chimp2_theme.bash
+qsub -F "$file" ./pbs_chimp2_theme.bash
 
 #export file="chimp2-theme.py --theme 'lake'"
 #qsub ./pbs_chimp2_theme.bash

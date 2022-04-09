@@ -6,8 +6,9 @@
 #PBS -l walltime=12:00:00
 #PBS -j oe
 
+echo "test"
 echo $file
 module load conda
 conda activate chimp
 cd /home/biggbs/school/Chimp
-python3 $file
+#python3 $file
