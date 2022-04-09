@@ -95,12 +95,10 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     theme = args.theme
-    print(theme)
 
-    # theme_constraint = ConstraintSimilarSemanticMeaning(theme=theme,  similarity_threshhold=0.7)
     # This is only for the long run - 
     text_file_name = "2016_fic.txt"
-    num_sentences_to_try = 100
+    num_sentences_to_try = 10000
     pickle_file = f"pickle_files/{text_file_name}_chimp.pickle"
     model = load_model(pickle_file)
     output_file = f"logs/chimp2-themes-{theme}.txt"
