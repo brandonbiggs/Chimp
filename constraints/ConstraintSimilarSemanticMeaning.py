@@ -24,7 +24,8 @@ class ConstraintSimilarSemanticMeaning(Constraint):
         """
         Constraint.__init__(self)
         # self.model = api.load(model)
-        self.model =  Word2Vec("/home/biggbs/gensim-data/glove-twitter-25/glove-twitter-25.gz")
+        # self.model = api.load("/home/biggbs/gensim-data/glove-twitter-25/glove-twitter-25.gz")
+        self.model = Word2Vec("/home/biggbs/gensim-data/glove-twitter-25/glove-twitter-25.gz")
         self.similarity_threshhold = similarity_threshhold
         self.theme = theme
         self.verbose = verbose
