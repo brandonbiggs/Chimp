@@ -1,5 +1,6 @@
 import pickle
 import time
+from gensim import models
 
 from constraints.ConstraintPhraseRhymesWith import ConstraintPhraseRhymesWith
 from constraints.ConstraintMatchesPoetryScheme import ConstraintMatchesPoetryScheme
@@ -17,7 +18,7 @@ def load_model(file_to_load):
         model = pickle.load(handle)
     return model
 
-def process_chimp2_limerick_themes(length, model, file_name, num_sentences_to_try: int, theme: str):
+def process_chimp2_limerick_themes(length, model, file_name, num_sentences_to_try: int, theme: str, word2vec):
     print("CHiMP 2.0 - Limerick - Themes")
 
     similarity_threshholds = [
@@ -60,7 +61,7 @@ def process_chimp2_limerick_themes(length, model, file_name, num_sentences_to_tr
 
     total_startTime = time.time()
     for threshhold in similarity_threshholds:
-        theme_constraint = ConstraintSimilarSemanticMeaning(theme=theme,  similarity_threshhold=threshhold)
+        theme_constraint = ConstraintSimilarSemanticMeaning(theme=theme,  similarity_threshhold=threshhold, model=word2vec)
 
         observed_constraints[0] = [ConstraintPhraseRhymesWith(word=rhyme_a, position_of_rhyme=-1, must_rhyme=True), a_stresses, theme_constraint]
         observed_constraints[1] = [ConstraintPhraseRhymesWith(word=rhyme_a, position_of_rhyme=-1, must_rhyme=True), a_stresses]
@@ -89,6 +90,8 @@ def process_chimp2_limerick_themes(length, model, file_name, num_sentences_to_tr
 
 if __name__ == '__main__':
     theme = "flower"
+    word_2_vec = models.KeyedVectors.load_word2vec_format('/home/biggbs/gensim-data/glove-twitter-25/glove-twitter-25')
+
     # theme_constraint = ConstraintSimilarSemanticMeaning(theme=theme,  similarity_threshhold=0.7)
     # This is only for the long run - 
     text_file_name = "2016_fic.txt"
