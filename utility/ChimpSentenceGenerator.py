@@ -117,6 +117,7 @@ class ChimpSentenceGenerator:
     def count_all_sentences(self, num_try=100) -> int:
         sentences = []
         num_empty_sentences = 0
+        num_repeats = 0
         for _ in range(num_try):
             sentence = self.create_sentence()
             if sentences == "":
@@ -126,6 +127,11 @@ class ChimpSentenceGenerator:
             if sentence not in sentences:
             #if sentence not in sentences and len(sentence.split(" ")) == self.length:
                 sentences.append(sentence)
+            else:
+                num_repeats += 1
+            
+            if num_repeats > num_try/10:
+                return len(sentences)
         return len(sentences)
 
     def create_possible_sentence_structure(self) -> list:

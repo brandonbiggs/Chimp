@@ -128,7 +128,7 @@ def process_chimp2_limerick_themes(length, model):
     total_startTime = time.time()
     for theme in themes:
         for threshhold in similarity_threshholds:
-            theme_constraint = ConstraintSimilarSemanticMeaning(theme=theme,  similarity_threshhold=threshhold, verbose=True)
+            theme_constraint = ConstraintSimilarSemanticMeaning(theme=theme,  similarity_threshhold=threshhold)
 
             observed_constraints[0] = [ConstraintPhraseRhymesWith(word=rhyme_a, position_of_rhyme=-1, must_rhyme=True), a_stresses, theme_constraint]
             observed_constraints[1] = [ConstraintPhraseRhymesWith(word=rhyme_a, position_of_rhyme=-1, must_rhyme=True), a_stresses]
@@ -141,7 +141,7 @@ def process_chimp2_limerick_themes(length, model):
             NHHMM.process()
 
             sentence_generator = ChimpSentenceGenerator(NHHMM, length)
-            sentences = sentence_generator.count_all_sentences(num_try=1000)
+            sentences = sentence_generator.count_all_sentences(num_try=10000)
 
             executionTime = (time.time() - startTime)
 
@@ -149,7 +149,7 @@ def process_chimp2_limerick_themes(length, model):
             print(f"NHHMM Finished in {str(executionTime)} seconds with theme: {theme} and threshhold: {threshhold}.")
             print(f"NHHMM Finished in {str(executionTime)} seconds with theme: {theme} and threshhold: {threshhold}.", file=open(output_file, "a"))
             print(f"Number of sentences: {sentences}.", file=open(output_file, "a"))
-            print_sentences(length, NHHMM, poem_type=None, count = 5, output_file=output_file)
+            # print_sentences(length, NHHMM, poem_type=None, count = 5, output_file=output_file)
             print("", file=open(output_file, "a"))
 
     print("Finished.")

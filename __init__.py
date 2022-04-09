@@ -1,4 +1,4 @@
-version_info = (0, 0, 8)
+version_info = (0, 1, 1)
 version = ".".join(str(c) for c in version_info) + "beta"
 authors = ["Brandon Biggs", "Porter Glines"]
 
