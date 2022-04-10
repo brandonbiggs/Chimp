@@ -2,7 +2,6 @@
 __pycache__/
 *.pyc
 
-
 # Ignore MacOS folder file
 .DS_STORE
 
@@ -22,6 +21,3 @@ pickle_files/
 #results/
 .pytest_cache
 testing.py
-
-output/
-poesy/

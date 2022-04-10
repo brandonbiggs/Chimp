@@ -21,12 +21,15 @@ class ChimpSentenceGenerator:
         for node_layer in range(self.length):
             if node_layer == 0:
                 pos = self.get_first_pos()
+                # print(f"pos: {pos}") 
             else:
                 pos = self.get_pos(node_layer, self.initial_pos)
             # print(f"pos: {pos}")
             # HERE
             next_word = self.get_emission_word(node_layer, pos)
-            if next_word is not None:
+            if next_word is None:
+                return None
+            else:
                 # TODO - Play with this a little bit to learn about porter's comment
                 # Account for integrated pos tags
                 if next_word != pos: 
@@ -114,15 +117,21 @@ class ChimpSentenceGenerator:
                 sentences.append(sentence)
         return sentences
 
-    def count_all_sentences(self, num_try=100) -> int:
+    def count_all_sentences(self, num_try=100, sentence_output_file = None) -> int:
         sentences = []
         num_empty_sentences = 0
         num_repeats = 0
         for _ in range(num_try):
             sentence = self.create_sentence()
-            if sentences == "":
+            if sentence is None:
                 num_empty_sentences += 1
-            if num_empty_sentences >= 50:
+                continue
+            elif sentences == "":
+                num_empty_sentences += 1
+
+            if num_empty_sentences >= num_try/10:
+                if sentence_output_file is not None:
+                    print(sentences)
                 return len(sentences)    
             if sentence not in sentences:
             #if sentence not in sentences and len(sentence.split(" ")) == self.length:
@@ -131,7 +140,11 @@ class ChimpSentenceGenerator:
                 num_repeats += 1
             
             if num_repeats > num_try/10:
+                if sentence_output_file is not None:
+                    print(sentences)
                 return len(sentences)
+        if sentence_output_file is not None:
+            print(sentences)
         return len(sentences)
 
     def create_possible_sentence_structure(self) -> list:

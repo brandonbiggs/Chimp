@@ -1,8 +1,0 @@
-bllipparser==2021.11.7
-nltk==3.6.5
-# numpy==1.21.4
-# plotly==5.3.1
-progress==1.6
-pronouncing==0.2.0
-# pytest==6.2.5
-rich==10.13.0
