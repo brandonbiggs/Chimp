@@ -131,20 +131,20 @@ class ChimpSentenceGenerator:
 
             if num_empty_sentences >= num_try/10:
                 if sentence_output_file is not None:
-                    print(sentences)
+                    print(sentences, file=open(sentence_output_file, "a"))
                 return len(sentences)    
             if sentence not in sentences:
             #if sentence not in sentences and len(sentence.split(" ")) == self.length:
-                sentences.append(sentence)
+                sentences.append(sentence, file=open(sentence_output_file, "a"))
             else:
                 num_repeats += 1
             
             if num_repeats > num_try/10:
                 if sentence_output_file is not None:
-                    print(sentences)
+                    print(sentences, file=open(sentence_output_file, "a"))
                 return len(sentences)
         if sentence_output_file is not None:
-            print(sentences)
+            print(sentences, file=open(sentence_output_file, "a"))
         return len(sentences)
 
     def create_possible_sentence_structure(self) -> list:
