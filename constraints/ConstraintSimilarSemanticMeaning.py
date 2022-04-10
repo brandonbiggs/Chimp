@@ -44,7 +44,12 @@ class ConstraintSimilarSemanticMeaning(Constraint):
         ]
 
     def is_satisfied_by_state(self, phrase: str) -> bool:
-        for word in phrase.split(" "):
+        sentence = []
+        if len(phrase.split(" ")) == 1:
+            sentence.append(phrase)
+        else:
+            sentence = phrase.split(" ")
+        for word in sentence:
             word = word.lower()
             try:
                 if self.__get_string_pos(word) in self.acceptable_pos:
