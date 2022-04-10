@@ -87,6 +87,7 @@ def process_chimp2_limerick_themes(length, model, output_file, num_sentences_to_
 
         print(f"NHHMM Finished in {str(executionTime)} seconds with theme: {theme} and threshhold: {threshhold}.")
         print(f"NHHMM Finished in {str(executionTime)} seconds with theme: {theme} and threshhold: {threshhold}.", file=open(output_file, "a"))
+        print(f"Number of sentences: {sentences}.")
         print(f"Number of sentences: {sentences}.", file=open(output_file, "a"))
         print("", file=open(output_file, "a"))
 
