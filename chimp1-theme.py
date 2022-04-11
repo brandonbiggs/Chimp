@@ -111,7 +111,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     theme = args.theme
-    threshhold = args.threshhold
+    threshhold = float(args.threshhold)
     if theme == "" or threshhold == "":
         quit(1)
 
