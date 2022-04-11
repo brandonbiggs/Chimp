@@ -1,0 +1,6 @@
+NHHMM Finished in 110.63732051849365 seconds with theme: mountain and threshhold: 0.85.
+Number of sentences: 0.
+
+NHHMM Finished in 110.50951862335205 seconds with theme: mountain and threshhold: 0.85.
+Number of sentences: 0.
+

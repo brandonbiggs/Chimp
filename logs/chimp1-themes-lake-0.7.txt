@@ -1,0 +1,6 @@
+NHHMM Finished in 110.99250793457031 seconds with theme: lake and threshhold: 0.7.
+Number of sentences: 0.
+
+NHHMM Finished in 110.78711891174316 seconds with theme: lake and threshhold: 0.7.
+Number of sentences: 0.
+

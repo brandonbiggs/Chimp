@@ -1,0 +1,7 @@
+chimp1-theme.py --theme puppy --threshhold 0.95
+[nltk_data] Error loading cmudict: <urlopen error [Errno 101] Network
+[nltk_data]     is unreachable>
+CHiMP 1.0 - Limerick - Themes
+NHHMM Finished in 109.55062699317932 seconds with theme: puppy and threshhold: 0.95.
+Number of sentences: 0.
+Finished. Execution time in seconds: 109.55521059036255
