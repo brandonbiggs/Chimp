@@ -135,7 +135,7 @@ class ChimpSentenceGenerator:
                 return len(sentences)    
             if sentence not in sentences:
             #if sentence not in sentences and len(sentence.split(" ")) == self.length:
-                sentences.append(sentence, file=open(sentence_output_file, "a"))
+                sentences.append(sentence)
             else:
                 num_repeats += 1
             
