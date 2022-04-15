@@ -1,0 +1,3 @@
+CoMP Finished in 1700.1284654140472 seconds with theme: rain and threshhold: 0.95.
+Number of sentences: 0.
+

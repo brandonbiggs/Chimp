@@ -1,0 +1,5 @@
+comp-theme.py --theme lake --threshhold 0.55
+CoMP - Limerick - Themes
+CoMP Finished in 1056.4466226100922 seconds with theme: lake and threshhold: 0.55.
+Number of sentences: 100000.
+Finished. Execution time in seconds: 1056.4569296836853

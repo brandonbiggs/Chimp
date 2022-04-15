@@ -1,0 +1,3 @@
+CoMP Finished in 1056.4466226100922 seconds with theme: lake and threshhold: 0.55.
+Number of sentences: 100000.
+

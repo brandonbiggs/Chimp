@@ -1,0 +1,5 @@
+comp-theme.py --theme rain --threshhold 0.65
+CoMP - Limerick - Themes
+CoMP Finished in 1143.5993468761444 seconds with theme: rain and threshhold: 0.65.
+Number of sentences: 100000.
+Finished. Execution time in seconds: 1143.6196439266205

@@ -1,0 +1,5 @@
+comp-theme.py --theme mountain --threshhold 0.75
+CoMP - Limerick - Themes
+CoMP Finished in 914.5566365718842 seconds with theme: mountain and threshhold: 0.75.
+Number of sentences: 100000.
+Finished. Execution time in seconds: 914.5616490840912

@@ -1,0 +1,5 @@
+comp-theme.py --theme flower --threshhold 0.65
+CoMP - Limerick - Themes
+CoMP Finished in 1126.6865768432617 seconds with theme: flower and threshhold: 0.65.
+Number of sentences: 100000.
+Finished. Execution time in seconds: 1126.7043101787567

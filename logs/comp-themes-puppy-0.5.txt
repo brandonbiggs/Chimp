@@ -1,0 +1,3 @@
+CoMP Finished in 968.1474192142487 seconds with theme: puppy and threshhold: 0.5.
+Number of sentences: 100000.
+

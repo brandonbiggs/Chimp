@@ -1,0 +1,3 @@
+CoMP Finished in 1652.0683896541595 seconds with theme: mountain and threshhold: 0.95.
+Number of sentences: 0.
+

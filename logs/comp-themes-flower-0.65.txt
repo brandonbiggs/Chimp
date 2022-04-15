@@ -1,0 +1,3 @@
+CoMP Finished in 1126.6865768432617 seconds with theme: flower and threshhold: 0.65.
+Number of sentences: 100000.
+

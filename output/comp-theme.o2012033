@@ -1,0 +1,5 @@
+comp-theme.py --theme puppy --threshhold 0.5
+CoMP - Limerick - Themes
+CoMP Finished in 968.1474192142487 seconds with theme: puppy and threshhold: 0.5.
+Number of sentences: 100000.
+Finished. Execution time in seconds: 968.1587555408478
