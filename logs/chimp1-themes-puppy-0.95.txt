@@ -1,0 +1,6 @@
+NHHMM Finished in 109.59300947189331 seconds with theme: puppy and threshhold: 0.95.
+Number of sentences: 0.
+
+NHHMM Finished in 109.55062699317932 seconds with theme: puppy and threshhold: 0.95.
+Number of sentences: 0.
+

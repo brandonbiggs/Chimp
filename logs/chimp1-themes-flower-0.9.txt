@@ -1,0 +1,6 @@
+NHHMM Finished in 110.41060900688171 seconds with theme: flower and threshhold: 0.9.
+Number of sentences: 0.
+
+NHHMM Finished in 110.36150860786438 seconds with theme: flower and threshhold: 0.9.
+Number of sentences: 0.
+
