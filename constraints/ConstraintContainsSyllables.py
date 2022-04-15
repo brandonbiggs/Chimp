@@ -1,9 +1,9 @@
 from constraints.Constraint import Constraint
 import nltk
-try:
-    nltk.data.find("~/nltk_data/tokenizers/punkt")
-except LookupError:
-    nltk.download('cmudict', quiet=True)
+#try:
+#    nltk.data.find("~/nltk_data/tokenizers/punkt")
+#except LookupError:
+#    nltk.download('cmudict', quiet=True)
 from nltk.corpus import cmudict
 
 

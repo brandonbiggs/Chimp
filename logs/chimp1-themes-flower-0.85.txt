@@ -4,3 +4,6 @@ Number of sentences: 0.
 NHHMM Finished in 110.8550660610199 seconds with theme: flower and threshhold: 0.85.
 Number of sentences: 0.
 
+NHHMM Finished in 129.09704542160034 seconds with theme: flower and threshhold: 0.85.
+Number of sentences: 0.
+

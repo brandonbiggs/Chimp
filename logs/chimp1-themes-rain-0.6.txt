@@ -1,3 +1,6 @@
 NHHMM Finished in 182.4175319671631 seconds with theme: rain and threshhold: 0.6.
 Number of sentences: 20000.
 
+NHHMM Finished in 531.1029994487762 seconds with theme: rain and threshhold: 0.6.
+Number of sentences: 100000.
+
