@@ -18,7 +18,7 @@ def load_model(file_to_load):
         model = pickle.load(handle)
     return model
 
-def process_chimp2_limerick_themes(length, model, output_file, num_sentences_to_try: int, theme: str, word2vec):
+def process_chimp2_limerick_themes(length, model, output_file, num_sentences_to_try: int, theme: str, word2vec, threshhold):
     # Rhyme constraint -------------------------------------------------------------
     scheme_a = "^.?1.?.?1.?.?"
     scheme_b = "^.?1.?.?"
@@ -53,47 +53,33 @@ def process_chimp2_limerick_themes(length, model, output_file, num_sentences_to_
     observed_constraints[3] = [ConstraintPhraseRhymesWith(word=rhyme_b, position_of_rhyme=-1, must_rhyme=True), b_stresses]
     observed_constraints[4] = [ConstraintPhraseRhymesWith(word=rhyme_a, position_of_rhyme=-1, must_rhyme=True), a_stresses]
 
-    similarity_threshholds = [
-        0.5,
-        0.55,
-        0.6,
-        0.65,
-        0.7,
-        0.75,
-        0.8,
-        0.85,
-        0.9,
-        0.95
-    ]
-
     # Start -------------------------------------------------------------
     print("CHiMP 2.0 - Limerick - Themes")
     total_startTime = time.time()
-    for threshhold in similarity_threshholds:
-        sentence_output_file = f"output/chimp2-theme-{theme}-{threshhold}.txt"
-        theme_constraint = ConstraintSimilarSemanticMeaning(
-            theme=theme,  
-            similarity_threshhold=threshhold, 
-            model=word2vec, 
-            verbose=False
-        )
+    sentence_output_file = f"output/chimp2-theme-{theme}-{threshhold}.txt"
+    theme_constraint = ConstraintSimilarSemanticMeaning(
+        theme=theme,  
+        similarity_threshhold=threshhold, 
+        model=word2vec, 
+        verbose=False
+    )
 
-        observed_constraints[0] = [ConstraintPhraseRhymesWith(word=rhyme_a, position_of_rhyme=-1, must_rhyme=True), a_stresses, theme_constraint]
+    observed_constraints[0] = [ConstraintPhraseRhymesWith(word=rhyme_a, position_of_rhyme=-1, must_rhyme=True), a_stresses, theme_constraint]
 
-        startTime = time.time()
-        NHHMM = ConstrainedHiddenMarkovProcess(length, model, hidden_constraints, observed_constraints)
-        NHHMM.process()
+    startTime = time.time()
+    NHHMM = ConstrainedHiddenMarkovProcess(length, model, hidden_constraints, observed_constraints)
+    NHHMM.process()
 
-        sentence_generator = ChimpSentenceGenerator(NHHMM, length)
-        sentences = sentence_generator.count_all_sentences(num_try=num_sentences_to_try, sentence_output_file=sentence_output_file)
+    sentence_generator = ChimpSentenceGenerator(NHHMM, length)
+    sentences = sentence_generator.count_all_sentences(num_try=num_sentences_to_try, sentence_output_file=sentence_output_file)
 
-        executionTime = (time.time() - startTime)
+    executionTime = (time.time() - startTime)
 
-        print(f"NHHMM Finished in {str(executionTime)} seconds with theme: {theme} and threshhold: {threshhold}.")
-        print(f"NHHMM Finished in {str(executionTime)} seconds with theme: {theme} and threshhold: {threshhold}.", file=open(output_file, "a"))
-        print(f"Number of sentences: {sentences}.")
-        print(f"Number of sentences: {sentences}.", file=open(output_file, "a"))
-        print("", file=open(output_file, "a"))
+    print(f"NHHMM Finished in {str(executionTime)} seconds with theme: {theme} and threshhold: {threshhold}.")
+    print(f"NHHMM Finished in {str(executionTime)} seconds with theme: {theme} and threshhold: {threshhold}.", file=open(output_file, "a"))
+    print(f"Number of sentences: {sentences}.")
+    print(f"Number of sentences: {sentences}.", file=open(output_file, "a"))
+    print("", file=open(output_file, "a"))
 
     executionTime = (time.time() - total_startTime)
     print(f'Finished. Execution time in seconds: {str(executionTime)}')
@@ -101,10 +87,13 @@ def process_chimp2_limerick_themes(length, model, output_file, num_sentences_to_
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Process some integers.')
     parser.add_argument('--theme', help='the theme')
+    parser.add_argument('--threshhold', help='threshhold percentage')
+
 
     args = parser.parse_args()
     theme = args.theme
-    if theme == "":
+    threshhold = float(args.threshhold)
+    if theme == "" or threshhold == "":
         quit(1)
 
     # This is only for the long run - 
@@ -119,4 +108,4 @@ if __name__ == '__main__':
     # num_sentences_to_try = 100
 
     # Themes
-    process_chimp2_limerick_themes(5, model, output_file, num_sentences_to_try, theme, word2vec)
+    process_chimp2_limerick_themes(5, model, output_file, num_sentences_to_try, theme, word2vec, threshhold)

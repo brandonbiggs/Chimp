@@ -627,6 +627,11 @@ if __name__ == '__main__':
     process_chimp2_limerick_themes(5, model)
     quit(0)
 
+    # TODO Talk about arc consistency
+    # TODO - Survey have a control of limericks
+    # TODO - Look at changing title to contain something about "Floating" since that's the big emphasis
+    # TODO - Floating constraints can be applied to NLP, Music, Time segments, anything with "groups". TODO - Look up other things that have groupings
+
     # very specific words,
     # flower, roses, puppies, green, rabbits, dew, raindrop, treetop, photosynthesis, chlorofil??, puddle, lake, mountaintop, snow?, 
     # As long as the other meanings of the words are useful

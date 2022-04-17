@@ -1,5 +1,5 @@
 #!/bin/bash
-#PBS -N chimp1-theme
+#PBS -N chimp2-theme
 #PBS -l select=1:ncpus=1:mem=8gb
 #PBS -q router
 #PBS -P edu_res
