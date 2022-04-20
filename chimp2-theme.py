@@ -47,15 +47,14 @@ def process_chimp2_limerick_themes(length, model, output_file, num_sentences_to_
         observed_constraints.append(None)
         hidden_constraints.append(None)
     
-    hidden_constraints[0] = [ConstraintIsPartOfSpeech("NP", True)]
+    # hidden_constraints[0] = [ConstraintIsPartOfSpeech("NP", True)]
     observed_constraints[1] = [ConstraintPhraseRhymesWith(word=rhyme_a, position_of_rhyme=-1, must_rhyme=True), a_stresses]
     observed_constraints[2] = [ConstraintPhraseRhymesWith(word=rhyme_b, position_of_rhyme=-1, must_rhyme=True), b_stresses]
     observed_constraints[3] = [ConstraintPhraseRhymesWith(word=rhyme_b, position_of_rhyme=-1, must_rhyme=True), b_stresses]
     observed_constraints[4] = [ConstraintPhraseRhymesWith(word=rhyme_a, position_of_rhyme=-1, must_rhyme=True), a_stresses]
 
     # Start -------------------------------------------------------------
-    print("CHiMP 2.0 - Limerick - Themes")
-    total_startTime = time.time()
+    # print("CHiMP 2.0 - Limerick - Themes")
     sentence_output_file = f"output/chimp2-theme-{theme}-{threshhold}.txt"
     theme_constraint = ConstraintSimilarSemanticMeaning(
         theme=theme,  
@@ -75,14 +74,8 @@ def process_chimp2_limerick_themes(length, model, output_file, num_sentences_to_
 
     executionTime = (time.time() - startTime)
 
-    print(f"NHHMM Finished in {str(executionTime)} seconds with theme: {theme} and threshhold: {threshhold}.")
-    print(f"NHHMM Finished in {str(executionTime)} seconds with theme: {theme} and threshhold: {threshhold}.", file=open(output_file, "a"))
-    print(f"Number of sentences: {sentences}.")
-    print(f"Number of sentences: {sentences}.", file=open(output_file, "a"))
-    print("", file=open(output_file, "a"))
-
-    executionTime = (time.time() - total_startTime)
-    print(f'Finished. Execution time in seconds: {str(executionTime)}')
+    # print(f"NHHMM Finished in {str(executionTime)} seconds with theme: {theme} and threshhold: {threshhold}.")
+    print(f"Chimp 2 Finished. Seconds: {str(executionTime)}. Theme: {theme}. Threshhold: {threshhold}. Number of sentences: {sentences}.\n", file=open(output_file, "a"))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Process some integers.')
@@ -104,7 +97,7 @@ if __name__ == '__main__':
 
     word2vec = models.KeyedVectors.load_word2vec_format('/home/biggbs/gensim-data/glove-twitter-25/glove-twitter-25')
     # word2vec = models.KeyedVectors.load_word2vec_format('/Users/biggbs/gensim-data/glove-twitter-25/glove-twitter-25')
-    num_sentences_to_try = 20000
+    num_sentences_to_try = 25000
     # num_sentences_to_try = 100
 
     # Themes

@@ -5,14 +5,12 @@ import argparse
 
 from constraints.ConstraintContainsSyllables import ConstraintContainsSyllables
 from constraints.ConstraintPhraseRhymesWith import ConstraintPhraseRhymesWith
-from constraints.ConstraintMatchesPoetryScheme import ConstraintMatchesPoetryScheme
 from constraints.ConstraintSimilarSemanticMeaning import ConstraintSimilarSemanticMeaning
 
 from utility.Utility import *
 from utility.print import *
 from utility.ChimpSentenceGenerator import *
 from models.CHiMP import *
-import pronouncing
 
 def load_model(file_to_load):
     with open(file_to_load, "rb") as handle:
@@ -38,7 +36,7 @@ def process_chimp1_limerick_themes(length, model, output_file, num_sentences_to_
         verbose=False
     )
     
-    hidden_constraints[0] = [ConstraintIsPartOfSpeech("NNP", True)]
+    # hidden_constraints[0] = [ConstraintIsPartOfSpeech("NNP", True)]
 
     observed_constraints[0] = [ConstraintContainsSyllables(1)]
     observed_constraints[1] = [ConstraintContainsSyllables(2)]
@@ -82,9 +80,9 @@ def process_chimp1_limerick_themes(length, model, output_file, num_sentences_to_
                             ] 
 
     # Start -------------------------------------------------------------
-    print("CHiMP 1.0 - Limerick - Themes")
-    total_startTime = time.time()
-    sentence_output_file = f"output/chimp1-theme-{theme}-{threshhold}.txt"
+    # print("CHiMP 1.0 - Limerick - Themes")
+    # sentence_output_file = f"output/chimp1-theme-{theme}-{threshhold}.txt"
+    sentence_output_file = None
 
     startTime = time.time()
     NHHMM = ConstrainedHiddenMarkovProcess(length, model, hidden_constraints, observed_constraints)
@@ -95,14 +93,9 @@ def process_chimp1_limerick_themes(length, model, output_file, num_sentences_to_
 
     executionTime = (time.time() - startTime)
 
-    print(f"NHHMM Finished in {str(executionTime)} seconds with theme: {theme} and threshhold: {threshhold}.")
-    print(f"NHHMM Finished in {str(executionTime)} seconds with theme: {theme} and threshhold: {threshhold}.", file=open(output_file, "a"))
-    print(f"Number of sentences: {sentences}.")
-    print(f"Number of sentences: {sentences}.", file=open(output_file, "a"))
-    print("", file=open(output_file, "a"))
-
-    executionTime = (time.time() - total_startTime)
-    print(f'Finished. Execution time in seconds: {str(executionTime)}')
+    # print(f"NHHMM Finished in {str(executionTime)} seconds with theme: {theme} and threshhold: {threshhold}.")
+    print(f"Chimp 1 Finished. Seconds: {str(executionTime)}. Theme: {theme}. Threshhold: {threshhold}. Number of sentences: {sentences}.\n", file=open(output_file, "a"))
+    # print(f"Number of sentences: {sentences}.")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Process some integers.')
@@ -119,11 +112,11 @@ if __name__ == '__main__':
     text_file_name = "2016_fic.txt"
     pickle_file = f"pickle_files/{text_file_name}_chimp.pickle"
     model = load_model(pickle_file)
-    output_file = f"logs/chimp1-themes-{theme}-{threshhold}.txt"
+    output_file = f"logs/chimp1-themes-{theme}.txt"
 
     word2vec = models.KeyedVectors.load_word2vec_format('/home/biggbs/gensim-data/glove-twitter-25/glove-twitter-25')
     # word2vec = models.KeyedVectors.load_word2vec_format('/Users/biggbs/gensim-data/glove-twitter-25/glove-twitter-25')
-    num_sentences_to_try = 100000
+    num_sentences_to_try = 25000
     # num_sentences_to_try = 100
 
     process_chimp1_limerick_themes(25, model, output_file, num_sentences_to_try, theme, word2vec, threshhold)
