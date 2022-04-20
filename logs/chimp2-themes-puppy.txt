@@ -1,0 +1,30 @@
+NHHMM Finished in 765.1875796318054 seconds with theme: puppy and threshhold: 0.7.
+Number of sentences: 0.
+
+NHHMM Finished in 777.5875647068024 seconds with theme: puppy and threshhold: 0.65.
+Number of sentences: 0.
+
+NHHMM Finished in 777.7706651687622 seconds with theme: puppy and threshhold: 0.95.
+Number of sentences: 0.
+
+NHHMM Finished in 787.0669677257538 seconds with theme: puppy and threshhold: 0.9.
+Number of sentences: 0.
+
+NHHMM Finished in 793.1938452720642 seconds with theme: puppy and threshhold: 0.6.
+Number of sentences: 0.
+
+NHHMM Finished in 803.3313310146332 seconds with theme: puppy and threshhold: 0.85.
+Number of sentences: 0.
+
+NHHMM Finished in 817.4293367862701 seconds with theme: puppy and threshhold: 0.8.
+Number of sentences: 0.
+
+NHHMM Finished in 1028.7083587646484 seconds with theme: puppy and threshhold: 0.75.
+Number of sentences: 0.
+
+NHHMM Finished in 2745.003859758377 seconds with theme: puppy and threshhold: 0.5.
+Number of sentences: 19494.
+
+NHHMM Finished in 3029.037081718445 seconds with theme: puppy and threshhold: 0.55.
+Number of sentences: 19487.
+

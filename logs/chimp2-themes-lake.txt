@@ -1,0 +1,30 @@
+NHHMM Finished in 780.0487115383148 seconds with theme: lake and threshhold: 0.95.
+Number of sentences: 0.
+
+NHHMM Finished in 819.0681171417236 seconds with theme: lake and threshhold: 0.85.
+Number of sentences: 0.
+
+NHHMM Finished in 822.6173439025879 seconds with theme: lake and threshhold: 0.9.
+Number of sentences: 0.
+
+NHHMM Finished in 2863.1294980049133 seconds with theme: lake and threshhold: 0.55.
+Number of sentences: 19489.
+
+NHHMM Finished in 3061.312671661377 seconds with theme: lake and threshhold: 0.5.
+Number of sentences: 19493.
+
+NHHMM Finished in 3220.285535812378 seconds with theme: lake and threshhold: 0.7.
+Number of sentences: 19525.
+
+NHHMM Finished in 3297.7697324752808 seconds with theme: lake and threshhold: 0.6.
+Number of sentences: 19508.
+
+NHHMM Finished in 3310.2509019374847 seconds with theme: lake and threshhold: 0.65.
+Number of sentences: 19569.
+
+NHHMM Finished in 3735.2253334522247 seconds with theme: lake and threshhold: 0.75.
+Number of sentences: 19475.
+
+NHHMM Finished in 3835.9035251140594 seconds with theme: lake and threshhold: 0.8.
+Number of sentences: 19497.
+

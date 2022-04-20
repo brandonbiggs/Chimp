@@ -1,0 +1,30 @@
+NHHMM Finished in 759.12744140625 seconds with theme: flower and threshhold: 0.75.
+Number of sentences: 0.
+
+NHHMM Finished in 778.2114367485046 seconds with theme: flower and threshhold: 0.95.
+Number of sentences: 0.
+
+NHHMM Finished in 827.6303703784943 seconds with theme: flower and threshhold: 0.9.
+Number of sentences: 0.
+
+NHHMM Finished in 836.473082780838 seconds with theme: flower and threshhold: 0.85.
+Number of sentences: 0.
+
+NHHMM Finished in 1021.5813436508179 seconds with theme: flower and threshhold: 0.8.
+Number of sentences: 0.
+
+NHHMM Finished in 2498.614908218384 seconds with theme: flower and threshhold: 0.55.
+Number of sentences: 19562.
+
+NHHMM Finished in 3264.625636100769 seconds with theme: flower and threshhold: 0.7.
+Number of sentences: 19524.
+
+NHHMM Finished in 3301.58007645607 seconds with theme: flower and threshhold: 0.65.
+Number of sentences: 19519.
+
+NHHMM Finished in 3304.215450525284 seconds with theme: flower and threshhold: 0.6.
+Number of sentences: 19513.
+
+NHHMM Finished in 3407.675470352173 seconds with theme: flower and threshhold: 0.5.
+Number of sentences: 19488.
+

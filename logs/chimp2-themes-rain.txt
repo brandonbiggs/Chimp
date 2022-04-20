@@ -1,0 +1,30 @@
+NHHMM Finished in 744.5811955928802 seconds with theme: rain and threshhold: 0.95.
+Number of sentences: 0.
+
+NHHMM Finished in 777.7281093597412 seconds with theme: rain and threshhold: 0.9.
+Number of sentences: 0.
+
+NHHMM Finished in 812.5436761379242 seconds with theme: rain and threshhold: 0.85.
+Number of sentences: 0.
+
+NHHMM Finished in 832.3963210582733 seconds with theme: rain and threshhold: 0.8.
+Number of sentences: 0.
+
+NHHMM Finished in 2884.0681009292603 seconds with theme: rain and threshhold: 0.5.
+Number of sentences: 19499.
+
+NHHMM Finished in 3015.8251559734344 seconds with theme: rain and threshhold: 0.55.
+Number of sentences: 19492.
+
+NHHMM Finished in 3158.913117647171 seconds with theme: rain and threshhold: 0.7.
+Number of sentences: 19507.
+
+NHHMM Finished in 3288.4879643917084 seconds with theme: rain and threshhold: 0.65.
+Number of sentences: 19499.
+
+NHHMM Finished in 3309.640814304352 seconds with theme: rain and threshhold: 0.6.
+Number of sentences: 19493.
+
+NHHMM Finished in 3745.8087406158447 seconds with theme: rain and threshhold: 0.75.
+Number of sentences: 19516.
+
