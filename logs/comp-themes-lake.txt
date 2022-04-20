@@ -1,0 +1,42 @@
+CoMP Finished. Seconds: 289.28884625434875. Theme: lake. Threshhold: 0.62. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 311.85094380378723. Theme: lake. Threshhold: 0.6. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 308.72677087783813. Theme: lake. Threshhold: 0.5. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 326.0678241252899. Theme: lake. Threshhold: 0.64. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 332.06020164489746. Theme: lake. Threshhold: 0.66. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 342.8892285823822. Theme: lake. Threshhold: 0.55. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 519.3979115486145. Theme: lake. Threshhold: 0.96. Number of sentences: 0.
+
+CoMP Finished. Seconds: 521.0278947353363. Theme: lake. Threshhold: 0.88. Number of sentences: 0.
+
+CoMP Finished. Seconds: 523.8922052383423. Theme: lake. Threshhold: 0.92. Number of sentences: 0.
+
+CoMP Finished. Seconds: 524.3826723098755. Theme: lake. Threshhold: 0.9. Number of sentences: 0.
+
+CoMP Finished. Seconds: 525.889054775238. Theme: lake. Threshhold: 0.86. Number of sentences: 0.
+
+CoMP Finished. Seconds: 527.3106775283813. Theme: lake. Threshhold: 0.84. Number of sentences: 0.
+
+CoMP Finished. Seconds: 530.3981673717499. Theme: lake. Threshhold: 0.82. Number of sentences: 0.
+
+CoMP Finished. Seconds: 528.8943464756012. Theme: lake. Threshhold: 0.94. Number of sentences: 0.
+
+CoMP Finished. Seconds: 535.6280407905579. Theme: lake. Threshhold: 0.8. Number of sentences: 0.
+
+CoMP Finished. Seconds: 557.9301357269287. Theme: lake. Threshhold: 0.68. Number of sentences: 0.
+
+CoMP Finished. Seconds: 571.680522441864. Theme: lake. Threshhold: 0.7. Number of sentences: 0.
+
+CoMP Finished. Seconds: 573.9290568828583. Theme: lake. Threshhold: 0.72. Number of sentences: 0.
+
+CoMP Finished. Seconds: 582.9584057331085. Theme: lake. Threshhold: 0.78. Number of sentences: 0.
+
+CoMP Finished. Seconds: 591.3543062210083. Theme: lake. Threshhold: 0.74. Number of sentences: 0.
+
+CoMP Finished. Seconds: 597.0779166221619. Theme: lake. Threshhold: 0.76. Number of sentences: 0.
+

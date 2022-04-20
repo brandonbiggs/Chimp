@@ -1,0 +1,42 @@
+CoMP Finished. Seconds: 281.3317275047302. Theme: mountain. Threshhold: 0.76. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 305.45033526420593. Theme: mountain. Threshhold: 0.74. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 322.4107747077942. Theme: mountain. Threshhold: 0.72. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 322.65573263168335. Theme: mountain. Threshhold: 0.68. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 324.60253047943115. Theme: mountain. Threshhold: 0.6. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 325.0046901702881. Theme: mountain. Threshhold: 0.55. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 325.94080114364624. Theme: mountain. Threshhold: 0.7. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 334.94138956069946. Theme: mountain. Threshhold: 0.5. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 340.16469836235046. Theme: mountain. Threshhold: 0.62. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 344.8499825000763. Theme: mountain. Threshhold: 0.66. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 357.24457263946533. Theme: mountain. Threshhold: 0.64. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 516.857625246048. Theme: mountain. Threshhold: 0.96. Number of sentences: 0.
+
+CoMP Finished. Seconds: 521.6600956916809. Theme: mountain. Threshhold: 0.86. Number of sentences: 0.
+
+CoMP Finished. Seconds: 523.4187512397766. Theme: mountain. Threshhold: 0.94. Number of sentences: 0.
+
+CoMP Finished. Seconds: 525.9377038478851. Theme: mountain. Threshhold: 0.8. Number of sentences: 0.
+
+CoMP Finished. Seconds: 528.0369849205017. Theme: mountain. Threshhold: 0.92. Number of sentences: 0.
+
+CoMP Finished. Seconds: 530.8984196186066. Theme: mountain. Threshhold: 0.78. Number of sentences: 0.
+
+CoMP Finished. Seconds: 532.6199586391449. Theme: mountain. Threshhold: 0.88. Number of sentences: 0.
+
+CoMP Finished. Seconds: 558.0709247589111. Theme: mountain. Threshhold: 0.9. Number of sentences: 0.
+
+CoMP Finished. Seconds: 579.4293882846832. Theme: mountain. Threshhold: 0.84. Number of sentences: 0.
+
+CoMP Finished. Seconds: 650.1259779930115. Theme: mountain. Threshhold: 0.82. Number of sentences: 0.
+

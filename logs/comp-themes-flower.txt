@@ -1,0 +1,42 @@
+CoMP Finished. Seconds: 298.71958780288696. Theme: flower. Threshhold: 0.6. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 325.324773311615. Theme: flower. Threshhold: 0.55. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 329.83418893814087. Theme: flower. Threshhold: 0.5. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 332.29062843322754. Theme: flower. Threshhold: 0.7. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 332.8937177658081. Theme: flower. Threshhold: 0.68. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 341.25622963905334. Theme: flower. Threshhold: 0.72. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 343.0168812274933. Theme: flower. Threshhold: 0.74. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 346.44838285446167. Theme: flower. Threshhold: 0.66. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 347.4085865020752. Theme: flower. Threshhold: 0.64. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 349.25124740600586. Theme: flower. Threshhold: 0.62. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 515.9627752304077. Theme: flower. Threshhold: 0.8. Number of sentences: 0.
+
+CoMP Finished. Seconds: 520.5726883411407. Theme: flower. Threshhold: 0.88. Number of sentences: 0.
+
+CoMP Finished. Seconds: 523.8599674701691. Theme: flower. Threshhold: 0.94. Number of sentences: 0.
+
+CoMP Finished. Seconds: 525.1260304450989. Theme: flower. Threshhold: 0.86. Number of sentences: 0.
+
+CoMP Finished. Seconds: 524.9419305324554. Theme: flower. Threshhold: 0.92. Number of sentences: 0.
+
+CoMP Finished. Seconds: 527.4687337875366. Theme: flower. Threshhold: 0.96. Number of sentences: 0.
+
+CoMP Finished. Seconds: 532.1247680187225. Theme: flower. Threshhold: 0.84. Number of sentences: 0.
+
+CoMP Finished. Seconds: 532.8870847225189. Theme: flower. Threshhold: 0.82. Number of sentences: 0.
+
+CoMP Finished. Seconds: 537.8524391651154. Theme: flower. Threshhold: 0.78. Number of sentences: 0.
+
+CoMP Finished. Seconds: 560.328705072403. Theme: flower. Threshhold: 0.9. Number of sentences: 0.
+
+CoMP Finished. Seconds: 583.8553736209869. Theme: flower. Threshhold: 0.76. Number of sentences: 0.
+

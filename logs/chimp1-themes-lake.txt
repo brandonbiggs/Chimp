@@ -1,0 +1,42 @@
+Chimp 1 Finished. Seconds: 104.0499119758606. Theme: lake. Threshhold: 0.96. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 104.49899816513062. Theme: lake. Threshhold: 0.8. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 105.24167466163635. Theme: lake. Threshhold: 0.86. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 105.01661419868469. Theme: lake. Threshhold: 0.92. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 105.38651633262634. Theme: lake. Threshhold: 0.94. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 105.39314818382263. Theme: lake. Threshhold: 0.78. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 105.5065815448761. Theme: lake. Threshhold: 0.88. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 106.09539484977722. Theme: lake. Threshhold: 0.84. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 107.2811119556427. Theme: lake. Threshhold: 0.68. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 108.49599552154541. Theme: lake. Threshhold: 0.72. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 109.02387189865112. Theme: lake. Threshhold: 0.7. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 109.05050420761108. Theme: lake. Threshhold: 0.74. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 109.3555634021759. Theme: lake. Threshhold: 0.9. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 110.12000751495361. Theme: lake. Threshhold: 0.76. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 115.59815287590027. Theme: lake. Threshhold: 0.82. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 198.10395169258118. Theme: lake. Threshhold: 0.5. Number of sentences: 25000.
+
+Chimp 1 Finished. Seconds: 218.208012342453. Theme: lake. Threshhold: 0.55. Number of sentences: 25000.
+
+Chimp 1 Finished. Seconds: 227.25679397583008. Theme: lake. Threshhold: 0.6. Number of sentences: 25000.
+
+Chimp 1 Finished. Seconds: 231.8661994934082. Theme: lake. Threshhold: 0.62. Number of sentences: 25000.
+
+Chimp 1 Finished. Seconds: 247.68746709823608. Theme: lake. Threshhold: 0.66. Number of sentences: 25000.
+
+Chimp 1 Finished. Seconds: 248.36386442184448. Theme: lake. Threshhold: 0.64. Number of sentences: 25000.
+

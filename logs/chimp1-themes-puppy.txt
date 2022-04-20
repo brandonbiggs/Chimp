@@ -1,0 +1,42 @@
+Chimp 1 Finished. Seconds: 101.81829023361206. Theme: puppy. Threshhold: 0.96. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 104.50392365455627. Theme: puppy. Threshhold: 0.8. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 104.8730103969574. Theme: puppy. Threshhold: 0.94. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 104.72387480735779. Theme: puppy. Threshhold: 0.92. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 105.13353252410889. Theme: puppy. Threshhold: 0.88. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 105.50433325767517. Theme: puppy. Threshhold: 0.86. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 106.04654097557068. Theme: puppy. Threshhold: 0.76. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 106.1496570110321. Theme: puppy. Threshhold: 0.78. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 108.65096640586853. Theme: puppy. Threshhold: 0.84. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 105.09310507774353. Theme: puppy. Threshhold: 0.9. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 109.44019961357117. Theme: puppy. Threshhold: 0.7. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 109.63227796554565. Theme: puppy. Threshhold: 0.72. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 106.64356064796448. Theme: puppy. Threshhold: 0.82. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 110.73691821098328. Theme: puppy. Threshhold: 0.74. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 209.12230110168457. Theme: puppy. Threshhold: 0.5. Number of sentences: 25000.
+
+Chimp 1 Finished. Seconds: 212.56415104866028. Theme: puppy. Threshhold: 0.62. Number of sentences: 25000.
+
+Chimp 1 Finished. Seconds: 213.42088317871094. Theme: puppy. Threshhold: 0.55. Number of sentences: 25000.
+
+Chimp 1 Finished. Seconds: 220.4459798336029. Theme: puppy. Threshhold: 0.64. Number of sentences: 25000.
+
+Chimp 1 Finished. Seconds: 224.4788475036621. Theme: puppy. Threshhold: 0.6. Number of sentences: 25000.
+
+Chimp 1 Finished. Seconds: 237.8789141178131. Theme: puppy. Threshhold: 0.68. Number of sentences: 25000.
+
+Chimp 1 Finished. Seconds: 251.17551279067993. Theme: puppy. Threshhold: 0.66. Number of sentences: 25000.
+

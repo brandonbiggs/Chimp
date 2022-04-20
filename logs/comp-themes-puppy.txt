@@ -1,0 +1,42 @@
+CoMP Finished. Seconds: 298.3387801647186. Theme: puppy. Threshhold: 0.6. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 305.39270091056824. Theme: puppy. Threshhold: 0.62. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 317.39133048057556. Theme: puppy. Threshhold: 0.68. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 322.75680804252625. Theme: puppy. Threshhold: 0.66. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 334.14777159690857. Theme: puppy. Threshhold: 0.5. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 341.46204710006714. Theme: puppy. Threshhold: 0.55. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 346.277626991272. Theme: puppy. Threshhold: 0.64. Number of sentences: 25000.
+
+CoMP Finished. Seconds: 522.9792635440826. Theme: puppy. Threshhold: 0.88. Number of sentences: 0.
+
+CoMP Finished. Seconds: 524.3218674659729. Theme: puppy. Threshhold: 0.94. Number of sentences: 0.
+
+CoMP Finished. Seconds: 527.6866266727448. Theme: puppy. Threshhold: 0.96. Number of sentences: 0.
+
+CoMP Finished. Seconds: 527.53751039505. Theme: puppy. Threshhold: 0.92. Number of sentences: 0.
+
+CoMP Finished. Seconds: 528.6226863861084. Theme: puppy. Threshhold: 0.9. Number of sentences: 0.
+
+CoMP Finished. Seconds: 529.5134468078613. Theme: puppy. Threshhold: 0.86. Number of sentences: 0.
+
+CoMP Finished. Seconds: 533.8741822242737. Theme: puppy. Threshhold: 0.76. Number of sentences: 0.
+
+CoMP Finished. Seconds: 541.8847815990448. Theme: puppy. Threshhold: 0.8. Number of sentences: 0.
+
+CoMP Finished. Seconds: 575.840060710907. Theme: puppy. Threshhold: 0.7. Number of sentences: 0.
+
+CoMP Finished. Seconds: 576.9507975578308. Theme: puppy. Threshhold: 0.72. Number of sentences: 0.
+
+CoMP Finished. Seconds: 580.0394444465637. Theme: puppy. Threshhold: 0.84. Number of sentences: 0.
+
+CoMP Finished. Seconds: 586.802586555481. Theme: puppy. Threshhold: 0.78. Number of sentences: 0.
+
+CoMP Finished. Seconds: 613.3645796775818. Theme: puppy. Threshhold: 0.82. Number of sentences: 0.
+
+CoMP Finished. Seconds: 618.9209280014038. Theme: puppy. Threshhold: 0.74. Number of sentences: 0.
+

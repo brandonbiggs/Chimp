@@ -1,0 +1,42 @@
+Chimp 2 Finished. Seconds: 12.242490768432617. Theme: mountain. Threshhold: 0.96. Number of sentences: 0.
+
+Chimp 2 Finished. Seconds: 12.305295467376709. Theme: mountain. Threshhold: 0.8. Number of sentences: 0.
+
+Chimp 2 Finished. Seconds: 12.2822904586792. Theme: mountain. Threshhold: 0.88. Number of sentences: 0.
+
+Chimp 2 Finished. Seconds: 12.301348447799683. Theme: mountain. Threshhold: 0.94. Number of sentences: 0.
+
+Chimp 2 Finished. Seconds: 12.37171196937561. Theme: mountain. Threshhold: 0.86. Number of sentences: 0.
+
+Chimp 2 Finished. Seconds: 12.314361333847046. Theme: mountain. Threshhold: 0.92. Number of sentences: 0.
+
+Chimp 2 Finished. Seconds: 12.423025608062744. Theme: mountain. Threshhold: 0.9. Number of sentences: 0.
+
+Chimp 2 Finished. Seconds: 12.444129467010498. Theme: mountain. Threshhold: 0.78. Number of sentences: 0.
+
+Chimp 2 Finished. Seconds: 12.48457407951355. Theme: mountain. Threshhold: 0.84. Number of sentences: 0.
+
+Chimp 2 Finished. Seconds: 12.474559545516968. Theme: mountain. Threshhold: 0.82. Number of sentences: 0.
+
+Chimp 2 Finished. Seconds: 3259.09685087204. Theme: mountain. Threshhold: 0.76. Number of sentences: 24253.
+
+Chimp 2 Finished. Seconds: 3931.1344747543335. Theme: mountain. Threshhold: 0.68. Number of sentences: 24207.
+
+Chimp 2 Finished. Seconds: 3987.157195329666. Theme: mountain. Threshhold: 0.72. Number of sentences: 24266.
+
+Chimp 2 Finished. Seconds: 4033.73495554924. Theme: mountain. Threshhold: 0.7. Number of sentences: 24236.
+
+Chimp 2 Finished. Seconds: 4049.002947807312. Theme: mountain. Threshhold: 0.6. Number of sentences: 24203.
+
+Chimp 2 Finished. Seconds: 4076.1395831108093. Theme: mountain. Threshhold: 0.66. Number of sentences: 24243.
+
+Chimp 2 Finished. Seconds: 4131.759800195694. Theme: mountain. Threshhold: 0.55. Number of sentences: 24242.
+
+Chimp 2 Finished. Seconds: 4133.083087682724. Theme: mountain. Threshhold: 0.62. Number of sentences: 24273.
+
+Chimp 2 Finished. Seconds: 4198.564863204956. Theme: mountain. Threshhold: 0.74. Number of sentences: 24257.
+
+Chimp 2 Finished. Seconds: 4277.995067358017. Theme: mountain. Threshhold: 0.5. Number of sentences: 24262.
+
+Chimp 2 Finished. Seconds: 4370.224678516388. Theme: mountain. Threshhold: 0.64. Number of sentences: 24195.
+

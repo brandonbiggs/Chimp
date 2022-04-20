@@ -1,0 +1,42 @@
+Chimp 1 Finished. Seconds: 104.49516272544861. Theme: flower. Threshhold: 0.96. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 104.78675389289856. Theme: flower. Threshhold: 0.9. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 104.607994556427. Theme: flower. Threshhold: 0.94. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 105.10377502441406. Theme: flower. Threshhold: 0.92. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 104.955251455307. Theme: flower. Threshhold: 0.82. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 105.30611038208008. Theme: flower. Threshhold: 0.86. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 105.6153085231781. Theme: flower. Threshhold: 0.88. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 105.39184761047363. Theme: flower. Threshhold: 0.8. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 106.37529277801514. Theme: flower. Threshhold: 0.84. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 109.65610599517822. Theme: flower. Threshhold: 0.78. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 110.66765713691711. Theme: flower. Threshhold: 0.76. Number of sentences: 0.
+
+Chimp 1 Finished. Seconds: 195.46930956840515. Theme: flower. Threshhold: 0.7. Number of sentences: 25000.
+
+Chimp 1 Finished. Seconds: 196.3022723197937. Theme: flower. Threshhold: 0.72. Number of sentences: 25000.
+
+Chimp 1 Finished. Seconds: 196.61014890670776. Theme: flower. Threshhold: 0.68. Number of sentences: 25000.
+
+Chimp 1 Finished. Seconds: 197.54228234291077. Theme: flower. Threshhold: 0.74. Number of sentences: 25000.
+
+Chimp 1 Finished. Seconds: 201.13026881217957. Theme: flower. Threshhold: 0.66. Number of sentences: 25000.
+
+Chimp 1 Finished. Seconds: 210.35496497154236. Theme: flower. Threshhold: 0.6. Number of sentences: 25000.
+
+Chimp 1 Finished. Seconds: 216.80818819999695. Theme: flower. Threshhold: 0.64. Number of sentences: 25000.
+
+Chimp 1 Finished. Seconds: 219.27178716659546. Theme: flower. Threshhold: 0.5. Number of sentences: 25000.
+
+Chimp 1 Finished. Seconds: 220.85854244232178. Theme: flower. Threshhold: 0.62. Number of sentences: 25000.
+
+Chimp 1 Finished. Seconds: 222.53638815879822. Theme: flower. Threshhold: 0.55. Number of sentences: 25000.
+

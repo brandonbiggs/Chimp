@@ -1,0 +1,42 @@
+Chimp 2 Finished. Seconds: 11.841755628585815. Theme: rain. Threshhold: 0.96. Number of sentences: 0.
+
+Chimp 2 Finished. Seconds: 12.235625267028809. Theme: rain. Threshhold: 0.88. Number of sentences: 0.
+
+Chimp 2 Finished. Seconds: 12.274204015731812. Theme: rain. Threshhold: 0.78. Number of sentences: 0.
+
+Chimp 2 Finished. Seconds: 12.257893800735474. Theme: rain. Threshhold: 0.84. Number of sentences: 0.
+
+Chimp 2 Finished. Seconds: 12.31413459777832. Theme: rain. Threshhold: 0.94. Number of sentences: 0.
+
+Chimp 2 Finished. Seconds: 12.369484186172485. Theme: rain. Threshhold: 0.86. Number of sentences: 0.
+
+Chimp 2 Finished. Seconds: 12.346426963806152. Theme: rain. Threshhold: 0.8. Number of sentences: 0.
+
+Chimp 2 Finished. Seconds: 12.256324768066406. Theme: rain. Threshhold: 0.92. Number of sentences: 0.
+
+Chimp 2 Finished. Seconds: 12.287512302398682. Theme: rain. Threshhold: 0.9. Number of sentences: 0.
+
+Chimp 2 Finished. Seconds: 12.42670202255249. Theme: rain. Threshhold: 0.82. Number of sentences: 0.
+
+Chimp 2 Finished. Seconds: 3899.445306301117. Theme: rain. Threshhold: 0.66. Number of sentences: 24232.
+
+Chimp 2 Finished. Seconds: 4015.3044798374176. Theme: rain. Threshhold: 0.68. Number of sentences: 24205.
+
+Chimp 2 Finished. Seconds: 4018.238065481186. Theme: rain. Threshhold: 0.7. Number of sentences: 24235.
+
+Chimp 2 Finished. Seconds: 4078.453570127487. Theme: rain. Threshhold: 0.64. Number of sentences: 24238.
+
+Chimp 2 Finished. Seconds: 4090.866436958313. Theme: rain. Threshhold: 0.76. Number of sentences: 24230.
+
+Chimp 2 Finished. Seconds: 4152.350387334824. Theme: rain. Threshhold: 0.72. Number of sentences: 24197.
+
+Chimp 2 Finished. Seconds: 4165.4637632369995. Theme: rain. Threshhold: 0.74. Number of sentences: 24290.
+
+Chimp 2 Finished. Seconds: 4266.790935993195. Theme: rain. Threshhold: 0.6. Number of sentences: 24196.
+
+Chimp 2 Finished. Seconds: 4357.093691825867. Theme: rain. Threshhold: 0.62. Number of sentences: 24248.
+
+Chimp 2 Finished. Seconds: 4397.920240402222. Theme: rain. Threshhold: 0.55. Number of sentences: 24149.
+
+Chimp 2 Finished. Seconds: 4408.353165149689. Theme: rain. Threshhold: 0.5. Number of sentences: 24232.
+
