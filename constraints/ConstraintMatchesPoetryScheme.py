@@ -41,7 +41,10 @@ class ConstraintMatchesPoetryScheme(Constraint):
     def is_satisfied_by_state(self, phrase: str) -> bool:
         phrase = re.sub(rf"[{string.punctuation}]", "", phrase)
         phrase_syllables = self.count_syllables(phrase)
-        rhymeword_syllables = self.count_syllables(self.rhymeword)
+        if self.rhymeword is None:
+            rhymeword_syllables = 0
+        else:
+            rhymeword_syllables = self.count_syllables(self.rhymeword)
         # if SP.syllables >= (7+rhymeword.syllables.count) or < 3 syllables, return False
         # print(f"phrase_syllables: {phrase_syllables}")
         if phrase_syllables > self.stresses + rhymeword_syllables or phrase_syllables < self.min_syllables:

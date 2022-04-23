@@ -40,3 +40,5 @@ Chimp 1 Finished. Seconds: 218.7536177635193. Theme: mountain. Threshhold: 0.64.
 
 Chimp 1 Finished. Seconds: 219.07479596138. Theme: mountain. Threshhold: 0.5. Number of sentences: 25000.
 
+Chimp 1 Finished. Seconds: 164.66298604011536. Theme: mountain. Threshhold: 0.5. Number of sentences: 0.
+

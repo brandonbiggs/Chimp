@@ -6,6 +6,7 @@ import argparse
 from constraints.ConstraintContainsSyllables import ConstraintContainsSyllables
 from constraints.ConstraintPhraseRhymesWith import ConstraintPhraseRhymesWith
 from constraints.ConstraintSimilarSemanticMeaning import ConstraintSimilarSemanticMeaning
+from constraints.ConstraintMatchesPoetryScheme import ConstraintMatchesPoetryScheme
 
 from utility.Utility import *
 from utility.print import *
@@ -38,45 +39,49 @@ def process_comp_limerick_themes(length, model, output_file, num_sentences_to_tr
     
     # hidden_constraints[0] = [ConstraintIsPartOfSpeech("NNP", True)]
 
-    observed_constraints[0] = [ConstraintContainsSyllables(1)]
-    observed_constraints[1] = [ConstraintContainsSyllables(2)]
-    observed_constraints[2] = [ConstraintContainsSyllables(2)]
-    observed_constraints[3] = [ConstraintContainsSyllables(2)]
+    observed_constraints[0] = [ConstraintContainsSyllables(1), ConstraintMatchesPoetryScheme(".?", None, 1, min_syllables=1), theme_constraint]
+    observed_constraints[1] = [ConstraintContainsSyllables(2), ConstraintMatchesPoetryScheme("1.?", None, 2, min_syllables=2)]
+    observed_constraints[2] = [ConstraintContainsSyllables(2), ConstraintMatchesPoetryScheme(".?1", None, 2, min_syllables=2)]
+    observed_constraints[3] = [ConstraintContainsSyllables(2), ConstraintMatchesPoetryScheme(".?.?", None, 1, min_syllables=1)]
     observed_constraints[4] = [ConstraintPhraseRhymesWith(word=rhyme_a, position_of_rhyme=-1, must_rhyme=True), 
                                 ConstraintContainsSyllables(1),
-                                theme_constraint,
+                                ConstraintMatchesPoetryScheme("1", None, 1, min_syllables=1)
                             ]
     
-    observed_constraints[5] = [ConstraintContainsSyllables(1)]
-    observed_constraints[6] = [ConstraintContainsSyllables(2)]
-    observed_constraints[7] = [ConstraintContainsSyllables(2)]
-    observed_constraints[8] = [ConstraintContainsSyllables(2)]
+    observed_constraints[5] = [ConstraintContainsSyllables(1), ConstraintMatchesPoetryScheme(".?", None, 1, min_syllables=1)]
+    observed_constraints[6] = [ConstraintContainsSyllables(2), ConstraintMatchesPoetryScheme("1.?", None, 2, min_syllables=2)]
+    observed_constraints[7] = [ConstraintContainsSyllables(2), ConstraintMatchesPoetryScheme(".?1", None, 2, min_syllables=2)]
+    observed_constraints[8] = [ConstraintContainsSyllables(2), ConstraintMatchesPoetryScheme(".?.?", None, 1, min_syllables=1)]
     observed_constraints[9] = [ConstraintPhraseRhymesWith(word=rhyme_a, position_of_rhyme=-1, must_rhyme=True),
-                                ConstraintContainsSyllables(1)
+                                ConstraintContainsSyllables(1),
+                                ConstraintMatchesPoetryScheme("1", None, 1, min_syllables=1)
                             ]
     
-    observed_constraints[10] = [ConstraintContainsSyllables(1)]
-    observed_constraints[11] = [ConstraintContainsSyllables(1)]
-    observed_constraints[12] = [ConstraintContainsSyllables(1)]
-    observed_constraints[13] = [ConstraintContainsSyllables(1)]
+    observed_constraints[10] = [ConstraintContainsSyllables(1), ConstraintMatchesPoetryScheme(".?", None, 1, min_syllables=1)]
+    observed_constraints[11] = [ConstraintContainsSyllables(1), ConstraintMatchesPoetryScheme("1", None, 1, min_syllables=1)]
+    observed_constraints[12] = [ConstraintContainsSyllables(1), ConstraintMatchesPoetryScheme(".?", None, 1, min_syllables=1)]
+    observed_constraints[13] = [ConstraintContainsSyllables(1), ConstraintMatchesPoetryScheme(".?", None, 1, min_syllables=1)]
     observed_constraints[14] = [ConstraintPhraseRhymesWith(word=rhyme_b, position_of_rhyme=-1, must_rhyme=True), 
-                                ConstraintContainsSyllables(1)
+                                ConstraintContainsSyllables(1),
+                                ConstraintMatchesPoetryScheme("1", None, 1, min_syllables=1)
                             ]
     
-    observed_constraints[15] = [ConstraintContainsSyllables(1)]
-    observed_constraints[16] = [ConstraintContainsSyllables(1)]
-    observed_constraints[17] = [ConstraintContainsSyllables(1)]
-    observed_constraints[18] = [ConstraintContainsSyllables(1)]
+    observed_constraints[15] = [ConstraintContainsSyllables(1), ConstraintMatchesPoetryScheme(".?", None, 1, min_syllables=1)]
+    observed_constraints[16] = [ConstraintContainsSyllables(1), ConstraintMatchesPoetryScheme("1", None, 1, min_syllables=1)]
+    observed_constraints[17] = [ConstraintContainsSyllables(1), ConstraintMatchesPoetryScheme(".?", None, 1, min_syllables=1)]
+    observed_constraints[18] = [ConstraintContainsSyllables(1), ConstraintMatchesPoetryScheme(".?", None, 1, min_syllables=1)]
     observed_constraints[19] = [ConstraintMatchesString(rhyme_b),
-                                ConstraintContainsSyllables(1)
+                                ConstraintContainsSyllables(1),
+                                ConstraintMatchesPoetryScheme("1", None, 1, min_syllables=1)
                             ]
     
-    observed_constraints[20] = [ConstraintContainsSyllables(1)]
-    observed_constraints[21] = [ConstraintContainsSyllables(2)]
-    observed_constraints[22] = [ConstraintContainsSyllables(2)]
-    observed_constraints[23] = [ConstraintContainsSyllables(2)]
+    observed_constraints[20] = [ConstraintContainsSyllables(1), ConstraintMatchesPoetryScheme(".?", None, 1, min_syllables=1)]
+    observed_constraints[21] = [ConstraintContainsSyllables(2), ConstraintMatchesPoetryScheme("1.?", None, 2, min_syllables=2)]
+    observed_constraints[22] = [ConstraintContainsSyllables(2), ConstraintMatchesPoetryScheme(".?1", None, 2, min_syllables=2)]
+    observed_constraints[23] = [ConstraintContainsSyllables(2), ConstraintMatchesPoetryScheme(".?.?", None, 1, min_syllables=1)]
     observed_constraints[24] = [ConstraintPhraseRhymesWith(word=rhyme_a, position_of_rhyme=-1, must_rhyme=True),
-                                ConstraintContainsSyllables(1)
+                                ConstraintContainsSyllables(1),
+                                ConstraintMatchesPoetryScheme("1", None, 1, min_syllables=1)
                             ] 
 
     # Start -------------------------------------------------------------

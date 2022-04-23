@@ -55,7 +55,8 @@ def process_chimp2_limerick_themes(length, model, output_file, num_sentences_to_
 
     # Start -------------------------------------------------------------
     # print("CHiMP 2.0 - Limerick - Themes")
-    sentence_output_file = f"output/chimp2-theme-{theme}-{threshhold}.txt"
+    # sentence_output_file = f"output/chimp2-theme-{theme}-{threshhold}.txt"
+    sentence_output_file = None
     theme_constraint = ConstraintSimilarSemanticMeaning(
         theme=theme,  
         similarity_threshhold=threshhold, 

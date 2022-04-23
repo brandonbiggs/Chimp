@@ -119,3 +119,8 @@ training sentences.
 that start with the specific letter. I think this can be tested using a file
 that's full of only words that start with a specific letter. Then find out the 
 combinations of them
+
+# TODO - 20220422
+Apply syllable constraints to chimp1 and comp lines to match chimp2
+chimp1/comp semantic constraint not be on same position. Change semantic constraint to the first word (play around with it)
+Average joe control limericks
