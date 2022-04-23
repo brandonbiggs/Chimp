@@ -120,7 +120,7 @@ if __name__ == '__main__':
 
     word2vec = models.KeyedVectors.load_word2vec_format('/home/biggbs/gensim-data/glove-twitter-25/glove-twitter-25')
     # word2vec = models.KeyedVectors.load_word2vec_format('/Users/biggbs/gensim-data/glove-twitter-25/glove-twitter-25')
-    num_sentences_to_try = 25000
+    num_sentences_to_try = 10000
     # num_sentences_to_try = 100
 
     process_comp_limerick_themes(25, model, output_file, num_sentences_to_try, theme, word2vec, threshhold)
