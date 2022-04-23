@@ -58,7 +58,7 @@ class ConstraintMatchesPoetryScheme(Constraint):
         if num_stresses is None:
             return False
         # print(f"num_stresses: {num_stresses}")
-        if num_stresses < 3:
+        if num_stresses < 3 and self.rhymeword is not None:
             return False
 
         # Get stress sequence for the entire phrase, disregarding single syllable prepositions
