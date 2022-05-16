@@ -1,0 +1,2 @@
+Chimp 2 Finished. Seconds: 12.28928518295288. Theme: rain. Threshhold: 0.6. Number of sentences: 5.
+

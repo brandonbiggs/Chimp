@@ -1,0 +1,2 @@
+Chimp 2 Finished. Seconds: 10.932509899139404. Theme: mountain. Threshhold: 0.5. Number of sentences: 0.
+

@@ -1,0 +1,2 @@
+Chimp 2 Finished. Seconds: 11.373624801635742. Theme: lake. Threshhold: 0.6. Number of sentences: 5.
+

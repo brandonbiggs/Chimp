@@ -13,7 +13,8 @@ class ConstraintSimilarSemanticMeaning(Constraint):
             model: str = "glove-twitter-25", 
             similarity_threshhold: float = 0.5, 
             theme: str = "weather",
-            verbose: bool = False):
+            verbose: bool = False,
+            position_of_theme: int = None):
         """_summary_
 
         Args:
@@ -42,6 +43,10 @@ class ConstraintSimilarSemanticMeaning(Constraint):
             "VBP", # verb, present tense, not 3rd person singular
             "VBZ", #  verb, present tense, 3rd person singular
         ]
+        if position_of_theme is None:
+            self.position_of_theme = None
+        else:
+            self.position_of_theme = position_of_theme
 
     def is_satisfied_by_state(self, phrase: str) -> bool:
         sentence = []
@@ -49,17 +54,25 @@ class ConstraintSimilarSemanticMeaning(Constraint):
             sentence.append(phrase)
         else:
             sentence = phrase.split(" ")
-        for word in sentence:
-            word = word.lower()
-            try:
-                if self.__get_string_pos(word) in self.acceptable_pos:
-                    similarity = self.model.similarity(word, self.theme)
-                    if similarity >= self.similarity_threshhold:
-                        if self.verbose:
-                            print(f"Similarity between {self.theme} and {word} is: {similarity}")
-                        return True
-            except KeyError:
-                pass
+        if self.position_of_theme is not None:
+            word = phrase[self.position_of_theme]
+            similarity = self.model.similarity(word, self.theme)
+            if similarity >= self.similarity_threshhold:
+                if self.verbose:
+                    print(f"Similarity between {self.theme} and {word} is: {similarity}")
+                return True
+        else:
+            for word in sentence:
+                word = word.lower()
+                try:
+                    if self.__get_string_pos(word) in self.acceptable_pos:
+                        similarity = self.model.similarity(word, self.theme)
+                        if similarity >= self.similarity_threshhold:
+                            if self.verbose:
+                                print(f"Similarity between {self.theme} and {word} is: {similarity}")
+                            return True
+                except KeyError:
+                    pass
         return False
 
     @staticmethod

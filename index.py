@@ -652,7 +652,9 @@ if __name__ == '__main__':
 
     # 2 sections
     # Section 1 - semantics
-    # section 2 - syntactic
+    # section 2 - syntactic 
+    # TODO - Chimp 2 with specific position constaint vs chimp 2 with floating constraints 
+        # Tried this, Couldn't get any results with the non floating constraint except at VERY low threshhold levels
 
     # With the phrases, Vanilla markov model, to increase the cohesiveness, you have to increase the markov order. In this model, you can very the cohesiveness throughout
     # by increasing the phrase length. Like a minimum cohesiveness level. At least X or at most Y. There's a range. Upper range avoids plagarism

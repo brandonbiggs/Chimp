@@ -1,0 +1,16 @@
+Chimp 2 Finished. Seconds: 11.550169944763184. Theme: flower. Threshhold: 0.6. Number of sentences: 0.
+
+Chimp 2 Finished. Seconds: 10.71149206161499. Theme: flower. Threshhold: 0.5. Number of sentences: 0.
+
+Chimp 2 Finished. Seconds: 11.249781131744385. Theme: flower. Threshhold: 0.1. Number of sentences: 5.
+
+Chimp 2 Finished. Seconds: 10.736963033676147. Theme: flower. Threshhold: 0.4. Number of sentences: 0.
+
+Chimp 2 Finished. Seconds: 10.626959085464478. Theme: flower. Threshhold: 0.3. Number of sentences: 0.
+
+Chimp 2 Finished. Seconds: 10.716330766677856. Theme: flower. Threshhold: 0.5. Number of sentences: 0.
+
+Chimp 2 Finished. Seconds: 11.00988221168518. Theme: flower. Threshhold: 0.4. Number of sentences: 0.
+
+Chimp 2 Finished. Seconds: 10.673120021820068. Theme: flower. Threshhold: 0.5. Number of sentences: 0.
+

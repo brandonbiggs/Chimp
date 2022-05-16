@@ -1,0 +1,4 @@
+CoMP Finished. Seconds: 143.14296913146973. Theme: rain. Threshhold: 0.6. Number of sentences: 0.
+
+CoMP Finished. Seconds: 153.14032196998596. Theme: rain. Threshhold: 0.6. Number of sentences: 0.
+

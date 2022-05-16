@@ -1,0 +1,2 @@
+Chimp 2 Finished. Seconds: 11.696012020111084. Theme: puppy. Threshhold: 0.6. Number of sentences: 0.
+

@@ -1,0 +1,4 @@
+CoMP Finished. Seconds: 143.58441591262817. Theme: lake. Threshhold: 0.6. Number of sentences: 0.
+
+CoMP Finished. Seconds: 142.85065031051636. Theme: lake. Threshhold: 0.6. Number of sentences: 0.
+

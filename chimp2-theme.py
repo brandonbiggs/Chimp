@@ -55,13 +55,15 @@ def process_chimp2_limerick_themes(length, model, output_file, num_sentences_to_
 
     # Start -------------------------------------------------------------
     # print("CHiMP 2.0 - Limerick - Themes")
-    # sentence_output_file = f"output/chimp2-theme-{theme}-{threshhold}.txt"
-    sentence_output_file = None
+    sentence_output_file = f"output/chimp2-theme-{theme}-{threshhold}-prod.txt"
+    # sentence_output_file = None
     theme_constraint = ConstraintSimilarSemanticMeaning(
         theme=theme,  
         similarity_threshhold=threshhold, 
         model=word2vec, 
-        verbose=False
+        verbose=False,
+        position_of_theme=0
+        # position_of_theme=None
     )
 
     observed_constraints[0] = [ConstraintPhraseRhymesWith(word=rhyme_a, position_of_rhyme=-1, must_rhyme=True), a_stresses, theme_constraint]
@@ -96,10 +98,10 @@ if __name__ == '__main__':
     model = load_model(pickle_file)
     output_file = f"logs/chimp2-themes-{theme}.txt"
 
-    word2vec = models.KeyedVectors.load_word2vec_format('/home/biggbs/gensim-data/glove-twitter-25/glove-twitter-25')
-    # word2vec = models.KeyedVectors.load_word2vec_format('/Users/biggbs/gensim-data/glove-twitter-25/glove-twitter-25')
-    num_sentences_to_try = 10000
-    # num_sentences_to_try = 100
+    # word2vec = models.KeyedVectors.load_word2vec_format('/home/biggbs/gensim-data/glove-twitter-25/glove-twitter-25')
+    word2vec = models.KeyedVectors.load_word2vec_format('/Users/biggbs/gensim-data/glove-twitter-25/glove-twitter-25')
+    # num_sentences_to_try = 10000
+    num_sentences_to_try = 50
 
     # Themes
     process_chimp2_limerick_themes(5, model, output_file, num_sentences_to_try, theme, word2vec, threshhold)

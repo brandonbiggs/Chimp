@@ -1,0 +1,2 @@
+Chimp 2 Finished. Seconds: 11.2871732711792. Theme: flower. Threshhold: 0.6. Number of sentences: 5.
+
