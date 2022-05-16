@@ -1,3 +1,4 @@
+#test
 themes=("flower" "lake" "mountain" "puppy" "rain")
 for theme in ${themes[@]}; do
     awk 'NF' logs/chimp1-themes-$theme.txt | sort -k 9 >> results/chimp1.txt
