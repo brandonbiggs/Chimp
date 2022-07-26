@@ -480,13 +480,14 @@ def process_Chimp_1_limerick(length, model):
     observed_constraints[7] = [ConstraintContainsSyllables(2)]
     observed_constraints[8] = [ConstraintContainsSyllables(2)]
     observed_constraints[9] = [ConstraintMatchesString("bake"),
+                                ConstraintContainsSyllables(1),
                             ]
     
     observed_constraints[10] = [ConstraintContainsSyllables(1)]
     observed_constraints[11] = [ConstraintContainsSyllables(1)]
     observed_constraints[12] = [ConstraintContainsSyllables(1)]
     observed_constraints[13] = [ConstraintContainsSyllables(1)]
-    observed_constraints[14] = [ConstraintPhraseRhymesWith(word="ring", position_of_rhyme=-1, must_rhyme=True), 
+    observed_constraints[14] = [ConstraintPhraseRhymesWith(word="ring", position_of_rhyme=-1, must_rhyme=True),
                                     ConstraintContainsSyllables(1)
                             ]
     
@@ -494,14 +495,17 @@ def process_Chimp_1_limerick(length, model):
     observed_constraints[16] = [ConstraintContainsSyllables(1)]
     observed_constraints[17] = [ConstraintContainsSyllables(1)]
     observed_constraints[18] = [ConstraintContainsSyllables(1)]
-    observed_constraints[19] = [ConstraintMatchesString("ring")
+    observed_constraints[19] = [ConstraintMatchesString("ring"),
+                                ConstraintContainsSyllables(1),
                             ]
     
     observed_constraints[20] = [ConstraintContainsSyllables(1)]
     observed_constraints[21] = [ConstraintContainsSyllables(2)]
     observed_constraints[22] = [ConstraintContainsSyllables(2)]
     observed_constraints[23] = [ConstraintContainsSyllables(2)]
-    observed_constraints[24] = [ConstraintMatchesString("cake")]
+    observed_constraints[24] = [ConstraintMatchesString("cake"),
+                                ConstraintContainsSyllables(1),
+                                ]
 
     NHHMM = ConstrainedHiddenMarkovProcess(length, model, hidden_constraints, observed_constraints)
     NHHMM.process()
